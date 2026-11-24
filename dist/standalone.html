@@ -1231,6 +1231,37 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
     ctx.fillStyle = 'rgba(60,35,20,.18)'; ctx.beginPath(); ctx.ellipse(cx + w * 0.04, top + h * 0.14, w * 0.05, h * 0.08, 0, 0, Math.PI * 2); ctx.fill();
     paper(ctx, w, h, r);
   }
+  // Placeholder art until a generated portrait exists: watercolor landscape + name medallion
+  // (no faceless figure — it read as unfinished).
+  function emblem(ctx, w, h, charId) {
+    const ch = D.CHAR_BY_ID[charId]; if (!ch) return;
+    const cx = w / 2, cy = h * 0.42, R = Math.min(w, h) * 0.27;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2.2);
+    g.addColorStop(0, 'rgba(255,240,205,.55)'); g.addColorStop(1, 'rgba(255,240,205,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(20,32,26,.78)'; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(220,196,138,.95)'; ctx.lineWidth = Math.max(2, w * 0.006); ctx.stroke();
+    ctx.strokeStyle = 'rgba(220,196,138,.45)'; ctx.lineWidth = Math.max(1, w * 0.003); ctx.beginPath(); ctx.arc(cx, cy, R * 0.86, 0, Math.PI * 2); ctx.stroke();
+    // laurel ticks around the ring
+    ctx.fillStyle = 'rgba(220,196,138,.8)';
+    for (let i = 0; i < 18; i++) { const a = Math.PI * 0.62 + i * (Math.PI * 1.76 / 17); const x = cx + Math.cos(a) * R * 1.1, y = cy + Math.sin(a) * R * 1.1; ctx.save(); ctx.translate(x, y); ctx.rotate(a + Math.PI / 2); ctx.beginPath(); ctx.ellipse(0, 0, R * 0.035, R * 0.09, 0.5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+    ctx.fillStyle = '#F3EBDD'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const name = ch.displayName.replace(/\s+/g, '');
+    if (name.length <= 4) {
+      const size = R * [0, 0.95, 0.62, 0.46, 0.36][name.length];
+      ctx.font = `700 ${Math.round(size)}px ${FONT.serif}`; ctx.fillText(name, cx, cy - R * 0.06);
+    } else { // long names: open-book mark instead of a truncated name
+      const bw = R * 0.5, by = cy - R * 0.08;
+      ctx.strokeStyle = '#F3EBDD'; ctx.lineWidth = Math.max(2, R * 0.035); ctx.lineJoin = 'round'; ctx.beginPath();
+      ctx.moveTo(cx - bw, by - bw * 0.25); ctx.quadraticCurveTo(cx - bw * 0.5, by - bw * 0.5, cx, by - bw * 0.15); ctx.quadraticCurveTo(cx + bw * 0.5, by - bw * 0.5, cx + bw, by - bw * 0.25);
+      ctx.lineTo(cx + bw, by + bw * 0.5); ctx.quadraticCurveTo(cx + bw * 0.5, by + bw * 0.25, cx, by + bw * 0.6); ctx.quadraticCurveTo(cx - bw * 0.5, by + bw * 0.25, cx - bw, by + bw * 0.5); ctx.closePath();
+      ctx.moveTo(cx, by - bw * 0.15); ctx.lineTo(cx, by + bw * 0.6); ctx.stroke();
+    }
+    ctx.fillStyle = 'rgba(220,196,138,.95)'; ctx.font = `600 ${Math.round(R * 0.13)}px ${FONT.display}`;
+    ctx.fillText(ch.cardCode, cx, cy + R * 0.48);
+    ctx.textBaseline = 'alphabetic';
+  }
+
   // Real generated portraits (served as files next to the page); others fall back to the procedural placeholder.
   const REAL = new Set(root.MFS_PORTRAITS || []);
   const PORTRAIT_BASE = 'assets/characters/';
@@ -1256,7 +1287,7 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
       const im = rec.im, sc = Math.max(w / im.naturalWidth, h / im.naturalHeight);
       const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
       ctx.drawImage(im, (w - dw) / 2, (h - dh) * 0.4, dw, dh);
-    } else { scene(ctx, w, h, charId); figure(ctx, w, h, charId); }
+    } else { scene(ctx, w, h, charId); emblem(ctx, w, h, charId); }
     const v = ctx.createLinearGradient(0, h * 0.6, 0, h); v.addColorStop(0, 'rgba(20,27,23,0)'); v.addColorStop(1, 'rgba(20,27,23,.55)');
     ctx.fillStyle = v; ctx.fillRect(0, 0, w, h);
     portraitCache.set(key, cv);
@@ -1331,8 +1362,8 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
     if (card.rarity === 'SR' || card.rarity === 'SSR') sparkles(ctx, px, py, pw, ph * 0.6, ch.id, card.rarity === 'SSR' ? 22 : 12);
     ctx.restore();
     ctx.strokeStyle = frameGrad(ctx, px, py, pw, ph, card.rarity); ctx.lineWidth = 6; rr(ctx, px, py, pw, ph, 24); ctx.stroke();
-    if (!REAL.has(ch.id)) { ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, px + 16, py + 16, 150, 40, 20); ctx.fill();
-      ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('임시 일러스트', px + 91, py + 43); }
+    if (!REAL.has(ch.id)) { ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, px + 16, py + 16, 172, 40, 20); ctx.fill();
+      ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('일러스트 준비 중', px + 102, py + 43); }
     // name plate
     let y = py + ph - 40;
     rr(ctx, px + 60, y, pw - 120, 112, 56); ctx.fillStyle = f.plate; ctx.fill();
