@@ -178,7 +178,7 @@
       ${r.primary ? '<img class="sp-card" alt="공유할 카드 미리보기" data-sp-card>' : ''}
       ${steps}
       <label class="small muted" for="sp-text">보낼 문구 (나의 응답·점수는 담기지 않아요)</label>
-      <textarea id="sp-text" readonly rows="3">${esc(shareMessage(r))}</textarea>
+      <textarea id="sp-text" readonly rows="4">${esc(shareMessage(r))}</textarea>
       <div class="row" style="margin-top:12px"><button class="btn gold sm" data-copy>문구·링크 복사</button>${r.primary ? '<button class="btn sm" data-save>카드 이미지 저장</button>' : ''}</div>
       ${framed && !PUBLIC_BASE_URL ? '<p class="small muted" style="margin:10px 0 0">링크는 이 아티팩트 주소예요. 받는 사람이 열려면 아티팩트가 공유되어 있어야 해요.</p>' : ''}
     </div>`;
