@@ -1810,14 +1810,19 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
       bar.setAttribute('aria-valuenow', n); bar.setAttribute('aria-label', `응답한 문항 ${n}개 / 12개`); bar.querySelector('i').style.width = Math.max(4, n / 12 * 100) + '%';
     };
     // Tap/click on an option selects it and moves straight to the next question (user request).
-    // Keyboard: arrow keys only select; Enter selects and moves on; the 다음 button still works.
-    $app.querySelectorAll('input[name=q]').forEach(inp => {
-      inp.addEventListener('change', () => pick(inp.value));
-      inp.addEventListener('click', e => {
-        if (e.detail === 0) return; // keyboard-generated click (arrows/space): no auto-advance
-        pick(inp.value); clearTimeout(advanceTimer); advanceTimer = setTimeout(advance, reduceMotion ? 0 : 220);
+    // Pointer vs keyboard is tracked explicitly: some browsers (e.g. Safari) report label clicks with
+    // event.detail === 0, so detail cannot be used. Arrow keys only select; Enter selects and moves on.
+    let viaPointer = false;
+    const schedule = () => { clearTimeout(advanceTimer); advanceTimer = setTimeout(advance, reduceMotion ? 0 : 220); };
+    $app.querySelectorAll('label.opt').forEach(label => {
+      const inp = label.querySelector('input');
+      ['pointerdown', 'mousedown', 'touchstart'].forEach(t => label.addEventListener(t, () => { viaPointer = true; }, { passive: true }));
+      label.addEventListener('click', () => { if (!viaPointer) return; inp.checked = true; pick(inp.value); schedule(); });
+      inp.addEventListener('change', () => { pick(inp.value); if (viaPointer) schedule(); });
+      inp.addEventListener('keydown', e => {
+        viaPointer = false;
+        if (e.key === 'Enter') { e.preventDefault(); inp.checked = true; pick(inp.value); clearTimeout(advanceTimer); advance(); }
       });
-      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); inp.checked = true; pick(inp.value); advance(); } });
     });
     document.getElementById('prev').onclick = () => { clearTimeout(advanceTimer); S.idx = i - 1; save(); render(); };
     document.getElementById('next').onclick = () => { clearTimeout(advanceTimer); advance(); };

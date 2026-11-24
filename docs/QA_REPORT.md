@@ -7,7 +7,7 @@
 | `npm test` | 10/10 통과 |
 | `npm run test:exhaustive` | 실패 0 |
 | `npm run build` | OK, 184.8 KB |
-| `npm run test:e2e` | 67/67 통과 (로컬 HTTP 서버로 제공 — 초상 이미지를 캔버스에 그리기 위해) (Playwright Chromium headless, `e2e-results.json`) |
+| `npm run test:e2e` | 68/68 통과 (로컬 HTTP 서버로 제공 — 초상 이미지를 캔버스에 그리기 위해) (Playwright Chromium headless, `e2e-results.json`) |
 | `npm audit` | 취약점 0 (devDependency jszip만) |
 
 ## 4,096 전수 결과 (동일 가중치 QA 공간)

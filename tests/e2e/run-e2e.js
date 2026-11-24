@@ -69,7 +69,11 @@ async function download(page, clickSel) {
   await page.waitForFunction(() => document.querySelector('.progress span:last-child').textContent.trim() === '2 / 12');
   check('option click auto-advances to next question', true);
   await page.locator('#prev').click();
-  check('previous answer kept after going back', await page.locator('#opt-1A').isChecked());
+  await page.evaluate(() => { const l = document.querySelector('label[for="opt-1B"]'); l.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true })); l.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 0 })); });
+  const advanced0 = await page.waitForFunction(() => document.querySelector('.progress span:last-child').textContent.trim() === '2 / 12', null, { timeout: 3000 }).then(() => true, () => false);
+  check('Safari-style click (detail=0) still auto-advances', advanced0);
+  await page.locator('#prev').click();
+  check('previous answer kept after going back', await page.locator('#opt-1B').isChecked());
   await page.screenshot({ path: path.join(SHOTS, 'pc-02-question.png') });
   await answerAll(page, ANSWERS);
   await page.waitForTimeout(400);
