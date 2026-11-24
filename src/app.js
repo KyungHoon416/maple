@@ -316,7 +316,8 @@
   }
 
   const optArt = new Map();
-  // Illustration for each answer option, picked by mood (praying, resting, reading…). Decorative only:
+  // Dedicated option illustrations (assets/options/Qnn-X.webp, anonymous people) win when present; until then
+  // a generated character illustration picked by mood (praying, resting, reading…) is shown. Decorative only:
   // no name is shown and the matching engine never uses this table, so it is not an option→character mapping.
   const OPTION_ART = {
     'Q01-A': 'ot-daniel', 'Q01-B': 'ot-joshua', 'Q02-A': 'ot-solomon', 'Q02-B': 'ot-noah',
@@ -358,6 +359,7 @@
       </div></section>`;
     $app.querySelectorAll('img[data-art]').forEach(img => {
       const k = img.dataset.art, pid = OPTION_ART[k];
+      if ((window.MFS_OPTION_IMAGES || []).includes(k)) { img.src = 'assets/options/' + k + '.webp'; img.classList.add('art-photo', 'art-option'); return; }
       if (pid && RENDER.hasPortrait(pid)) { img.src = RENDER.portraitSrc(pid); img.classList.add('art-photo'); return; }
       if (!optArt.has(k)) optArt.set(k, RENDER.sceneURL('opt-' + k, 224, 192)); img.src = optArt.get(k);
     });

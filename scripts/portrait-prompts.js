@@ -1,6 +1,35 @@
 /* English subject lines for portrait generation (one per character). Visual depiction is an artistic
  * interpretation, not a claim about historical appearance; needs content review like all data. */
 module.exports = {
+  // Dedicated quiz-option illustrations: an anonymous person of the biblical era doing the option's action.
+  // No identifiable biblical character, so the image cannot hint at a result.
+  OPTION_STYLE: 'Original editorial watercolor illustration, an anonymous ordinary person in an ancient Near Eastern village setting, {subject}, natural expression, textured handmade paper, cinematic warm diffuse light, muted sage green and warm earth palette, no text, no letters, no logos, no halo, no modern artifacts, no watermark, landscape 4:3 composition.',
+  OPTIONS: {
+    'Q01-A': 'a man kneeling with eyes closed, praying quietly before starting a hard task',
+    'Q01-B': 'a traveller with a staff walking briskly along a rocky path, looking ahead for the way',
+    'Q02-A': 'a young woman sitting with an open scroll, thoughtfully considering its meaning',
+    'Q02-B': 'a man taking a first small step, setting down a heavy basket to help, with determined calm',
+    'Q03-A': 'an older man reading a scroll by lamplight, finger resting on one line, deep in thought',
+    'Q03-B': 'a woman sharing bread with a neighbour at a doorway, a scroll tucked under her arm',
+    'Q04-A': 'a person sitting alone on a hillside at dusk, reflecting quietly',
+    'Q04-B': 'a small group seated in a courtyard discussing an open scroll together',
+    'Q05-A': 'a woman praying with open hands, speaking honestly with tears and relief',
+    'Q05-B': 'a man praying at a window at the same hour each day, a daily routine, morning light',
+    'Q06-A': 'a tired traveller resting in the shade of a tree, eyes closed, taking a pause',
+    'Q06-B': 'a person kneeling in prayer at night under stars, patient and persistent',
+    'Q07-A': 'a congregation member sitting still, listening attentively, soft light falling',
+    'Q07-B': 'people singing with joy and a hand drum, lifting hands in thanksgiving',
+    'Q08-A': 'a woman walking home at sunset humming, recalling a song in her heart',
+    'Q08-B': 'a young man carrying water jars for an elderly neighbour after worship',
+    'Q09-A': 'a farmer replanting a few seeds in a small patch of soil, starting again',
+    'Q09-B': 'a man sitting by a window with his chin on his hand, thinking deeply about a difficulty',
+    'Q10-A': 'two friends sitting close, one sharing a worry while the other listens',
+    'Q10-B': 'a person walking alone along a quiet shore at dawn to clear their mind',
+    'Q11-A': 'a woman holding the hands of a grieving friend, listening and encouraging',
+    'Q11-B': 'a man repairing a neighbour\'s roof and handing over a basket of food',
+    'Q12-A': 'two people facing each other in calm conversation, trying to understand one another',
+    'Q12-B': 'a person stepping outside to the edge of a field, taking a quiet breath before returning',
+  },
   STYLE: 'Original editorial watercolor illustration, {subject}, historically informed {setting} setting, natural expression, half-body portrait composition, textured handmade paper, cinematic warm diffuse light, muted sage green and warm earth palette, soft negative space at the top, no text, no letters, no logos, no halo, no modern artifacts, no watermark, portrait 4:5.',
   S: {
     'ot-abraham': 'elderly patriarch Abraham with long white beard and staff, gazing up at a starry dusk sky outside his tent',

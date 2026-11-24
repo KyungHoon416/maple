@@ -112,6 +112,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; li
 .opt .art { width: 112px; height: 96px; border-radius: 14px; overflow: hidden; background: var(--bg-2); }
 .opt .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .opt .art img.art-photo { object-position: 50% 28%; }
+.opt .art img.art-option { object-position: 50% 50%; }
 .opt .k { display: inline-grid; place-items: center; width: 34px; height: 26px; border-radius: 7px; background: var(--ivory); color: var(--bg); font-weight: 700; font-family: var(--serif); margin-bottom: 6px; }
 .opt .t { font-size: 18px; font-family: var(--serif); line-height: 1.45; }
 .opt .dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--muted); }
@@ -241,7 +242,7 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block
   <p style="margin:0">결과는 응답 기반의 콘텐츠 비교이며 신앙 수준·구원·인격에 대한 평가가 아닙니다. 인물·사건 데이터는 검수 전 초안입니다. 인물 일러스트는 AI 생성 창작물이며, ‘임시’ 표시가 있는 그림은 교체 예정입니다.</p>
 </div></footer>
 <script>
-window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david","ot-elijah","ot-elisha","ot-enoch","ot-ezra","ot-gideon","ot-hannah","ot-hezekiah","ot-isaac","ot-jacob","ot-jehoshaphat","ot-jeremiah","ot-job","ot-joseph","ot-joshua","ot-miriam","ot-moses","ot-nehemiah","ot-noah","ot-samuel","ot-solomon"];
+window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david","ot-elijah","ot-elisha","ot-enoch","ot-ezra","ot-gideon","ot-hannah","ot-hezekiah","ot-isaac","ot-jacob","ot-jehoshaphat","ot-jeremiah","ot-job","ot-joseph","ot-joshua","ot-miriam","ot-moses","ot-nehemiah","ot-noah","ot-samuel","ot-solomon"];window.MFS_OPTION_IMAGES=[];
 ;
 /* MY FAITH STORY — content data (v6.0). Shared by the browser app and Node QA scripts.
  * All character/event entries are DRAFTS: scripture references and summaries are the
@@ -1922,7 +1923,8 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
   }
 
   const optArt = new Map();
-  // Illustration for each answer option, picked by mood (praying, resting, reading…). Decorative only:
+  // Dedicated option illustrations (assets/options/Qnn-X.webp, anonymous people) win when present; until then
+  // a generated character illustration picked by mood (praying, resting, reading…) is shown. Decorative only:
   // no name is shown and the matching engine never uses this table, so it is not an option→character mapping.
   const OPTION_ART = {
     'Q01-A': 'ot-daniel', 'Q01-B': 'ot-joshua', 'Q02-A': 'ot-solomon', 'Q02-B': 'ot-noah',
@@ -1964,6 +1966,7 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
       </div></section>`;
     $app.querySelectorAll('img[data-art]').forEach(img => {
       const k = img.dataset.art, pid = OPTION_ART[k];
+      if ((window.MFS_OPTION_IMAGES || []).includes(k)) { img.src = 'assets/options/' + k + '.webp'; img.classList.add('art-photo', 'art-option'); return; }
       if (pid && RENDER.hasPortrait(pid)) { img.src = RENDER.portraitSrc(pid); img.classList.add('art-photo'); return; }
       if (!optArt.has(k)) optArt.set(k, RENDER.sceneURL('opt-' + k, 224, 192)); img.src = optArt.get(k);
     });
