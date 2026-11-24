@@ -1,7 +1,7 @@
 {
-  "ranAt": "2026-11-24T15:45:32.501Z",
+  "ranAt": "2026-11-24T15:51:29.089Z",
   "browser": "Playwright Chromium (headless)",
-  "passed": 73,
+  "passed": 74,
   "failed": 0,
   "results": [
     {
@@ -87,7 +87,7 @@
     {
       "name": "panel copy puts text + public share link on clipboard (no answers/scores)",
       "ok": true,
-      "detail": "\"[나의 믿음은 누구를 닮았을까?] 여호사밧 — 우리의 눈은 주만 바라봅니다 (대하 20:3-12) · 나도 테스트하기\\nhttp://127.0.0.1:33681/standalone.html#share-ot-jehoshaphat-e2\""
+      "detail": "\"[나의 믿음은 누구를 닮았을까?] 여호사밧 — 우리의 눈은 주만 바라봅니다 (대하 20:3-12) · 나도 테스트하기\\nhttps://my-faith-story.web.app/share/ot-jehoshaphat-e2\""
     },
     {
       "name": "panel saves card PNG 1080×1350",
@@ -107,7 +107,12 @@
     {
       "name": "copy-link button copies text + public #share-<id>-e<n> link only",
       "ok": true,
-      "detail": "\"[나의 믿음은 누구를 닮았을까?] 여호사밧 — 우리의 눈은 주만 바라봅니다 (대하 20:3-12) · 나도 테스트하기\\nhttp://127.0.0.1:33681/standalone.html#share-ot-jehoshaphat-e2\""
+      "detail": "\"[나의 믿음은 누구를 닮았을까?] 여호사밧 — 우리의 눈은 주만 바라봅니다 (대하 20:3-12) · 나도 테스트하기\\nhttps://my-faith-story.web.app/share/ot-jehoshaphat-e2\""
+    },
+    {
+      "name": "static share page has per-character preview tags and redirects to in-app page",
+      "ok": true,
+      "detail": ""
     },
     {
       "name": "copied link opens public character/event page",

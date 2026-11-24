@@ -13,7 +13,10 @@ npm run qa          # rarity 생성 → 데이터 검증 → 단위 → 4,096 �
 
 로컬 확인: `npx serve dist` 후 `/standalone.html` 열기 (또는 파일을 브라우저로 직접 열기).
 
-## 배포 (미실행)
+## 배포 — Firebase Hosting (my-faith-story)
+`npm run build:hosting`으로 `hosting/`을 만들고, GitHub Actions(`.github/workflows/firebase-hosting.yml`)가 배포해요. 저장소 시크릿 `FIREBASE_SERVICE_ACCOUNT_MY_FAITH_STORY`가 필요해요. 자세한 내용은 `docs/DEPLOYMENT_REPORT.md`.
+
+### 기타 호스팅 (참고)
 정적 파일 하나라 어느 호스팅이든 가능합니다. 해시 라우팅(`#result`)이라 SPA fallback 설정이 필요 없습니다.
 - Cloudflare Pages: 빌드 명령 `npm run build`, 출력 디렉터리 `dist` (standalone.html → index.html로 복사하는 단계 추가)
 - Netlify: `netlify.toml` 포함

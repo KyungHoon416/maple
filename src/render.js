@@ -433,8 +433,52 @@
     ctx.restore();
   }
 
+  // ── Link-preview (Open Graph) image, 1200×630: portrait left, text right. Used only at build time.
+  function drawOG(ctx, W, H, characterId, eventId, opts) {
+    const s = W / 1200; ctx.save(); ctx.scale(s, s); const w = 1200, h = 630;
+    const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#1F2B25'); g.addColorStop(1, '#121915'); ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    const gl = ctx.createRadialGradient(w * 0.85, 0, 0, w * 0.85, 0, 700); gl.addColorStop(0, 'rgba(220,196,138,.18)'); gl.addColorStop(1, 'rgba(220,196,138,0)'); ctx.fillStyle = gl; ctx.fillRect(0, 0, w, h);
+    const ch = characterId && D.CHAR_BY_ID[characterId], ev = eventId && D.EVENT_BY_ID[eventId];
+    let tx = 80;
+    if (ch) {
+      const pw = 400, ph = 500, px = 70, py = 65;
+      ctx.save(); rr(ctx, px, py, pw, ph, 26); ctx.clip(); ctx.drawImage(portraitCanvas(ch.id, 480, 600), px, py, pw, ph); ctx.restore();
+      const fg = ctx.createLinearGradient(px, py, px + pw, py + ph); fg.addColorStop(0, '#F6E3A8'); fg.addColorStop(.5, '#B8913F'); fg.addColorStop(1, '#F6E3A8');
+      ctx.strokeStyle = fg; ctx.lineWidth = 6; rr(ctx, px, py, pw, ph, 26); ctx.stroke();
+      tx = px + pw + 60;
+    }
+    const mw = w - tx - 70;
+    ctx.textAlign = 'left'; ctx.fillStyle = C.gold; ctx.font = `600 26px ${FONT.display}`; ctx.fillText('MY FAITH STORY', tx, 120);
+    if (ch) {
+      ctx.fillStyle = C.ivory; ctx.font = `700 70px ${FONT.serif}`; let y = text(ctx, ch.displayName, tx, 215, mw, 80, 1);
+      if (ch.distinguishingLabel) { ctx.fillStyle = C.muted; ctx.font = `500 26px ${FONT.sans}`; ctx.fillText(ch.distinguishingLabel, tx, y - 18); y += 22; }
+      // character-level image (shared by all of the character's events): no event title here,
+      // the event appears in the link text instead
+      ctx.fillStyle = C.sage; ctx.font = `600 28px ${FONT.sans}`; ctx.fillText((ch.testament === 'OT' ? '구약' : '신약') + ' 성경 인물 카드 · ' + ch.cardCode, tx, y + 14);
+      ctx.fillStyle = C.muted; ctx.font = `400 30px ${FONT.sans}`; y = text(ctx, ch.bioSummary, tx, y + 70, mw, 44, 2);
+      ctx.fillStyle = C.gold; ctx.font = `500 26px ${FONT.serif}`; ctx.fillText(ch.references, tx, y + 14);
+    } else {
+      const fan = (opts && opts.fan) || [];
+      fan.slice(0, 4).forEach((id, i) => {
+        const fw = 170, fh = 212, fx = 700 + i * 105, fy = 150 + (i % 2) * 24;
+        ctx.save(); ctx.translate(fx + fw / 2, fy + fh / 2); ctx.rotate((i - 1.5) * 0.07); ctx.translate(-fw / 2, -fh / 2);
+        ctx.save(); rr(ctx, 0, 0, fw, fh, 14); ctx.clip(); ctx.drawImage(portraitCanvas(id, 340, 424), 0, 0, fw, fh); ctx.restore();
+        ctx.strokeStyle = '#DCC48A'; ctx.lineWidth = 4; rr(ctx, 0, 0, fw, fh, 14); ctx.stroke(); ctx.restore();
+      });
+      const tw = fan.length ? 560 : w - 160;
+      ctx.fillStyle = C.ivory; ctx.font = `700 64px ${FONT.serif}`; text(ctx, '나의 믿음은 누구를 닮았을까?', tx, 230, tw, 84, 2);
+      ctx.fillStyle = C.muted; ctx.font = `400 28px ${FONT.sans}`; text(ctx, '12개의 질문으로 만나는 나의 성경 인물 카드', tx, 420, tw, 40, 2);
+    }
+    // CTA pill
+    const cy = h - 110; ctx.font = `700 30px ${FONT.sans}`; const label = '나도 테스트하기 ›'; const cw = ctx.measureText(label).width + 64;
+    rr(ctx, tx, cy, cw, 62, 31); const bg = ctx.createLinearGradient(0, cy, 0, cy + 62); bg.addColorStop(0, '#EBD9A6'); bg.addColorStop(1, '#C9AC6A'); ctx.fillStyle = bg; ctx.fill();
+    ctx.fillStyle = '#1E241F'; ctx.fillText(label, tx + 32, cy + 42);
+    ctx.fillStyle = '#8E978C'; ctx.font = `400 22px ${FONT.sans}`; ctx.fillText('회원가입 없이 무료 · 12문항', tx + cw + 24, cy + 40);
+    ctx.restore();
+  }
+
   function toBlob(canvas) { return new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png')); }
   function render(fn, W, H) { const cv = document.createElement('canvas'); cv.width = W; cv.height = H; fn(cv.getContext('2d'), W, H); return cv; }
 
-  root.MFS_RENDER = { hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
+  root.MFS_RENDER = { drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
 })(window);

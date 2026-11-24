@@ -1,0 +1,2302 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<title>나의 믿음은 누구를 닮았을까?</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MY FAITH STORY">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="나의 믿음은 누구를 닮았을까?">
+<meta property="og:description" content="12개의 질문으로 지금의 나와 닮은 성경 인물 카드를 만나 보세요. 회원가입 없이 누구나 무료.">
+<meta property="og:image" content="https://my-faith-story.web.app/og/default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://my-faith-story.web.app/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="12개의 질문으로 지금의 나와 닮은 성경 인물 카드를 만나 보세요. 회원가입 없이 누구나 무료.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;700&display=swap">
+<style>
+/* Layout: single-column story flow on phones; two-column dashboard (card left, analysis right) ≥ 960px.
+   Deliberately dark-first, single-look design taken from the supplied mockups (sage/ivory/gold on deep green). */
+:root {
+  --bg: #141B17; --bg-2: #1A231E; --card: #25332C; --card-2: #2C3C34; --line: #3B4D43;
+  --sage: #91B39A; --gold: #DCC48A; --gold-deep: #B89A58; --ivory: #F3EBDD; --muted: #C4BBA9; --dim: #9FA79C;
+  --danger: #E7A08F;
+  --serif: "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+  --sans: "Noto Sans KR", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --display: "Cinzel", "Noto Serif KR", serif;
+  --r: 18px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+img { height: auto; max-width: 100%; }
+html, body { background: var(--bg); color: var(--ivory); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.65; margin: 0;
+  background-image: radial-gradient(1200px 600px at 80% -10%, rgba(145,179,154,.14), transparent 60%), radial-gradient(900px 500px at -10% 30%, rgba(220,196,138,.07), transparent 60%);
+  background-attachment: fixed; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+a { color: var(--gold); }
+button { font: inherit; color: inherit; }
+[tabindex="-1"]:focus { outline: none; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(20,27,23,.88); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(59,77,67,.6); }
+.top .wrap { display: flex; align-items: center; gap: 16px; min-height: 64px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ivory); margin-right: auto; }
+.brand svg { flex: none; }
+.brand b { font-family: var(--display); letter-spacing: .18em; font-weight: 600; font-size: 15px; display: block; line-height: 1.2; }
+.brand small { color: var(--muted); font-size: 11.5px; display: block; }
+.nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.nav a { color: var(--muted); text-decoration: none; padding: 10px 12px; border-radius: 10px; font-size: 14.5px; min-height: 44px; display: inline-flex; align-items: center; }
+.nav a[aria-current="page"] { color: var(--ivory); box-shadow: inset 0 -2px 0 var(--gold); border-radius: 0; }
+.nav a:hover { color: var(--ivory); }
+@media (max-width: 720px) { .nav { width: 100%; overflow-x: auto; flex-wrap: nowrap; margin-bottom: 4px; } .nav a { white-space: nowrap; font-size: 14px; padding: 8px 10px; } }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); cursor: pointer; text-decoration: none; color: var(--ivory); font-weight: 500; transition: transform .15s, background .15s; }
+.btn:hover { background: var(--card-2); }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.btn.gold { background: linear-gradient(180deg, #EBD9A6, #C9AC6A); color: #1E241F; border-color: #E5D29E; font-weight: 700; box-shadow: 0 8px 30px rgba(220,196,138,.25); }
+.btn.gold:hover { background: linear-gradient(180deg, #F1E1B4, #D2B676); }
+.btn.ghost { background: transparent; }
+.btn.sm { min-height: 44px; padding: 0 16px; font-size: 14.5px; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; line-height: 1.3; margin: 0; }
+.eyebrow { font-family: var(--display); letter-spacing: .3em; font-size: 12.5px; color: var(--gold); text-transform: uppercase; }
+.muted { color: var(--muted); }
+.small { font-size: 13.5px; }
+.panel { background: linear-gradient(180deg, rgba(37,51,44,.92), rgba(30,41,35,.92)); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; min-width: 0; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); font-size: 13px; color: var(--muted); background: rgba(20,27,23,.4); }
+.chip.gold { color: var(--gold); border-color: rgba(220,196,138,.45); }
+.notice { border: 1px dashed rgba(220,196,138,.4); border-radius: 12px; padding: 10px 14px; font-size: 13.5px; color: var(--muted); background: rgba(220,196,138,.05); }
+
+/* intro */
+.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 32px; align-items: center; padding-block: 48px 28px; }
+.hero h1 { font-size: clamp(34px, 6vw, 62px); margin: 14px 0 16px; }
+.hero .rule { width: 64px; height: 2px; background: var(--gold); margin: 18px 0; }
+.hero p.lead { font-size: 18px; color: var(--ivory); max-width: 34ch; }
+.pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 26px 0; }
+.pill { display: flex; gap: 10px; align-items: flex-start; }
+.pill b { display: block; font-family: var(--serif); font-size: 15.5px; }
+.pill span { font-size: 13px; color: var(--muted); }
+.policy { display: grid; gap: 6px; margin-top: 18px; font-size: 14px; color: var(--muted); }
+.policy li { list-style: none; display: flex; gap: 8px; }
+.policy li::before { content: "✓"; color: var(--sage); }
+.policy ul { margin: 0; padding: 0; display: grid; gap: 4px; }
+.fan { position: relative; height: 420px; margin: 0; overflow: hidden; }
+.fan .tc-mini { height: auto; aspect-ratio: 4 / 5; border-radius: 10px; box-shadow: 0 18px 40px rgba(0,0,0,.45); }
+.fan .tc-mini { position: absolute; width: 46%; max-width: 220px; transition: transform .3s; }
+.fan .tc-mini:nth-child(1) { left: 0; top: 70px; transform: rotate(-9deg); }
+.fan .tc-mini:nth-child(2) { left: 18%; top: 30px; transform: rotate(-3deg); }
+.fan .tc-mini:nth-child(3) { left: 36%; top: 20px; transform: rotate(3deg); }
+.fan .tc-mini:nth-child(4) { left: 54%; top: 50px; transform: rotate(9deg); }
+.fan figcaption { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-size: 12.5px; color: var(--dim); }
+.steps { display: grid; grid-template-columns: 1.2fr repeat(4, 1fr); gap: 14px; align-items: stretch; margin-block: 24px; }
+.step { background: rgba(20,27,23,.5); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.step b { font-family: var(--serif); display: block; margin-bottom: 4px; }
+.step .n { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ivory); color: var(--bg); font-size: 13px; font-weight: 700; margin-right: 6px; }
+.step p { margin: 0; font-size: 13.5px; color: var(--muted); }
+@media (max-width: 960px) { .hero { grid-template-columns: 1fr; padding-top: 28px; } .fan { height: 330px; max-width: 520px; margin: 0 auto; width: 100%; } .steps { grid-template-columns: 1fr 1fr; } .steps .step:first-child { grid-column: 1 / -1; } }
+@media (max-width: 520px) { .pills { grid-template-columns: 1fr; } .fan { height: 270px; } .steps { grid-template-columns: 1fr; } }
+
+/* quiz */
+.quiz { max-width: 720px; margin: 0 auto; padding-block: 28px 48px; }
+.progress { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+.bar { height: 10px; background: var(--card); border-radius: 99px; overflow: hidden; margin: 8px 0 20px; border: 1px solid var(--line); }
+.bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold), #F0DDAA); border-radius: 99px; transition: width .3s; }
+.qtag { display: flex; align-items: center; gap: 12px; justify-content: center; color: var(--gold); font-family: var(--serif); }
+.qtag::before, .qtag::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+.qtag span { border: 1px solid var(--gold-deep); padding: 2px 16px; border-radius: 99px; }
+.quiz h2 { font-size: clamp(24px, 4.6vw, 34px); text-align: center; margin: 18px 0 6px; }
+.quiz .sub { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+.opts { display: grid; gap: 14px; border: 0; padding: 0; margin: 0; }
+.opt { position: relative; display: grid; grid-template-columns: 112px 1fr 28px; gap: 16px; align-items: center; padding: 12px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--card); cursor: pointer; min-height: 120px; transition: border-color .15s, background .15s; }
+.opt:hover { border-color: var(--sage); }
+.opt input { position: absolute; opacity: 0; pointer-events: none; }
+.opt .art { width: 112px; height: 96px; border-radius: 14px; overflow: hidden; background: var(--bg-2); }
+.opt .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.opt .k { display: inline-grid; place-items: center; width: 34px; height: 26px; border-radius: 7px; background: var(--ivory); color: var(--bg); font-weight: 700; font-family: var(--serif); margin-bottom: 6px; }
+.opt .t { font-size: 18px; font-family: var(--serif); line-height: 1.45; }
+.opt .dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--muted); }
+.opt:has(input:checked) { border-color: var(--gold); background: linear-gradient(90deg, rgba(220,196,138,.1), var(--card)); box-shadow: 0 0 0 1px rgba(220,196,138,.25), 0 10px 30px rgba(0,0,0,.25); }
+.opt:has(input:checked) .dot { border-color: var(--gold); background: radial-gradient(circle, var(--gold) 45%, transparent 50%); }
+.opt:has(input:focus-visible) { outline: 3px solid var(--gold); outline-offset: 3px; }
+.hint { display: flex; gap: 12px; align-items: center; margin: 18px 0; padding: 14px 18px; border-radius: 99px; border: 1px solid var(--line); background: rgba(37,51,44,.6); font-size: 14px; color: var(--muted); }
+.hint b { color: var(--gold); font-family: var(--serif); }
+.qnav { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; }
+@media (max-width: 520px) { .opt { grid-template-columns: 78px 1fr 24px; min-height: 100px; gap: 12px; } .opt .art { width: 78px; height: 78px; } .opt .t { font-size: 16.5px; } .hint { border-radius: 16px; } }
+
+/* reveal */
+.reveal { min-height: 72vh; display: grid; place-items: center; text-align: center; padding-block: 32px; }
+.flip { display: block; width: min(340px, 82vw); aspect-ratio: 4 / 5; perspective: 1400px; margin: 22px auto; cursor: pointer; border: 0; background: none; padding: 0; }
+.flip .inner { display: block; position: relative; width: 100%; height: 100%; -webkit-transform-style: preserve-3d; transition: transform .9s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
+.flip.open .inner { transform: rotateY(180deg); }
+.flip .face { display: block; position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.45); }
+.flip .face img { width: 100%; height: 100%; display: block; }
+.flip .back { transform: rotateY(0deg); }
+.flip .front { transform: rotateY(180deg); }
+.flip:not(.open) .back { animation: breathe 2.4s ease-in-out infinite; }
+@keyframes breathe { 50% { box-shadow: 0 30px 70px rgba(220,196,138,.28); } }
+@media (prefers-reduced-motion: reduce) { .flip .inner { transition: none; } .flip:not(.open) .back { animation: none; } .bar i { transition: none; } }
+
+/* result */
+.result { display: grid; grid-template-columns: minmax(300px, 420px) 1fr; gap: 24px; padding-block: 28px; align-items: start; }
+.result > * { min-width: 0; }
+.cardcol { position: sticky; top: 84px; display: grid; gap: 14px; }
+.cardcol img.tc { width: 100%; border-radius: 18px; box-shadow: 0 24px 60px rgba(0,0,0,.45); display: block; aspect-ratio: 4 / 5; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.radar svg { width: 100%; height: auto; max-width: 420px; display: block; margin: 0 auto; }
+.legend { display: grid; gap: 8px; margin-top: 8px; font-size: 13.5px; }
+.legend div { display: grid; grid-template-columns: 56px 1fr; gap: 8px; }
+.legend b { color: var(--sage); font-family: var(--serif); }
+.top3 { display: grid; gap: 10px; counter-reset: rank; }
+.top3 li { list-style: none; display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; padding: 10px; border-radius: 14px; background: rgba(20,27,23,.45); border: 1px solid var(--line); }
+.top3 img { width: 56px; height: 70px; object-fit: cover; border-radius: 10px; }
+.top3 .sc { font-variant-numeric: tabular-nums; color: var(--gold); font-family: var(--serif); font-size: 18px; text-align: right; }
+.top3 ol { padding: 0; margin: 0; }
+.evid { margin: 0; padding: 0; display: grid; gap: 8px; }
+.evid li { list-style: none; font-size: 14.5px; padding-left: 14px; border-left: 2px solid var(--sage); }
+.acts { counter-reset: a; display: grid; gap: 10px; padding: 0; margin: 0; }
+.acts li { list-style: none; display: grid; grid-template-columns: 30px 1fr; gap: 10px; }
+.acts li::before { counter-increment: a; content: counter(a); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--gold-deep); color: var(--gold); font-family: var(--serif); }
+.prayer { font-family: var(--serif); font-size: 16.5px; line-height: 1.9; }
+.sectitle { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.sectitle h2 { font-size: 20px; }
+@media (max-width: 960px) { .result { grid-template-columns: 1fr; } .cardcol { position: static; max-width: 440px; margin: 0 auto; width: 100%; } .grid2 { grid-template-columns: 1fr; } }
+
+/* card news */
+.cn { display: grid; grid-template-columns: 1fr 300px; gap: 24px; padding-block: 24px; }
+.cn > * { min-width: 0; }
+.viewer { position: relative; display: grid; place-items: center; }
+.viewer .slide { width: min(100%, 460px); aspect-ratio: 4 / 5; border-radius: 16px; overflow: hidden; background: var(--card); box-shadow: 0 20px 60px rgba(0,0,0,.4); touch-action: pan-y; }
+.viewer.story .slide { aspect-ratio: 9 / 16; width: min(100%, 340px); }
+.viewer .slide img { width: 100%; height: 100%; display: block; }
+.viewer .loading { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 14px; }
+.dots { display: flex; gap: 8px; justify-content: center; margin-top: 14px; }
+.dots button { width: 44px; height: 44px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.dots button i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); display: block; }
+.dots button[aria-current="true"] i { background: var(--gold); width: 22px; border-radius: 9px; }
+.thumbs { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
+.thumbs label { display: grid; gap: 4px; font-size: 11.5px; color: var(--muted); text-align: center; cursor: pointer; }
+.thumbs input { width: 20px; height: 20px; margin: 0 auto; accent-color: var(--gold); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 99px; padding: 3px; gap: 3px; }
+.seg button { border: 0; background: none; border-radius: 99px; padding: 0 14px; min-height: 40px; cursor: pointer; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--ivory); color: var(--bg); font-weight: 700; }
+.side { display: grid; gap: 14px; align-content: start; }
+.side .btn { width: 100%; }
+.cn-text { margin-top: 16px; }
+.cn-text details { font-size: 14px; color: var(--muted); }
+@media (max-width: 900px) { .cn { grid-template-columns: 1fr; } }
+
+/* dictionary */
+.dict-tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 18px 0; }
+.dict-tools input { flex: 1 1 220px; min-height: 46px; border-radius: 99px; border: 1px solid var(--line); background: var(--card); color: var(--ivory); padding: 0 18px; font: inherit; }
+.dict { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; padding: 0; margin: 0; }
+.dict li { list-style: none; }
+.dict a { display: grid; gap: 6px; text-decoration: none; color: var(--ivory); background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px; height: 100%; }
+.dict a:hover { border-color: var(--sage); }
+.dict img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; background: var(--bg-2); }
+.dict b { font-family: var(--serif); font-size: 15.5px; }
+.dict span { font-size: 12px; color: var(--muted); }
+.pager { display: flex; gap: 8px; justify-content: center; margin: 22px 0; flex-wrap: wrap; }
+.detail { display: grid; grid-template-columns: 320px 1fr; gap: 28px; padding-block: 28px; }
+.detail > * { min-width: 0; }
+.detail img.portrait { width: 100%; border-radius: 18px; aspect-ratio: 4 / 5; }
+.evlist { display: grid; gap: 12px; padding: 0; margin: 0; }
+.evlist li { list-style: none; }
+@media (max-width: 800px) { .detail { grid-template-columns: 1fr; } .detail img.portrait { max-width: 320px; } }
+
+.prose { max-width: 72ch; padding-block: 28px; }
+.prose h2 { font-size: 22px; margin: 28px 0 10px; }
+.prose p, .prose li { color: var(--muted); }
+.prose table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.prose th, .prose td { border: 1px solid var(--line); padding: 8px; text-align: left; vertical-align: top; }
+.tablewrap { overflow-x: auto; }
+footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block: 24px; color: var(--dim); font-size: 13px; }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ivory); color: var(--bg); padding: 12px 20px; border-radius: 12px; font-weight: 600; z-index: 50; box-shadow: 0 10px 30px rgba(0,0,0,.4); max-width: calc(100vw - 32px); }
+.dialog { position: fixed; inset: 0; background: rgba(8,12,10,.78); display: grid; place-items: center; z-index: 40; padding: 16px; }
+.dialog .panel { max-width: 420px; }
+
+.share-panel { width: min(440px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; background: var(--card); box-shadow: 0 24px 60px rgba(0,0,0,.55); }
+.share-panel .sp-card { display: block; width: 160px; aspect-ratio: 4 / 5; border-radius: 12px; margin: 0 auto 14px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+.share-panel textarea { width: 100%; margin-top: 6px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); color: var(--ivory); padding: 10px 12px; font: inherit; font-size: 14px; line-height: 1.55; resize: none; overflow-wrap: anywhere; word-break: break-all; }
+
+</style>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="MY FAITH STORY 처음으로">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#DCC48A" stroke-width="1.6" aria-hidden="true"><path d="M8 28c6-6 10-14 12-22"/><path d="M12 22c-4 0-6-2-7-4 3-1 6 0 7 4zM15 16c-3-1-5-4-5-6 3 0 5 2 5 6zM18 10c-2-2-2-5-1-7 2 1 3 4 1 7zM14 24c3 1 7 0 9-2-3-2-7-1-9 2zM17 18c3 0 6-2 7-4-3-1-6 0-7 4z"/></svg>
+      <span><b>MY FAITH STORY</b><small>성경 인물 자기성찰 카드</small></span>
+    </a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="#test">테스트 시작</a>
+      <a href="#about">서비스 소개</a>
+      <a href="#characters">성경 인물 사전</a>
+      <a href="#result">내 결과</a>
+      <a href="#cards">카드뉴스</a>
+    </nav>
+  </div>
+</header>
+<main id="app" class="app" tabindex="-1"><noscript><p class="wrap">이 서비스는 JavaScript가 필요해요.</p></noscript></main>
+<footer class="foot"><div class="wrap">
+  <p style="margin:0 0 6px">회원가입 없이 누구나 무료로 이용할 수 있어요 · 나의 신앙 응답은 서비스 서버에 저장되지 않아요.</p>
+  <p style="margin:0">결과는 응답 기반의 콘텐츠 비교이며 신앙 수준·구원·인격에 대한 평가가 아닙니다. 인물·사건 데이터는 검수 전 초안입니다. 인물 일러스트는 AI 생성 창작물이며, ‘임시’ 표시가 있는 그림은 교체 예정입니다.</p>
+</div></footer>
+<script>
+window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david","ot-elijah","ot-elisha","ot-enoch","ot-ezra","ot-gideon","ot-hannah","ot-hezekiah","ot-isaac","ot-jacob","ot-jehoshaphat","ot-jeremiah","ot-job","ot-joseph","ot-joshua","ot-miriam","ot-moses","ot-nehemiah","ot-noah","ot-samuel","ot-solomon"];
+;
+/* MY FAITH STORY — content data (v6.0). Shared by the browser app and Node QA scripts.
+ * All character/event entries are DRAFTS: scripture references and summaries are the
+ * service's own short paraphrases and still need human content review (reviewStatus).
+ * Signal codes: "<question number><A|B>", e.g. "5B" = Q05 option B (routine_prayer). */
+(function (root) {
+  'use strict';
+  const DATA_VERSION = '6.1.0-draft.1';
+
+  const AREAS = [
+    { id: 'faith', label: '신앙', a: '먼저 기도하고, 이해하며 나아가기', b: '움직이며 길을 찾고, 작은 행동부터 바꾸기' },
+    { id: 'word', label: '말씀', a: '한 구절을 오래 묵상하고 혼자 살피기', b: '삶과 연결하고 함께 나누며 이해하기' },
+    { id: 'prayer', label: '기도', a: '그때그때 솔직하게, 지친 마음도 표현하기', b: '정해 둔 습관으로, 답이 없어도 이어가기' },
+    { id: 'worship', label: '예배', a: '조용히 집중하고 마음에 남은 것을 되새기기', b: '찬양으로 표현하고 행동으로 옮기기' },
+    { id: 'reflect', label: '성찰', a: '작게 다시 시작하고 도움을 구하기', b: '오래 생각하고 혼자 방향을 정리하기' },
+    { id: 'community', label: '공동체', a: '들어 주고 대화로 이해하기', b: '구체적으로 돕고 시간을 두고 돌아보기' },
+  ];
+
+  const TRAITS = {
+    faith: ['trust', 'obedience', 'perseverance', 'discernment'],
+    word: ['study', 'receptivity', 'application', 'questioning'],
+    prayer: ['prayer_routine', 'honest_prayer', 'petition', 'intercession'],
+    worship: ['praise', 'attention', 'reverence', 'dedication'],
+    reflect: ['repentance', 'hesitation', 'fear', 'avoidance'],
+    community: ['compassion', 'service', 'reconciliation', 'fellowship'],
+  };
+
+  // 12 questions, exactly two options each. Weights are content-matching weights (1~3), not faith scores.
+  const Q = (n, area, prompt, a, aw, as, b, bw, bs) => ({
+    id: 'Q' + String(n).padStart(2, '0'), n, area, prompt, version: DATA_VERSION,
+    options: [
+      { id: n + 'A', key: 'A', text: a, weights: aw, signal: as },
+      { id: n + 'B', key: 'B', text: b, weights: bw, signal: bs },
+    ],
+  });
+  const QUESTIONS = [
+    Q(1, 'faith', '어려운 일이 생겼을 때 나는 주로?', '먼저 기도하며 마음을 가다듬는다.', { trust: 2, petition: 3 }, 'pray_first', '가능한 방법을 찾고 움직이면서 길을 찾는다.', { application: 2 }, 'act_first'),
+    Q(2, 'faith', '내 생각과 말씀에서 배운 방향이 다를 때는?', '의미를 더 살펴보고 납득할 때까지 생각한다.', { discernment: 3, study: 1 }, 'seek_understanding', '이해가 다 되지 않아도 가능한 작은 행동부터 바꿔 본다.', { obedience: 2, application: 3 }, 'small_action'),
+    Q(3, 'word', '말씀을 접할 때 나에게 더 자연스러운 모습은?', '한 구절을 오래 생각하거나 궁금한 점을 찾아본다.', { study: 3, questioning: 1 }, 'ponder_text', '기억에 남는 말씀을 일상 속 행동과 연결해 본다.', { application: 3 }, 'apply_text'),
+    Q(4, 'word', '말씀을 통해 내 모습을 돌아볼 때는?', '혼자 묵상하며 내 생각과 행동의 이유를 살핀다.', { study: 2, discernment: 2 }, 'reflect_alone', '다른 사람과 말씀을 나누거나 질문하며 이해한다.', { questioning: 3, fellowship: 2 }, 'discuss_text'),
+    Q(5, 'prayer', '최근 나의 기도 모습에 더 가까운 것은?', '감사, 고민, 답답함을 그때그때 솔직하게 이야기한다.', { honest_prayer: 3 }, 'honest_expression', '정해 둔 시간이나 일상의 습관을 중심으로 기도한다.', { prayer_routine: 3 }, 'routine_prayer'),
+    Q(6, 'prayer', '기다리던 일이 이루어지지 않을 때는?', '답답하거나 지친 마음을 표현하며 잠시 쉬어 가기도 한다.', { honest_prayer: 2 }, 'express_weariness_and_pause', '당장 답이 없더라도 기도를 이어가려고 한다.', { perseverance: 3, prayer_routine: 2 }, 'continue_prayer'),
+    Q(7, 'worship', '예배에서 내 마음이 더 자연스럽게 향하는 순간은?', '말씀을 듣고 조용히 마음을 집중하는 순간이다.', { attention: 3, receptivity: 2 }, 'listen_quietly', '찬양하고 감사하며 마음을 표현하는 순간이다.', { praise: 3 }, 'express_thanks'),
+    Q(8, 'worship', '예배를 마치고 일상에 돌아오면 나는?', '마음에 남은 말씀이나 찬양을 다시 떠올린다.', { attention: 2, receptivity: 1 }, 'recall_worship', '예배에서 느낀 것을 구체적인 행동으로 옮겨 본다.', { application: 3 }, 'act_after_worship'),
+    Q(9, 'reflect', '다짐한 것을 지키지 못했을 때 나는?', '부족함을 인정하고 작은 것부터 다시 시작하려 한다.', { repentance: 2, application: 2 }, 'restart_small', '왜 어려웠는지 오래 생각하며 마음을 정리한다.', { discernment: 2 }, 'reflect_on_difficulty'),
+    Q(10, 'reflect', '신앙생활이 마음대로 되지 않을 때는?', '고민을 가까운 사람에게 이야기하거나 도움을 구한다.', { fellowship: 3 }, 'seek_support', '혼자 생각할 시간을 가진 뒤 다시 방향을 찾으려 한다.', { discernment: 2 }, 'take_reflection_time'),
+    Q(11, 'community', '누군가 힘들어할 때 나는?', '이야기를 들어 주고 공감하며 격려한다.', { compassion: 3, fellowship: 1 }, 'encourage', '필요한 일이나 구체적인 도움을 챙긴다.', { service: 3 }, 'practical_help'),
+    Q(12, 'community', '공동체에서 갈등이 생기면 나는?', '상대방과 대화하며 서로의 입장을 이해하려 한다.', { reconciliation: 2, compassion: 2 }, 'dialogue', '마음을 가라앉힐 시간을 가진 뒤 관계를 돌아본다.', { discernment: 2 }, 'take_space'),
+  ];
+
+  // Situation types of events (used in rarity signatureKey and reflection templates)
+  const CONTEXTS = {
+    wait: '기다림', meditate: '묵상', act: '실천', restore: '회복', serve: '섬김', worship: '찬양',
+    courage: '용기', lament: '탄식', learn: '배움', reconcile: '화해', pray: '기도',
+  };
+
+  // Skill families
+  const FAMILIES = {
+    prayer: '기도', action: '실행', inquiry: '탐구', word: '말씀', worship: '예배', reflect: '성찰',
+    restore: '회복', community: '함께함', care: '돌봄', reconcile: '화해', lament: '정직',
+  };
+
+  // Base skills: one per behaviour signal. Combo skills require two signals from different questions.
+  const S = (id, label, family, requiredSignals, description, refHint) => ({ id, label, family, requiredSignals, description, refHint: refHint || '', reviewStatus: 'draft' });
+  const SKILLS = [
+    // combos first (checked in order)
+    S('sk-steady-knees', '꾸준한 기도의 무릎', 'prayer', ['5B', '6B'], '정해 둔 기도의 자리를 지키며, 답이 더딜 때에도 기도를 이어가는 모습', '단 6:10'),
+    S('sk-honest-return', '솔직한 고백과 다시 시작', 'restore', ['5A', '9A'], '마음을 숨기지 않고 고백한 뒤 작은 것부터 다시 시작하는 모습', '시 51'),
+    S('sk-word-hands', '말씀을 섬김으로', 'care', ['3B', '11B'], '마음에 남은 말씀을 구체적인 도움으로 옮기는 모습', '행 9:36'),
+    S('sk-wait-pray', '기다리며 기도하기', 'prayer', ['1A', '6B'], '어려움 앞에서 먼저 기도하고, 기다림 속에서도 기도를 이어가는 모습', '삼상 1:10-18'),
+    S('sk-listen-ponder', '말씀 앞에 머무는 마음', 'worship', ['7A', '3A'], '조용히 말씀을 듣고 한 구절을 오래 붙드는 모습', '눅 10:39'),
+    S('sk-bridge', '사람을 잇는 격려', 'reconcile', ['11A', '12A'], '격려와 대화로 사람 사이에 다리를 놓는 모습', '행 9:27'),
+    S('sk-ask-together', '묻고 찾는 믿음', 'inquiry', ['2A', '4B'], '궁금한 것을 덮어두지 않고 묻고 나누며 이해해 가는 모습', '요 3:1-15'),
+    S('sk-living-praise', '삶이 되는 찬양', 'worship', ['7B', '8B'], '찬양과 감사를 예배 밖의 행동으로 이어가는 모습', '삼하 6:14'),
+    S('sk-honest-lament', '탄식을 드리는 정직함', 'lament', ['5A', '6A'], '지친 마음과 답답함을 하나님 앞에 그대로 내어놓는 모습', '왕상 19:4'),
+    S('sk-mended', '관계를 회복하는 걸음', 'restore', ['9A', '12A'], '부족함을 인정하고 대화로 관계를 다시 세우는 모습', '요 21:15-17'),
+    // base skills (one per signal)
+    S('sk-1A', '기도로 여는 하루', 'prayer', ['1A'], '어려움 앞에서 먼저 기도하며 마음을 가다듬는 모습'),
+    S('sk-1B', '길을 찾는 발걸음', 'action', ['1B'], '가능한 방법을 찾아 움직이며 길을 여는 모습'),
+    S('sk-2A', '깊이 묻는 믿음', 'inquiry', ['2A'], '의미를 살피고 납득할 때까지 생각하는 모습'),
+    S('sk-2B', '작은 순종의 실행', 'action', ['2B'], '다 이해되지 않아도 작은 행동부터 바꿔 보는 모습'),
+    S('sk-3A', '말씀을 곱씹는 묵상', 'word', ['3A'], '한 구절을 오래 생각하고 찾아보는 모습'),
+    S('sk-3B', '말씀을 삶으로', 'word', ['3B'], '기억에 남는 말씀을 일상의 행동과 연결하는 모습'),
+    S('sk-4A', '홀로 마음 살피기', 'reflect', ['4A'], '혼자 묵상하며 생각과 행동의 이유를 살피는 모습'),
+    S('sk-4B', '함께 묻고 나누기', 'community', ['4B'], '다른 사람과 말씀을 나누고 질문하며 이해하는 모습'),
+    S('sk-5A', '솔직한 고백', 'prayer', ['5A'], '감사와 고민을 그때그때 솔직하게 아뢰는 모습'),
+    S('sk-5B', '꾸준한 기도 습관', 'prayer', ['5B'], '정해 둔 시간과 습관을 중심으로 기도하는 모습'),
+    S('sk-6A', '쉼을 허락하는 정직함', 'lament', ['6A'], '지친 마음을 표현하고 잠시 쉬어 가는 모습'),
+    S('sk-6B', '끝까지 이어가는 기도', 'prayer', ['6B'], '당장 답이 없어도 기도를 이어가는 모습'),
+    S('sk-7A', '말씀에 귀 기울이기', 'worship', ['7A'], '말씀을 듣고 조용히 마음을 모으는 모습'),
+    S('sk-7B', '감사의 찬양', 'worship', ['7B'], '찬양하고 감사하며 마음을 표현하는 모습'),
+    S('sk-8A', '은혜를 되새기는 기억', 'worship', ['8A'], '마음에 남은 말씀과 찬양을 다시 떠올리는 모습'),
+    S('sk-8B', '예배를 삶으로 잇기', 'action', ['8B'], '예배에서 느낀 것을 구체적인 행동으로 옮기는 모습'),
+    S('sk-9A', '다시 시작하는 믿음', 'restore', ['9A'], '부족함을 인정하고 작은 것부터 다시 시작하는 모습'),
+    S('sk-9B', '깊이 돌아보는 성찰', 'reflect', ['9B'], '어려웠던 이유를 오래 생각하며 마음을 정리하는 모습'),
+    S('sk-10A', '도움을 구하는 용기', 'community', ['10A'], '고민을 가까운 사람에게 이야기하고 도움을 구하는 모습'),
+    S('sk-10B', '고요히 방향 찾기', 'reflect', ['10B'], '혼자 생각할 시간을 가진 뒤 방향을 찾는 모습'),
+    S('sk-11A', '사람을 세우는 격려', 'care', ['11A'], '이야기를 들어 주고 공감하며 격려하는 모습'),
+    S('sk-11B', '필요를 살피는 손길', 'care', ['11B'], '필요한 일과 구체적인 도움을 챙기는 모습'),
+    S('sk-12A', '마주 앉는 대화', 'reconcile', ['12A'], '갈등 속에서 대화하며 서로를 이해하려는 모습'),
+    S('sk-12B', '숨 고르는 지혜', 'reconcile', ['12B'], '마음을 가라앉힌 뒤 관계를 돌아보는 모습'),
+  ];
+
+  // Bounded bonus rules (+points, total capped at ±5). They never decide a result on their own.
+  const MATCH_RULES = [
+    { id: 'R1', all: ['5B', '6B'], bonus: 2, events: ['nt-anna-1', 'ot-daniel-2', 'nt-cornelius-1', 'ot-hannah-2'], rationale: '습관적 기도 + 기도 지속 → 정해진 기도의 자리가 기록된 사건', refs: '단 6:10; 눅 2:37; 행 10:2' },
+    { id: 'R2', all: ['5A', '9A'], bonus: 2, events: ['ot-david-2', 'nt-peter-2', 'ot-samson-1'], rationale: '솔직한 기도 + 다시 시작 → 고백/회복 사건', refs: '삼하 12:13; 시 51; 요 21; 삿 16:28' },
+    { id: 'R3', all: ['3B', '11B'], bonus: 2, events: ['nt-tabitha-1', 'nt-zacchaeus-2', 'ot-joseph-3'], rationale: '말씀 실천 + 실제적 도움 → 섬김 사건', refs: '행 9:36; 눅 19:8' },
+    { id: 'R4', all: ['11A', '12A'], bonus: 2, events: ['nt-barnabas-2', 'nt-ananias-damascus-2', 'ot-joseph-2'], rationale: '격려 + 대화 → 사람을 잇고 화해시키는 사건', refs: '행 9:27; 행 9:17; 창 45' },
+    { id: 'R5', all: ['7A', '3A'], bonus: 2, events: ['nt-mary-bethany-1', 'ot-jeremiah-3'], rationale: '조용한 경청 + 말씀 묵상 → 말씀 앞에 머문 사건', refs: '눅 10:39; 렘 18:1-6' },
+    { id: 'R6', all: ['2A', '4B'], bonus: 2, events: ['nt-nicodemus-1', 'nt-samaritan-woman-1', 'nt-thomas-2'], rationale: '이해 추구 + 함께 질문 → 묻고 대화한 사건', refs: '요 3; 요 4; 요 14:5' },
+  ];
+
+  // [id, name, testament, number, referenceLabel, bio, opts, events]
+  // event: [title, scriptureRefs, factualSummary, signals, context, eligibility(p|s|r|l)]
+  // opts: { primary:false } when the character must never be shown as the representative card;
+  //       note: free text caveat (identity tradition, limited record, etc.)
+  const C = [
+    // ───────── Old Testament (50)
+    ['ot-abraham', '아브라함', 'OT', 1, '창 12, 15, 22', '하나님의 부르심을 따라 고향을 떠난 족장.', {}, [
+      ['부르심을 따라 떠나다', '창 12:1-4', '여호와의 말씀을 따라 하란을 떠나 가나안으로 갔다.', '2B 1B 3B', 'act', 'p'],
+      ['별을 바라본 밤', '창 15:1-8', '자녀가 없다는 고민을 하나님께 아뢰고, 하늘의 별을 보라는 약속을 믿었다. 무엇으로 알 수 있는지도 물었다.', '5A 2A 8B', 'wait', 'p'],
+      ['소돔을 위한 간구', '창 18:22-33', '소돔을 위해 여러 번 거듭 하나님께 간구하며 물었다.', '6B 5A 2A', 'pray', 'p'],
+      ['롯에게 먼저 양보하다', '창 13:5-11', '목자들 사이에 다툼이 생기자 롯에게 먼저 제안하고 땅의 선택권을 양보했다.', '12A 11B 1B', 'reconcile', 'p'],
+      ['나그네를 대접하다', '창 18:1-8', '장막 문에 앉아 있다가 나그네 셋을 보고 달려가 맞이하고, 음식을 준비해 그들 곁에 서서 시중들었다.', '11B 1B 7A', 'serve', 'p'],
+    ]],
+    ['ot-isaac', '이삭', 'OT', 2, '창 25-26', '아브라함의 아들. 우물 분쟁에서 물러나 다른 우물을 팠다.', {}, [
+      ['아내를 위한 기도', '창 25:21', '아내 리브가가 임신하지 못하자 여호와께 간구했다.', '1A 6B', 'pray', 'p'],
+      ['우물을 양보하다', '창 26:17-22', '우물 때문에 다툼이 생기자 그곳을 떠나 다른 우물을 팠다.', '12B 1B 7B', 'reconcile', 'p'],
+      ['브엘세바의 제단', '창 26:23-25', '하나님이 나타나신 밤 이후 그곳에 제단을 쌓고 여호와의 이름을 불렀다.', '7B 8A', 'worship', 's'],
+      ['저물 때 들에서 묵상하다', '창 24:63', '저물 때에 들에 나가 묵상하다가 다가오는 낙타들을 보았다.', '10B 4A 7A', 'meditate', 'p'],
+    ]],
+    ['ot-noah', '노아', 'OT', 3, '창 6-9', '하나님의 명령대로 방주를 지은 사람.', {}, [
+      ['명하신 대로 방주를 짓다', '창 6:13-22', '하나님이 명하신 대로 다 준행하여 방주를 지었다.', '2B 3B 11B 1B', 'act', 'p'],
+      ['홍수 후의 제단', '창 8:18-20', '방주에서 나온 뒤 여호와께 제단을 쌓았다.', '7B 8A', 'worship', 's'],
+      ['비둘기를 내보내며', '창 8:6-12', '물이 줄었는지 알기 위해 까마귀와 비둘기를 내보내며 기다렸다.', '2A', 'wait', 'l'],
+    ]],
+    ['ot-enoch', '에녹', 'OT', 4, '창 5:21-24; 히 11:5', '하나님과 동행했다고 짧게 기록된 인물.', { primary: false, note: '행동 기록이 매우 짧아 비교 근거가 제한적이다.' }, [
+      ['하나님과 동행하다', '창 5:21-24', '므두셀라를 낳은 후 삼백 년 동안 하나님과 동행했다고 기록된다.', '5B', 'meditate', 'l'],
+    ]],
+    ['ot-joshua', '여호수아', 'OT', 5, '수 1, 7, 24', '모세의 뒤를 이어 이스라엘을 이끈 지도자.', {}, [
+      ['강하고 담대하라', '수 1:1-11', '모세의 뒤를 이으라는 말씀을 받고 곧 관리들에게 백성의 준비를 지시했다.', '2B 1B 11A', 'courage', 'p'],
+      ['아이 성 패배 후', '수 7:6-13', '패배 후 옷을 찢고 언약궤 앞에 저물도록 엎드려 탄식하며 아뢰었다.', '5A 6A 1A', 'lament', 'p'],
+      ['나와 내 집은', '수 24:14-15', '백성 앞에서 “나와 내 집은 여호와를 섬기겠노라”고 선택을 밝혔다.', '2B 8B 4B', 'act', 'p'],
+    ]],
+    ['ot-jacob', '야곱', 'OT', 6, '창 28, 32-33', '이스라엘이라는 새 이름을 받은 족장.', {}, [
+      ['벧엘의 꿈', '창 28:10-22', '꿈에서 하나님을 만난 뒤 돌기둥을 세우고 서원했다.', '8A 2A', 'meditate', 's'],
+      ['얍복 강의 씨름', '창 32:22-30', '홀로 남아 밤새 씨름하며 축복하지 않으면 보내지 않겠다고 매달렸다.', '6B 5A 10B', 'pray', 'p'],
+      ['에서와의 화해', '창 32:9-12; 33:1-11', '형을 만나기 전 기도하고 예물을 보낸 뒤, 다가가 절하며 화해했다.', '1A 12A 11B', 'reconcile', 'p'],
+      ['벧엘로 다시 올라가다', '창 35:1-7', '가족에게 이방 신상을 버리고 몸을 정결하게 하라고 한 뒤 벧엘에 올라가 제단을 쌓았다.', '9A 8B 4B', 'restore', 'p'],
+    ]],
+    ['ot-joseph', '요셉', 'OT', 7, '창 39, 41, 45, 50', '야곱의 아들. 애굽의 총리가 되어 가족을 살렸다.', { distinguishing: '야곱의 아들' }, [
+      ['보디발의 집에서', '창 39:1-12', '종으로 팔려 가서도 맡은 일을 성실히 했고 유혹을 거절했다.', '11B 2B 12A 3B', 'serve', 'p'],
+      ['형들과의 화해', '창 45:1-15', '형들에게 자신을 밝히고 울며 그들을 안심시켰다.', '12A 11A 8A', 'reconcile', 'p'],
+      ['기근을 대비하다', '창 41:33-49', '풍년 동안 곡식을 모아 다가올 기근을 대비했다.', '11B 1B 3B', 'serve', 'p'],
+    ]],
+    ['ot-job', '욥', 'OT', 8, '욥 1-3, 42', '큰 고난 속에서 하나님께 질문하고 탄식한 사람.', {}, [
+      ['모든 것을 잃은 날의 예배', '욥 1:20-22', '모든 것을 잃은 뒤 옷을 찢고 땅에 엎드려 예배했다.', '7B 6B 5A', 'worship', 'p'],
+      ['탄식의 고백', '욥 3', '자기 생일을 저주하며 고통을 그대로 토로했다.', '5A 6A 4A', 'lament', 'p'],
+      ['친구들과의 긴 대화', '욥 4-31', '친구들과 오랜 논쟁을 하며 자신의 상황을 이해하려 했다.', '2A 4B 9B', 'learn', 's'],
+      ['친구들을 위한 기도', '욥 42:7-10', '자신을 정죄하던 친구들을 위해 기도했고, 그 후 회복되었다.', '12A 9A', 'restore', 's'],
+      ['티끌과 재 가운데서', '욥 42:1-6', '하나님의 말씀을 들은 뒤 이전에는 귀로만 들었으나 이제는 눈으로 뵈었다고 고백하며 회개했다.', '7A 9A 5A', 'restore', 'p'],
+    ]],
+    ['ot-moses', '모세', 'OT', 9, '출 3-4, 18, 32; 민 11', '이스라엘을 애굽에서 이끌어 낸 지도자.', {}, [
+      ['떨기나무 앞에서', '출 3:1-4:17', '부르심 앞에서 여러 번 질문하고 말을 잘 못한다고 솔직하게 말했다.', '2A 5A 10A', 'learn', 'p'],
+      ['백성을 위한 간구', '출 32:11-14, 30-32', '금송아지 사건 후 백성을 위해 거듭 간구했다.', '6B 1A 12A', 'pray', 'p'],
+      ['이드로의 조언을 듣다', '출 18:13-26', '장인 이드로의 조언을 듣고 재판하는 일을 나누었다.', '10A 2B 4B', 'learn', 'p'],
+      ['지친 마음을 아뢰다', '민 11:10-15', '백성을 혼자 감당하기 어렵다고 지친 마음을 하나님께 토로했다.', '5A 6A', 'lament', 's'],
+      ['구름 속의 사십 일', '출 24:15-18', '구름이 덮인 시내산에 올라가 사십 주야를 머물며 말씀을 받았다.', '10B 7A 6B', 'meditate', 'p'],
+    ]],
+    ['ot-gideon', '기드온', 'OT', 10, '삿 6-8', '두려움 속에서 표징을 구하며 부르심에 응한 사사.', {}, [
+      ['밤에 제단을 헐다', '삿 6:25-27', '두려워하면서도 명령대로 밤에 바알의 제단을 헐었다.', '2B 1B 10A', 'courage', 'p'],
+      ['양털 표징', '삿 6:36-40', '확신을 얻기 위해 양털 표징을 두 번 구했다.', '2A 1A 5A', 'learn', 'p'],
+      ['에브라임을 달래다', '삿 8:1-3', '불평하는 에브라임 사람들에게 부드럽게 답해 노여움을 풀었다.', '12A 11A', 'reconcile', 's'],
+      ['부라와 함께 적진으로', '삿 7:9-15', '두려우면 부하 부라와 함께 내려가 보라는 말씀대로 적진에 내려가 꿈 이야기를 듣고 경배한 뒤 일어났다.', '10A 7B 1B', 'courage', 'p'],
+    ]],
+    ['ot-daniel', '다니엘', 'OT', 11, '단 1-2, 6, 9', '바벨론에서 기도의 자리를 지킨 사람.', {}, [
+      ['뜻을 정하다', '단 1:8-16', '왕의 음식을 먹지 않기로 하고 감독관에게 열흘 시험해 보자고 정중히 제안했다.', '12A 2B 3B', 'courage', 'p'],
+      ['하루 세 번의 기도', '단 6:10', '금령이 내려진 줄 알고도 전에 하던 대로 하루 세 번 무릎 꿇고 감사하며 기도했다.', '5B 6B 7B', 'pray', 'p'],
+      ['예레미야의 글을 읽고', '단 9:1-19', '예레미야의 글을 읽고 깨달은 뒤 금식하며 회개의 기도를 드렸다.', '3A 2A 6B', 'meditate', 'p'],
+      ['친구들과 함께 구하다', '단 2:17-18', '꿈 해석 문제를 친구들에게 알리고 함께 하나님께 구하자고 했다.', '10A 1A 4B', 'pray', 'p'],
+    ]],
+    ['ot-hannah', '한나', 'OT', 12, '삼상 1-2', '마음을 쏟아 기도하고 감사의 노래를 부른 사람.', {}, [
+      ['마음을 쏟아놓은 기도', '삼상 1:9-18', '괴로운 마음으로 통곡하며 마음을 여호와 앞에 쏟아놓았다.', '5A 1A 6B 12A', 'pray', 'p'],
+      ['해마다 실로에 오르다', '삼상 1:3-7', '괴로움 속에서도 해마다 가족과 함께 실로에 올라가 예배했다.', '5B 6B', 'wait', 's'],
+      ['한나의 노래', '삼상 2:1-10', '사무엘을 드린 뒤 하나님을 높이는 감사의 노래를 불렀다.', '7B 8A 2B', 'worship', 'p'],
+    ]],
+    ['ot-elijah', '엘리야', 'OT', 13, '왕상 17-19', '갈멜산과 호렙산의 선지자.', {}, [
+      ['갈멜산의 기도', '왕상 18:30-39', '무너진 제단을 수축하고 기도하여 응답을 구했다.', '1A 2B 12A', 'courage', 'p'],
+      ['일곱 번의 기도', '왕상 18:42-44', '비를 위해 엎드려 기도하며 사환을 일곱 번 보내 살피게 했다.', '6B 5B 10B', 'pray', 'p'],
+      ['로뎀나무 아래', '왕상 19:3-8', '지쳐서 죽기를 구한 뒤 잠들었고, 천사가 준 음식을 먹고 쉬었다.', '6A 5A 10B', 'lament', 'p'],
+      ['세미한 소리', '왕상 19:9-13', '호렙산 굴에서 세미한 소리를 듣고 겉옷으로 얼굴을 가렸다.', '7A 4A 10B 5A', 'meditate', 'p'],
+    ]],
+    ['ot-elisha', '엘리사', 'OT', 14, '왕하 2, 4, 6', '엘리야의 뒤를 이은 선지자.', {}, [
+      ['떠나지 않겠습니다', '왕하 2:1-14', '스승 엘리야를 세 번이나 떠나지 않겠다며 따라갔다.', '2B 5A 1B 10A', 'learn', 'p'],
+      ['과부의 기름 그릇', '왕하 4:1-7', '빚진 과부의 형편을 듣고 그릇을 빌려 오라고 구체적으로 일렀다.', '11B 1B 4B', 'serve', 'p'],
+      ['문을 닫고 기도하다', '왕하 4:32-35', '죽은 아이가 있는 방에 들어가 문을 닫고 여호와께 기도했다.', '1A 10B', 'pray', 's'],
+      ['사환의 눈을 열어 주소서', '왕하 6:15-17', '두려워하는 사환을 안심시키고 그의 눈을 열어 달라고 기도했다.', '11A 1A', 'courage', 'p'],
+    ]],
+    ['ot-hezekiah', '히스기야', 'OT', 15, '왕하 18-20; 대하 29', '위기 앞에서 기도한 유다의 왕.', {}, [
+      ['편지를 펴 놓고 기도하다', '왕하 19:14-19', '위협하는 편지를 성전에서 여호와 앞에 펴 놓고 기도했다.', '1A 5A 10A', 'pray', 'p'],
+      ['벽을 향한 기도', '왕하 20:1-6', '병이 들자 얼굴을 벽으로 향하고 심히 통곡하며 기도했다.', '5A 6B 10B 8A', 'lament', 'p'],
+      ['성전 문을 다시 열다', '대하 29:3-19', '즉위 첫 해에 성전 문을 열고 수리하며 성전을 정결하게 했다.', '9A 8B', 'restore', 's'],
+    ]],
+    ['ot-david', '다윗', 'OT', 16, '삼상 17, 24; 삼하 6, 12; 시 51', '목동에서 왕이 된 사람. 시편의 많은 노래와 연결된다.', {}, [
+      ['골리앗 앞에서', '삼상 17:32-49', '하나님이 건지실 것을 고백하고 물매를 들고 나아갔다.', '1B 2B 8A', 'courage', 'p'],
+      ['나단의 책망과 고백', '삼하 12:1-13; 시 51', '나단의 책망을 듣고 죄를 인정하며 회개했다.', '9A 5A 4B', 'restore', 'p'],
+      ['법궤 앞의 춤', '삼하 6:12-15', '법궤를 옮길 때 힘을 다해 춤추며 기뻐했다.', '7B 8B 11B', 'worship', 'p'],
+      ['사울을 살려 두다', '삼상 24:1-12', '사울을 해칠 기회에 손대지 않고 그에게 말을 걸어 대화했다.', '12A 2B 9A', 'reconcile', 'p'],
+      ['요나단과의 약속', '삼상 20:1-17', '위기 속에서 친구 요나단에게 사정을 털어놓고 도움을 구했다.', '10A 11A', 'reconcile', 's'],
+    ]],
+    ['ot-asaph', '아삽', 'OT', 17, '시 73, 77(표제)', '시편 표제에 이름이 나오는 찬양 인도자.', { note: '시편 표제에 근거한 연결이며 저작 전승은 해석이 필요하다.' }, [
+      ['성소에 들어갈 때에야', '시 73', '악인의 형통을 보며 오래 고민하다가 성소에 들어갈 때 깨달았다고 고백한다.', '9B 2A 7A', 'meditate', 'p'],
+      ['옛날을 생각하며', '시 77:1-12', '환난 날에 밤새 손을 들고 기도하며 지난날 하나님의 일을 기억한다고 노래한다.', '6B 8A 5A', 'lament', 'p'],
+    ]],
+    ['ot-miriam', '미리암', 'OT', 18, '출 2, 15; 민 12', '모세의 누이. 홍해를 건넌 뒤 찬양을 이끌었다.', { note: '출 2장의 누이는 전통적으로 미리암으로 본다.' }, [
+      ['바다의 노래', '출 15:20-21', '소고를 잡고 여인들과 함께 춤추며 찬양했다.', '7B 8B 11A', 'worship', 'p'],
+      ['아기 모세를 지켜보다', '출 2:4-8', '멀리 서서 동생을 지켜보다가 바로의 딸에게 유모를 제안했다.', '11B 1B', 'serve', 's'],
+      ['모세를 비방한 뒤', '민 12:1-15', '모세를 비방한 뒤 병이 들었고 백성은 그가 돌아오기까지 칠 일을 기다렸다.', '', 'restore', 'r'],
+    ]],
+    ['ot-jehoshaphat', '여호사밧', 'OT', 19, '대하 19-20', '두려움 속에 기도와 찬양을 선택한 유다의 왕.', {}, [
+      ['재판관을 세우다', '대하 19:4-11', '백성 가운데 다니며 재판관을 세우고 공정하게 판단하라고 당부했다.', '3B 11B', 'act', 's'],
+      ['우리의 눈은 주만 바라봅니다', '대하 20:3-12', '연합군 소식에 두려워하며 금식을 공포하고 온 유다와 함께 여호와께 간구했다.', '1A 5A 10A 8A', 'pray', 'p'],
+      ['찬양대를 앞세우다', '대하 20:20-22', '노래하는 자들을 군대 앞에 세워 찬송하게 했다.', '7B 2B 11A', 'worship', 'p'],
+    ]],
+    ['ot-solomon', '솔로몬', 'OT', 20, '왕상 3, 8, 11', '지혜를 구하고 성전을 봉헌한 왕.', {}, [
+      ['듣는 마음을 구하다', '왕상 3:5-14', '꿈에 무엇을 원하느냐는 물음에 백성을 분별할 듣는 마음을 구했다.', '2A 5A 8A', 'learn', 'p'],
+      ['두 여인의 재판', '왕상 3:16-28', '아이를 두고 다투는 두 여인의 말을 듣고 지혜롭게 판결했다.', '2A 12A', 'reconcile', 's'],
+      ['성전 봉헌 기도', '왕상 8:22-53', '성전 봉헌 때 손을 펴고 백성을 위해 길게 기도했다.', '7B 5B 8A', 'worship', 'p'],
+      ['마음이 돌아서다', '왕상 11:1-10', '노년에 마음이 다른 신들을 따랐다고 기록된다.', '', 'restore', 'l'],
+    ]],
+    ['ot-samuel', '사무엘', 'OT', 21, '삼상 3, 7, 12', '어릴 때부터 성전에서 자란 선지자이자 사사.', {}, [
+      ['말씀하옵소서', '삼상 3:1-10', '밤에 부르심을 듣고 엘리의 조언대로 “말씀하옵소서 주의 종이 듣겠나이다”라고 답했다.', '7A 10A 4B', 'learn', 'p'],
+      ['미스바의 기도', '삼상 7:3-12', '백성을 모아 회개를 이끌고 블레셋의 위협 앞에서 그들을 위해 부르짖었다.', '1A 9A 6B', 'pray', 'p'],
+      ['기도를 쉬지 않겠다', '삼상 12:19-24', '두려워하는 백성에게 너희를 위해 기도하기를 쉬지 않겠다고 말했다.', '6B 5B 11A', 'pray', 'p'],
+      ['중심을 보시는 하나님', '삼상 16:1-13', '사울 때문에 슬퍼하던 중 말씀을 듣고 베들레헴에 가서, 외모가 아니라 중심을 본다는 말씀에 따라 다윗에게 기름을 부었다.', '6A 2B 7A', 'learn', 'p'],
+    ]],
+    ['ot-ezra', '에스라', 'OT', 22, '스 7-10', '율법을 연구하고 가르친 학사.', {}, [
+      ['연구하고 준행하고 가르치다', '스 7:10', '여호와의 율법을 연구하여 준행하며 가르치기로 결심했다.', '3A 4B 2B', 'learn', 'p'],
+      ['아하와 강가의 금식', '스 8:21-23', '호위대를 구하지 않고 금식하며 하나님께 평탄한 길을 간구했다.', '1A 2B 6B', 'pray', 'p'],
+      ['저녁까지 앉아 있다가', '스 9:3-15', '백성의 소식을 듣고 옷을 찢고 저녁까지 앉아 있다가 회개의 기도를 드렸다.', '9B 5A 10B', 'lament', 'p'],
+      ['새벽부터 정오까지', '느 8:1-8', '새벽부터 정오까지 백성 앞에서 율법책을 읽었고, 레위인들이 그 뜻을 해석해 깨닫게 했다.', '3A 4B 7A', 'learn', 'p'],
+    ]],
+    ['ot-nehemiah', '느헤미야', 'OT', 23, '느 1-2, 4', '기도와 실행으로 예루살렘 성벽을 재건한 지도자.', {}, [
+      ['소식을 듣고 울며 기도하다', '느 1:4-11', '예루살렘 소식을 듣고 수일 동안 울며 금식하고 기도했다.', '1A 6B 5A 8A', 'pray', 'p'],
+      ['왕 앞의 짧은 기도', '느 2:4-8', '왕에게 대답하기 전 하늘의 하나님께 기도하고 구체적인 계획을 말했다.', '1A 2B 11B', 'courage', 'p'],
+      ['기도하며 파수꾼을 세우다', '느 4:9', '대적의 위협에 기도하며 밤낮으로 파수꾼을 세웠다.', '11B 6B 1A', 'act', 'p'],
+      ['주를 기억하라', '느 4:14', '두려워하는 백성에게 크고 두려우신 주를 기억하라고 격려했다.', '11A 8A', 'courage', 's'],
+      ['깊이 생각한 뒤 바로잡다', '느 5:6-13', '가난한 백성의 부르짖음을 듣고 크게 노했지만 깊이 생각한 뒤 귀족들과 대화해 빚을 돌려주게 했다.', '10B 12A 11B', 'reconcile', 'p'],
+    ]],
+    ['ot-jeremiah', '예레미야', 'OT', 24, '렘 1, 18, 20, 32', '눈물의 선지자.', {}, [
+      ['나는 아이라', '렘 1:4-10', '부르심 앞에서 말할 줄 모르는 아이라고 솔직하게 답했다.', '5A 2A 3A', 'learn', 'p'],
+      ['뼛속의 불', '렘 20:7-18', '조롱받는 고통을 토로하면서도 말씀이 뼛속의 불 같다고 고백했다.', '5A 6A 9B', 'lament', 'p'],
+      ['토기장이의 집', '렘 18:1-6', '명령대로 토기장이의 집에 내려가 일하는 것을 보고 말씀을 받았다.', '2B 7A 3A', 'meditate', 'p'],
+      ['아나돗의 밭을 사다', '렘 32:6-15', '포위된 상황에서도 말씀에 따라 밭을 사고 증서를 보관했다.', '2B 3B', 'act', 's'],
+    ]],
+    ['ot-isaiah', '이사야', 'OT', 25, '사 6; 왕하 19', '성전에서 부르심을 받은 선지자.', {}, [
+      ['내가 여기 있나이다', '사 6:1-8', '성전에서 환상을 보고 자신의 부정함을 고백한 뒤 “내가 여기 있나이다”라고 응답했다.', '7A 9A 2B', 'worship', 'p'],
+      ['히스기야에게 전한 말씀', '왕하 19:20-34', '기도한 히스기야에게 사람을 보내 응답의 말씀을 전했다.', '11A 3B', 'serve', 's'],
+    ]],
+    ['ot-esther', '에스더', 'OT', 26, '에 4-8', '민족을 위해 왕 앞에 나아간 왕비.', {}, [
+      ['함께 금식해 주세요', '에 4:15-17', '사흘 동안 함께 금식해 달라고 요청한 뒤 왕에게 나아가기로 했다.', '10A 1A 2B', 'courage', 'p'],
+      ['잔치를 열고 때를 살피다', '에 5:1-8', '곧바로 요청하지 않고 잔치를 열며 말할 때를 살폈다.', '1B 10B 12B', 'wait', 'p'],
+      ['울며 간청하다', '에 8:3-6', '왕 앞에 엎드려 울며 동족을 위해 간청했다.', '5A 11B', 'courage', 's'],
+    ]],
+    ['ot-ruth', '룻', 'OT', 27, '룻 1-4', '시어머니 나오미와 함께한 모압 여인.', {}, [
+      ['어머니가 가시는 곳에', '룻 1:16-18', '시어머니를 떠나지 않고 함께 가겠다고 결심했다.', '11A 2B 12A 5A', 'serve', 'p'],
+      ['이삭을 줍다', '룻 2:2-3, 17-18', '생계를 위해 이삭 줍기를 자청하고 성실히 일해 시어머니에게 가져갔다.', '1B 11B 10A', 'serve', 'p'],
+      ['나오미의 조언대로', '룻 3:1-6', '시어머니의 조언을 듣고 그대로 행했다.', '10A 2B 5A', 'learn', 'p'],
+      ['보아스 앞에서', '룻 2:8-13', '보아스의 친절에 엎드려 감사하고, 이방 여인인 자신의 처지를 솔직히 말하며 위로를 받았다.', '7B 5A 10A', 'restore', 'p'],
+    ]],
+    ['ot-deborah', '드보라', 'OT', 28, '삿 4-5', '이스라엘을 재판한 여선지자.', {}, [
+      ['종려나무 아래의 재판', '삿 4:4-5', '종려나무 아래 앉아 있을 때 이스라엘 자손이 재판을 받으러 그에게 나아왔다.', '12A 11A', 'reconcile', 's'],
+      ['바락과 함께 나가다', '삿 4:6-10', '바락에게 명령을 전하고 그가 요청하자 함께 나갔다.', '2B 11A 3B', 'courage', 'p'],
+      ['드보라의 노래', '삿 5', '승리 후 하나님을 찬양하는 노래를 불렀다.', '7B 8A 11A', 'worship', 'p'],
+    ]],
+    ['ot-caleb', '갈렙', 'OT', 29, '민 13-14; 수 14', '마흔다섯 해를 기다려 약속의 땅을 구한 정탐꾼.', {}, [
+      ['올라가서 취하자', '민 13:30; 14:6-9', '두려워하는 백성 앞에서 올라가 취하자고 격려했다.', '2B 11A 12A 1B', 'courage', 'p'],
+      ['이 산지를 내게 주소서', '수 14:6-12', '여든다섯 살에 사십오 년 전의 약속을 기억하며 산지를 구했다.', '8A 1B 5A', 'wait', 'p'],
+    ]],
+    ['ot-rahab', '라합', 'OT', 30, '수 2, 6', '정탐꾼을 숨겨 준 여리고 여인.', {}, [
+      ['정탐꾼을 숨기다', '수 2:1-14', '정탐꾼을 숨기고 들은 소식을 근거로 하나님을 고백했다.', '11B 2B 12A 1B', 'courage', 'p'],
+      ['붉은 줄', '수 2:18-21; 6:22-25', '약속대로 창문에 붉은 줄을 매고 가족을 모았다.', '2B', 'wait', 'l'],
+    ]],
+    ['ot-adam', '아담', 'OT', 31, '창 2-3', '첫 사람.', { primary: false, note: '응답이 측정하지 않는 사건이 중심이라 사전 소개용으로만 사용한다.' }, [
+      ['동산을 맡다', '창 2:15-20', '동산을 경작하며 지키고 동물들의 이름을 지었다.', '11B', 'serve', 'l'],
+      ['동산 나무 사이에 숨다', '창 3:8-12', '하나님의 소리를 듣고 숨었다가 질문에 답했다.', '', 'restore', 'r'],
+    ]],
+    ['ot-eve', '하와', 'OT', 32, '창 3-4', '첫 여자.', { primary: false, note: '사전 소개용.' }, [
+      ['뱀과의 대화', '창 3:1-6', '금지된 열매에 대해 뱀과 대화한 뒤 먹었다.', '', 'learn', 'r'],
+      ['여호와로 말미암아', '창 4:1, 25', '아들을 낳고 여호와로 말미암았다고 말했다.', '7B', 'worship', 'l'],
+    ]],
+    ['ot-jonah', '요나', 'OT', 33, '욘 1-4', '니느웨로 보내진 선지자.', {}, [
+      ['물고기 뱃속의 기도', '욘 2:1-9', '물고기 뱃속에서 감사와 서원의 기도를 드렸다.', '5A 7B 1A', 'pray', 'p'],
+      ['두 번째 부르심', '욘 3:1-4', '두 번째 말씀이 임하자 일어나 니느웨로 갔다.', '9A 2B 3B', 'restore', 'p'],
+      ['박넝쿨 아래에서', '욘 4:1-11', '성내며 죽기를 구했고, 하나님은 질문하시며 대화하셨다.', '5A 6A 10B', 'lament', 's'],
+      ['다시스로 가는 배', '욘 1:1-3', '니느웨로 가라는 말씀을 피해 다시스로 가는 배를 탔다.', '', 'restore', 'r'],
+    ]],
+    ['ot-saul', '사울왕', 'OT', 34, '삼상 13, 15, 24', '이스라엘의 첫 왕.', { primary: false, note: '부정적 사건 중심. 묵상(reflection)과 사전 소개용.' }, [
+      ['기다리지 못한 제사', '삼상 13:8-14', '사무엘을 기다리다 백성이 흩어지자 직접 번제를 드렸다.', '', 'wait', 'r'],
+      ['다윗 앞에서 소리 높여 울다', '삼상 24:16-21', '다윗이 자신을 살려 준 것을 알고 소리 높여 울었다.', '', 'reconcile', 'r'],
+    ]],
+    ['ot-samson', '삼손', 'OT', 35, '삿 13-16', '나실인으로 태어난 사사.', { primary: false }, [
+      ['마지막 기도', '삿 16:28-30', '눈이 뽑힌 뒤 “주 여호와여 나를 생각하옵소서”라고 기도했다.', '5A 9A', 'restore', 's'],
+      ['나실인의 출생', '삿 13:2-24', '천사의 예고 후 나실인으로 태어났다.', '', 'learn', 'l'],
+    ]],
+    ['ot-lot', '롯', 'OT', 36, '창 13, 19', '아브라함의 조카.', { primary: false }, [
+      ['나그네를 영접하다', '창 19:1-3', '성문에 앉아 있다가 나그네를 집으로 청해 음식을 대접했다.', '11B 1B', 'serve', 's'],
+      ['요단 들을 택하다', '창 13:10-12', '물이 넉넉한 요단 들을 택해 소돔 가까이 장막을 옮겼다.', '', 'act', 'r'],
+    ]],
+    ['ot-balaam', '발람', 'OT', 37, '민 22-24', '모압 왕에게 불려 간 예언자.', { primary: false, note: '사전 소개용.' }, [
+      ['나귀와 천사', '민 22:21-35', '길을 막는 천사를 보지 못하고 나귀를 때렸다.', '', 'learn', 'r'],
+    ]],
+    ['ot-cain', '가인', 'OT', 38, '창 4', '아담과 하와의 아들.', { primary: false, note: '응답과 연결하지 않는 사전 소개용(살인 사건은 사용자와 연결하지 않음).' }, [
+      ['받지 않으신 제물 이후', '창 4:3-8', '제물이 받아들여지지 않자 몹시 분하여 안색이 변했고, 하나님은 그에게 물으셨다.', '', 'reconcile', 'r'],
+    ]],
+    ['ot-aaron', '아론', 'OT', 39, '출 4, 17, 32; 레 10', '모세의 형이자 첫 대제사장.', {}, [
+      ['모세의 입이 되다', '출 4:14-16, 27-31', '모세를 맞으러 나가 함께 백성에게 말씀을 전했다.', '11A 4B 2B', 'serve', 'p'],
+      ['모세의 팔을 붙들다', '출 17:10-12', '훌과 함께 해가 지도록 모세의 팔을 붙들어 올렸다.', '11B 6B', 'serve', 's'],
+      ['금송아지', '출 32:1-6, 21-24', '백성의 요구에 금송아지를 만들었다.', '', 'restore', 'r'],
+      ['아론이 잠잠하니라', '레 10:1-3', '두 아들을 잃은 뒤 잠잠히 있었다.', '10B', 'lament', 'l'],
+      ['백성을 축복하다', '레 9:22-24', '정해진 제사를 마친 뒤 백성을 향해 손을 들어 축복했고, 백성은 소리 지르며 엎드렸다.', '5B 11A 7B', 'worship', 'p'],
+    ]],
+    ['ot-josiah', '요시야', 'OT', 40, '왕하 22-23', '율법책을 발견하고 개혁한 유다의 왕.', {}, [
+      ['율법책을 듣고 옷을 찢다', '왕하 22:8-13', '발견된 율법책을 듣고 옷을 찢고 신하들을 보내 여호와께 묻게 했다.', '9A 10A 2A 5A', 'restore', 'p'],
+      ['언약을 세우고 개혁하다', '왕하 23:1-25', '백성 앞에서 율법책을 읽고 언약을 세운 뒤 개혁을 실행했다.', '3B 4B 8B', 'act', 'p'],
+      ['다시 지킨 유월절', '왕하 23:21-23', '언약책에 기록된 대로 유월절을 지키게 했다.', '7B 8B', 'worship', 's'],
+    ]],
+    ['ot-leah', '레아', 'OT', 41, '창 29-30', '야곱의 아내.', {}, [
+      ['이제는 여호와를 찬송하리라', '창 29:31-35', '아들들의 이름을 지으며 마음을 고백했고, 넷째 때 “이제는 여호와를 찬송하리로다” 했다.', '5A 7B 8A', 'worship', 'p'],
+      ['자녀들의 이름', '창 30:9-21', '자녀들의 이름에 자신의 마음을 담았다.', '5A', 'lament', 'l'],
+    ]],
+    ['ot-rachel', '라헬', 'OT', 42, '창 29-31', '야곱의 아내.', {}, [
+      ['자식을 주소서', '창 30:1-2, 22-24', '자식이 없는 괴로움을 야곱에게 토로했고 후에 하나님이 생각하셨다.', '5A 6A', 'lament', 's'],
+      ['드라빔을 숨기다', '창 31:19, 34-35', '아버지의 드라빔을 훔쳐 숨겼다.', '', 'act', 'r'],
+    ]],
+    ['ot-rebekah', '리브가', 'OT', 43, '창 24-25, 27', '이삭의 아내.', {}, [
+      ['우물가의 친절', '창 24:15-20', '나그네와 낙타들에게 급히 물을 길어 주었다.', '11B 1B', 'serve', 'p'],
+      ['여호와께 묻다', '창 25:22-23', '태중의 아이들이 서로 싸우자 여호와께 물으러 갔다.', '2A 1A 7A', 'pray', 'p'],
+      ['야곱을 위한 계략', '창 27:5-17', '야곱이 축복을 받도록 계략을 세웠다.', '', 'act', 'r'],
+      ['가겠나이다', '창 24:55-58', '가족이 열흘쯤 머물다 가라고 하자, 의견을 묻는 자리에서 “가겠나이다”라고 답했다.', '2B 1B 12A', 'courage', 'p'],
+    ]],
+    ['ot-hagar', '하갈', 'OT', 44, '창 16, 21', '사라의 여종. 광야에서 하나님을 만났다.', {}, [
+      ['나를 살피시는 하나님', '창 16:7-13', '도망하던 중 샘물 곁에서 하나님을 만나 “나를 살피시는 하나님”이라 불렀다.', '5A 10B 2B', 'restore', 'p'],
+      ['광야의 울음', '창 21:14-19', '물이 떨어지자 아이에게서 떨어져 앉아 소리 내어 울었다.', '6A 5A 11B', 'lament', 'p'],
+    ]],
+    ['ot-jehoiada', '여호야다', 'OT', 45, '왕하 11-12; 대하 22-24', '어린 요아스를 지킨 제사장.', {}, [
+      ['요아스를 숨겨 기르다', '왕하 11:1-4; 대하 22:11', '아내 여호세바와 함께 어린 요아스를 성전에 숨겨 여섯 해 동안 지켰다.', '11B 1B 12B', 'serve', 'p'],
+      ['언약을 세우다', '왕하 11:17', '여호와와 왕과 백성 사이에 언약을 세웠다.', '12A 3B', 'reconcile', 's'],
+      ['헌금궤를 만들다', '왕하 12:9-11', '성전 수리를 위해 궤를 만들어 헌금을 모았다.', '11B 3B', 'serve', 's'],
+    ]],
+    ['ot-uzziah', '웃시야', 'OT', 46, '대하 26', '오래 다스린 유다의 왕.', {}, [
+      ['스가랴가 사는 날에', '대하 26:4-5', '하나님의 묵시를 밝히 아는 스가랴가 사는 날에 하나님을 찾았다.', '10A 3A', 'learn', 's'],
+      ['강성해진 후', '대하 26:16-21', '강성해진 후 교만하여 성전에서 직접 분향하려 했다.', '', 'restore', 'r'],
+    ]],
+    ['ot-asa', '아사', 'OT', 47, '대하 14-16', '개혁을 실행한 유다의 왕.', {}, [
+      ['주밖에 도와줄 이가 없습니다', '대하 14:11', '구스 군대 앞에서 강한 자와 약한 자 사이에 주밖에 도울 이가 없다고 부르짖었다.', '1A 5A 2B', 'pray', 'p'],
+      ['아사랴의 말을 듣고', '대하 15:1-8', '선지자의 말을 듣고 마음을 강하게 하여 가증한 물건을 제거했다.', '3B 2B 9A 4B', 'act', 'p'],
+      ['병중에 의원만 구하다', '대하 16:12', '말년에 병이 들었을 때 의원들에게만 구했다고 기록된다.', '', 'restore', 'r'],
+    ]],
+    ['ot-jeroboam', '여로보암', 'OT', 48, '왕상 11-14', '북이스라엘의 첫 왕.', { primary: false, distinguishing: '느밧의 아들', note: '사전 소개용.' }, [
+      ['벧엘과 단의 금송아지', '왕상 12:25-33', '백성이 예루살렘으로 가지 않도록 금송아지를 세웠다.', '', 'act', 'r'],
+    ]],
+    ['ot-abigail', '아비가일', 'OT', 49, '삼상 25', '지혜로운 말로 피흘림을 막은 여인.', {}, [
+      ['다윗을 맞으러 나가다', '삼상 25:18-31', '급히 음식을 준비해 다윗을 맞이하고 지혜롭게 말하여 피흘림을 막았다.', '1B 12A 11B 5A', 'reconcile', 'p'],
+      ['아침까지 기다렸다가', '삼상 25:36-37', '나발이 취해 있자 아침까지 기다렸다가 일을 알렸다.', '12B', 'wait', 'l'],
+    ]],
+    ['ot-huldah', '훌다', 'OT', 50, '왕하 22:14-20', '요시야 시대의 여선지자.', { note: '기록이 짧아 대표 매칭 근거가 부족하다.' }, [
+      ['왕의 신하들에게 말씀을 전하다', '왕하 22:14-20', '율법책에 대해 묻는 왕의 신하들에게 여호와의 말씀을 전했다.', '4B', 'learn', 'l'],
+    ]],
+
+    // ───────── New Testament (50)
+    ['nt-peter', '베드로', 'NT', 1, '마 14; 눅 22; 요 21; 행 2-3', '갈릴리 어부에서 사도가 된 사람.', {}, [
+      ['물 위를 걷다', '마 14:28-31', '주께 오라 하시라고 청하고 물 위로 걸어가다가 두려워 “주여 나를 구원하소서” 외쳤다.', '1B 5A 2B', 'courage', 'p'],
+      ['다시 사랑을 고백하다', '요 21:15-19', '세 번의 질문에 “주께서 아시나이다”라고 답하며 다시 사명을 받았다.', '9A 12A 5A', 'restore', 'p'],
+      ['오순절의 설교', '행 2:14-41', '일어나 소리를 높여 말씀을 풀어 전했다.', '3B 4B 8B 11A', 'act', 'p'],
+      ['기도 시간에 성전으로', '행 3:1-8', '제구시 기도 시간에 성전에 올라가다가 구걸하는 사람을 일으켰다.', '5B 11B 8B', 'serve', 'p'],
+      ['닭 울기 전에', '눅 22:54-62', '예수를 세 번 부인한 뒤 밖에 나가 심히 통곡했다.', '', 'restore', 'r'],
+    ]],
+    ['nt-john', '요한', 'NT', 2, '막 10; 요 19; 행 3-4', '세베대의 아들. 예수의 제자.', { distinguishing: '세베대의 아들' }, [
+      ['말하지 않을 수 없다', '행 4:13-20', '공회 앞에서 보고 들은 것을 말하지 않을 수 없다고 답했다.', '2B 8B 10A', 'courage', 'p'],
+      ['예수의 어머니를 모시다', '요 19:26-27', '그때부터 예수의 어머니를 자기 집에 모셨다.', '11B 2B', 'serve', 's'],
+      ['높은 자리를 구하다', '막 10:35-45', '형제와 함께 영광의 자리를 구했다.', '', 'learn', 'r'],
+      ['예수의 품에 기대어', '요 13:23-25', '예수의 품에 기대어 있다가 베드로의 부탁을 받고 조용히 누구인지 여쭈었다.', '7A 2A 10A', 'learn', 'p'],
+    ]],
+    ['nt-james-zebedee', '야고보', 'NT', 3, '마 4; 막 10; 행 12:2', '세베대의 아들. 요한의 형제.', { distinguishing: '세베대의 아들' }, [
+      ['배와 아버지를 두고', '마 4:21-22', '부르심에 곧 배와 아버지를 두고 예수를 따랐다.', '2B 1B', 'act', 'p'],
+      ['높은 자리를 구하다', '막 10:35-45', '형제와 함께 영광의 자리를 구했다.', '', 'learn', 'r'],
+    ]],
+    ['nt-andrew', '안드레', 'NT', 4, '요 1, 6, 12', '사람을 예수께 데려온 제자.', {}, [
+      ['형제를 데려오다', '요 1:40-42', '먼저 자기 형제 시몬을 찾아 예수께 데려왔다.', '11A 4B 8B', 'serve', 'p'],
+      ['보리떡 다섯 개', '요 6:8-9', '보리떡 다섯 개와 물고기 두 마리를 가진 아이를 찾아 말했다.', '11B 1B 2A', 'serve', 'p'],
+      ['헬라인들을 안내하다', '요 12:20-22', '예수를 뵙고자 하는 헬라인들의 말을 빌립과 함께 전했다.', '4B 10A', 'serve', 's'],
+    ]],
+    ['nt-philip-apostle', '빌립', 'NT', 5, '요 1, 6, 14', '벳새다 출신의 사도.', { distinguishing: '사도' }, [
+      ['와서 보라', '요 1:43-46', '나다나엘의 의문에 “와서 보라”고 답했다.', '4B 12A 11A', 'learn', 'p'],
+      ['아버지를 보여 주소서', '요 14:8-9', '아버지를 보여 달라고 솔직하게 구했다.', '2A 5A', 'learn', 's'],
+      ['이백 데나리온', '요 6:5-7', '무리를 먹일 떡값을 현실적으로 계산했다.', '1B', 'act', 'l'],
+    ]],
+    ['nt-thomas', '도마', 'NT', 6, '요 11, 14, 20', '질문하던 제자.', {}, [
+      ['함께 죽으러 가자', '요 11:16', '위험한 유대로 가자는 말씀에 다른 제자들에게 함께 가자고 했다.', '2B 11A', 'courage', 's'],
+      ['그 길을 어찌 알겠습니까', '요 14:5', '어디로 가시는지 알지 못한다고 솔직히 질문했다.', '2A 4B 5A', 'learn', 'p'],
+      ['나의 주, 나의 하나님', '요 20:24-29', '직접 확인하기 전에는 믿지 않겠다고 했고 여드레 후 “나의 주”라 고백했다.', '2A 9B 7B', 'learn', 'p'],
+    ]],
+    ['nt-nicodemus', '니고데모', 'NT', 7, '요 3, 7, 19', '밤에 예수를 찾아온 바리새인.', {}, [
+      ['밤의 방문', '요 3:1-15', '밤에 찾아와 거듭남의 의미를 묻고 또 물었다.', '2A 4B 10B', 'learn', 'p'],
+      ['공회에서의 한마디', '요 7:50-52', '공회에서 율법은 먼저 듣고 판단한다고 말했다.', '12A 2A', 'reconcile', 's'],
+      ['몰약과 침향', '요 19:39-40', '몰약과 침향을 가져와 장례를 도왔다.', '11B 2B 10A', 'serve', 'p'],
+    ]],
+    ['nt-zacchaeus', '삭개오', 'NT', 8, '눅 19:1-10', '여리고의 세리장.', {}, [
+      ['뽕나무에 오르다', '눅 19:3-4', '예수가 어떤 분인지 보려고 앞질러 달려가 나무에 올라갔다.', '1B 2A', 'act', 's'],
+      ['네 배로 갚겠습니다', '눅 19:8', '소유의 절반을 나누고 속여 빼앗은 것은 네 배로 갚겠다고 했다.', '9A 11B 3B', 'restore', 'p'],
+    ]],
+    ['nt-samaritan-woman', '사마리아 여인', 'NT', 9, '요 4', '우물가에서 예수와 대화한 여인.', { note: '본문에 이름이 없어 호칭을 사용한다.' }, [
+      ['우물가의 대화', '요 4:7-26', '예배 장소 등 궁금한 것을 묻고 대화했다.', '2A 4B 12A 5A', 'learn', 'p'],
+      ['물동이를 두고', '요 4:28-30, 39', '물동이를 버려두고 동네로 가서 “와서 보라”고 말했다.', '8B 4B 1B', 'act', 'p'],
+    ]],
+    ['nt-paul', '바울', 'NT', 10, '행 9, 16, 20; 빌 3', '이방인의 사도.', {}, [
+      ['사흘 동안', '행 9:8-12', '앞을 보지 못한 채 사흘 동안 먹지 않고 기도했다.', '10B 6B 9A', 'restore', 'p'],
+      ['한밤중의 찬송', '행 16:25', '감옥에서 한밤중에 실라와 함께 기도하고 찬송했다.', '7B 6B 1A', 'worship', 'p'],
+      ['에베소 장로들과의 작별', '행 20:17-38', '눈물로 권면하고 함께 무릎 꿇고 기도했다.', '11A 4B 8A', 'serve', 'p'],
+      ['푯대를 향하여', '빌 3:12-14', '뒤에 있는 것은 잊고 앞에 있는 것을 향해 달려간다고 썼다.', '9A 2B 4A', 'restore', 'p'],
+      ['바나바와의 다툼', '행 15:36-40', '마가 문제로 바나바와 심히 다투고 갈라섰다.', '', 'reconcile', 'r'],
+    ]],
+    ['nt-timothy', '디모데', 'NT', 11, '행 16; 빌 2; 딤후 1', '바울의 동역자.', {}, [
+      ['바울과 함께 다니다', '행 16:1-5', '바울과 함께 다니며 결정 사항을 교회들에 전했다.', '11B 4B', 'serve', 's'],
+      ['너의 눈물을 생각하여', '딤후 1:3-7', '바울은 그의 눈물을 기억하며 은사를 다시 불 일 듯하게 하라고 권면했다.', '5A 10A 8A', 'learn', 'p'],
+      ['진실히 생각하는 자', '빌 2:19-22', '바울은 그가 교인들의 사정을 진실히 생각한다고 소개했다.', '11A 2B', 'serve', 's'],
+    ]],
+    ['nt-apollos', '아볼로', 'NT', 12, '행 18:24-28; 고전 3:6', '성경에 능한 알렉산드리아 출신 전도자.', {}, [
+      ['더 정확하게 배우다', '행 18:24-28', '브리스길라와 아굴라의 설명을 받아들이고 성경으로 증언했다.', '3A 4B 10A', 'learn', 'p'],
+      ['물을 주는 일', '고전 3:6', '바울은 “나는 심었고 아볼로는 물을 주었다”고 썼다.', '11A', 'serve', 'l'],
+    ]],
+    ['nt-luke', '누가', 'NT', 13, '눅 1:1-4; 골 4:14; 딤후 4:11', '사랑받는 의사. 바울의 동역자.', { note: '누가복음 서문의 저자를 누가로 보는 것은 전통적 해석이다.' }, [
+      ['근원부터 자세히', '눅 1:1-4', '모든 일을 근원부터 자세히 살펴 차례대로 썼다고 밝힌다.', '3A 2A 4A', 'learn', 'p'],
+      ['누가만 나와 함께', '딤후 4:11', '바울이 외로운 때에 누가만 함께 있다고 썼다.', '11A 2B', 'serve', 's'],
+    ]],
+    ['nt-mark', '마가', 'NT', 14, '행 12-13, 15; 딤후 4:11', '요한 마가. 바나바의 생질.', { distinguishing: '요한 마가' }, [
+      ['나의 일에 유익하다', '딤후 4:11; 몬 24', '전도 여행 도중 돌아갔던 그를 바울이 후에 “나의 일에 유익하다”며 다시 불렀다.', '9A 11B 10A', 'restore', 'p'],
+      ['어머니 집의 기도 모임', '행 12:12', '그의 어머니 마리아의 집에 많은 사람이 모여 기도했다.', '10A 5B', 'pray', 's'],
+      ['밤빌리아에서 돌아가다', '행 13:13', '전도 여행 중 예루살렘으로 돌아갔다.', '', 'restore', 'r'],
+    ]],
+    ['nt-matthew', '마태', 'NT', 15, '마 9:9-13; 눅 5:29', '세관에서 부르심을 받은 제자.', {}, [
+      ['일어나 따르다', '마 9:9', '세관에 앉아 있다가 “나를 따르라”는 말씀에 일어나 따랐다.', '2B 1B', 'act', 's'],
+      ['집에서 연 잔치', '눅 5:29', '자기 집에서 큰 잔치를 열어 많은 세리와 사람들을 초대했다.', '11B 8B 4B', 'serve', 'p'],
+    ]],
+    ['nt-anna', '안나', 'NT', 16, '눅 2:36-38', '성전을 떠나지 않은 여선지자.', { distinguishing: '여선지자' }, [
+      ['밤낮 금식하며 기도하다', '눅 2:36-38', '성전을 떠나지 않고 금식하며 기도로 섬기다, 아기 예수를 보고 감사하며 사람들에게 말했다.', '5B 6B 7B 4B', 'worship', 'p'],
+    ]],
+    ['nt-simeon', '시므온', 'NT', 17, '눅 2:25-35', '이스라엘의 위로를 기다린 사람.', {}, [
+      ['위로를 기다리다', '눅 2:25-32', '이스라엘의 위로를 기다리다 아기를 안고 하나님을 찬송했다.', '6B 7B 11A 8A', 'wait', 'p'],
+      ['마리아에게 한 말', '눅 2:34-35', '아기의 부모를 축복하고 마리아에게 앞일을 말했다.', '4B', 'learn', 'l'],
+    ]],
+    ['nt-zechariah', '사가랴', 'NT', 18, '눅 1', '세례 요한의 아버지. 제사장.', { distinguishing: '세례 요한의 아버지' }, [
+      ['입이 열리고 찬송하다', '눅 1:63-79', '아이의 이름을 요한이라 쓰자 입이 열려 하나님을 찬송했다.', '7B 2B 9A 8A', 'worship', 'p'],
+      ['무엇으로 알리이까', '눅 1:18-20', '천사의 말에 “무엇으로 알리이까” 하고 물었고 말을 못 하게 되었다.', '2A', 'learn', 'r'],
+      ['성전 직무', '눅 1:8-9', '자기 반열의 차례대로 성전에서 직무를 행했다.', '5B', 'pray', 'l'],
+    ]],
+    ['nt-elizabeth', '엘리사벳', 'NT', 19, '눅 1', '세례 요한의 어머니.', {}, [
+      ['마리아를 축복하다', '눅 1:39-45', '찾아온 마리아를 큰 소리로 축복하고 격려했다.', '11A 7B 4B', 'serve', 'p'],
+      ['다섯 달 동안', '눅 1:24-25', '잉태 후 다섯 달 동안 숨어 지내며 주께서 돌보셨다고 말했다.', '10B 7B 4A', 'meditate', 'p'],
+      ['이름은 요한', '눅 1:57-60', '친족들이 다른 이름을 권하자 “요한이라 할 것이라”고 분명히 말했다.', '2B 12A', 'courage', 's'],
+    ]],
+    ['nt-cornelius', '고넬료', 'NT', 20, '행 10', '가이사랴의 백부장.', {}, [
+      ['항상 기도하고 구제하다', '행 10:1-4', '온 집안과 함께 하나님을 경외하고 백성을 구제하며 항상 기도했다.', '5B 6B 11B', 'pray', 'p'],
+      ['베드로를 청하다', '행 10:7-8, 24-33', '환상 후 곧 사람을 보내고 친척과 친구를 모아 말씀을 들었다.', '2B 4B 7A', 'learn', 'p'],
+    ]],
+    ['nt-martha', '마르다', 'NT', 21, '눅 10:38-42; 요 11-12', '베다니의 마르다.', {}, [
+      ['분주한 섬김', '눅 10:38-42', '예수를 영접해 분주히 준비했고, 혼자 일하는 어려움을 솔직히 말하며 도움을 청했다.', '11B 10A 5A', 'serve', 'p'],
+      ['나사로의 무덤 앞에서', '요 11:20-27', '예수를 맞으러 먼저 나가 마음을 솔직히 말하고 신앙을 고백했다.', '1B 5A 4B 8A', 'lament', 'p'],
+      ['다시 섬기다', '요 12:2', '베다니의 잔치에서 일했다.', '11B 8B', 'serve', 's'],
+    ]],
+    ['nt-mary-bethany', '마리아', 'NT', 22, '눅 10:38-42; 요 11-12', '베다니의 마리아. 마르다의 동생.', { distinguishing: '베다니' }, [
+      ['발치에 앉아 듣다', '눅 10:39', '주의 발치에 앉아 그의 말씀을 들었다.', '7A 3A 4A', 'meditate', 'p'],
+      ['향유를 붓다', '요 12:1-8', '귀한 향유를 예수의 발에 붓고 머리털로 닦았다.', '7B 8B', 'worship', 'p'],
+      ['오라비를 잃은 슬픔', '요 11:28-33', '예수께 나아가 “여기 계셨더라면” 하고 울었다.', '5A 6A 1B', 'lament', 'p'],
+    ]],
+    ['nt-mary-magdalene', '막달라 마리아', 'NT', 23, '눅 8:1-3; 요 20:1-18', '부활의 첫 증인.', {}, [
+      ['자기 소유로 섬기다', '눅 8:1-3', '다른 여자들과 함께 자기 소유로 예수와 제자들을 섬겼다.', '11B 2B 9A', 'serve', 'p'],
+      ['무덤가에서 이름을 듣다', '요 20:11-18', '무덤 밖에서 울다가 이름을 부르심을 듣고 제자들에게 가서 전했다.', '6A 4B 8B', 'restore', 'p'],
+      ['이른 아침 무덤으로', '막 16:1-3', '안식 후 첫날 이른 아침, 다른 여인들과 함께 향품을 가지고 무덤으로 갔다.', '1B 11B 8A', 'serve', 'p'],
+    ]],
+    ['nt-tabitha', '다비다', 'NT', 24, '행 9:36-42', '선행과 구제가 많았던 욥바의 제자.', {}, [
+      ['속옷과 겉옷을 짓다', '행 9:36, 39', '선행과 구제가 심히 많았고 과부들을 위해 옷을 지었다.', '11B 3B 2B', 'serve', 'p'],
+    ]],
+    ['nt-lydia', '루디아', 'NT', 25, '행 16:13-15, 40', '빌립보의 자주 장사.', {}, [
+      ['기도처에서 마음이 열리다', '행 16:13-14', '강가 기도처에서 말씀을 듣고 마음이 열렸다.', '7A 5B 2B', 'learn', 'p'],
+      ['집을 열다', '행 16:15, 40', '자기 집에 머물라 강권했고, 그 집은 형제들이 위로받는 곳이 되었다.', '11B 4B 2B 8B', 'serve', 'p'],
+    ]],
+    ['nt-stephen', '스데반', 'NT', 26, '행 6-7', '일곱 일꾼 중 한 사람.', {}, [
+      ['구제의 일꾼', '행 6:1-8', '구제를 맡을 일곱 사람 중 하나로 세워졌다.', '11B 2B', 'serve', 's'],
+      ['긴 설교', '행 7:1-53', '이스라엘 역사를 성경으로 길게 풀어 말했다.', '3A 4B 12A 8A', 'learn', 'p'],
+      ['용서의 기도', '행 7:59-60', '돌에 맞으며 무릎 꿇고 그들을 용서해 달라고 기도했다.', '1A 5A 12A', 'pray', 'p'],
+    ]],
+    ['nt-silas', '실라', 'NT', 27, '행 15-16', '바울의 동역자.', {}, [
+      ['한밤중의 찬송', '행 16:25', '감옥에서 바울과 함께 기도하고 찬송했다.', '7B 6B 10A', 'worship', 'p'],
+      ['형제를 굳게 하다', '행 15:32', '여러 말로 형제를 권면하여 굳게 했다.', '11A 4B 3B', 'serve', 'p'],
+    ]],
+    ['nt-john-baptist', '세례 요한', 'NT', 28, '마 3, 11; 요 3', '광야의 외치는 소리.', {}, [
+      ['광야에서 외치다', '마 3:1-12', '광야에서 회개를 외치고 세례를 베풀었다.', '3B 4B', 'act', 's'],
+      ['옥에서 보낸 질문', '마 11:2-6', '옥에서 제자들을 보내 “오실 그이가 당신입니까” 물었다.', '2A 10A 9B', 'learn', 'p'],
+      ['그는 흥하여야 하리라', '요 3:26-30', '제자들의 불만에 자신은 쇠하여야 한다고 답하며 기쁨을 말했다.', '12A 7B 2B', 'reconcile', 'p'],
+    ]],
+    ['nt-ananias-damascus', '아나니아', 'NT', 29, '행 9:10-19', '다메섹의 제자.', { distinguishing: '다메섹의 제자' }, [
+      ['주여 내가 들으니', '행 9:10-14', '환상 중 부르심에 대답하고 사울에 대한 두려움을 솔직히 아뢰었다.', '5A 2A 7A', 'learn', 'p'],
+      ['형제 사울아', '행 9:17', '가서 “형제 사울아” 부르며 안수했다.', '2B 11A 12A', 'reconcile', 'p'],
+    ]],
+    ['nt-philip-deacon', '빌립', 'NT', 30, '행 8, 21:8', '일곱 일꾼 중 한 사람. 전도자.', { distinguishing: '일곱 일꾼' }, [
+      ['사마리아 성에서', '행 8:5-8', '사마리아 성에 내려가 그리스도를 전했다.', '3B 8B', 'act', 's'],
+      ['읽는 것을 깨닫느냐', '행 8:26-38', '말씀대로 일어나 가서 에디오피아 내시에게 묻고 성경을 풀어 주었다.', '2B 4B 1B 3B', 'act', 'p'],
+      ['가이사랴의 집', '행 21:8-9', '바울 일행을 집에 맞아들였다.', '11B', 'serve', 'l'],
+    ]],
+    ['nt-barnabas', '바나바', 'NT', 31, '행 4, 9, 11, 15', '위로의 아들.', {}, [
+      ['밭을 팔아 드리다', '행 4:36-37', '밭을 팔아 그 값을 사도들 앞에 두었다.', '11B 8B 2B', 'serve', 'p'],
+      ['사울을 데려가다', '행 9:26-27', '두려워하는 제자들에게 사울을 데려가 그의 일을 설명했다.', '11A 12A 1B', 'reconcile', 'p'],
+      ['안디옥의 격려', '행 11:22-26', '은혜를 보고 기뻐하며 굳은 마음으로 주께 머물라 권했다.', '11A 7B 10A', 'serve', 'p'],
+      ['마가와 함께 떠나다', '행 15:36-39', '의견 충돌 후 마가를 데리고 따로 떠났다.', '12B 11A', 'reconcile', 's'],
+    ]],
+    ['nt-priscilla', '브리스길라', 'NT', 32, '행 18; 롬 16:3-4', '아굴라의 아내. 동역자.', {}, [
+      ['아볼로에게 풀어 이르다', '행 18:26', '아볼로를 데려다 하나님의 도를 더 정확히 풀어 일렀다.', '4B 11A 3A', 'learn', 'p'],
+      ['목숨을 내놓은 동역', '롬 16:3-4', '바울은 그들이 자기 목숨을 위해 목까지도 내놓았다고 썼다.', '11B 2B', 'serve', 's'],
+    ]],
+    ['nt-aquila', '아굴라', 'NT', 33, '행 18; 롬 16:3-4', '브리스길라의 남편. 천막 만드는 사람.', {}, [
+      ['함께 천막을 만들다', '행 18:1-3', '바울을 자기 집에 머물게 하고 함께 천막을 만들었다.', '11B 1B', 'serve', 's'],
+      ['아볼로에게 풀어 이르다', '행 18:26', '아내와 함께 아볼로를 데려다 하나님의 도를 더 정확히 풀어 일렀다.', '4B 11A 3A', 'learn', 's'],
+    ]],
+    ['nt-titus', '디도', 'NT', 34, '고후 7-8', '바울의 동역자.', {}, [
+      ['위로를 가지고 오다', '고후 7:6-7, 13-15', '고린도 교인들의 소식을 가지고 와 바울을 위로했다.', '11A 4B 7B 10A', 'serve', 'p'],
+      ['자원하여 가다', '고후 8:16-17', '간절함으로 자원하여 고린도로 갔다.', '11B 2B 4B', 'serve', 'p'],
+    ]],
+    ['nt-epaphroditus', '에바브로디도', 'NT', 35, '빌 2:25-30; 4:18', '빌립보 교회의 일꾼.', {}, [
+      ['죽기에 이르도록 섬기다', '빌 2:25-30', '병들어 죽게 되었으면서도 바울을 섬겼고, 교인들이 걱정할까 근심했다.', '11B 2B 6A', 'serve', 'p'],
+      ['선물을 전하다', '빌 4:18', '빌립보 교인들의 선물을 바울에게 전했다.', '11B', 'serve', 'l'],
+    ]],
+    ['nt-judas-iscariot', '가룟 유다', 'NT', 36, '마 26-27; 요 12:4-6', '예수를 판 제자.', { primary: false, note: '배신 사건은 사용자 응답과 연결하지 않는다. 사전 소개용.' }, [
+      ['돈궤를 맡은 자', '요 12:4-6', '향유를 비판하며 가난한 자를 말했으나 본문은 그 동기를 따로 설명한다.', '', 'serve', 'r'],
+      ['은 삼십', '마 26:14-16; 27:3-5', '예수를 넘겨준 뒤 뉘우치고 은을 돌려주었다.', '', 'restore', 'r'],
+    ]],
+    ['nt-ananias-sapphira', '아나니아', 'NT', 37, '행 5:1-11', '삽비라의 남편.', { primary: false, distinguishing: '삽비라의 남편', note: '거짓 사건은 사용자와 연결하지 않는다.' }, [
+      ['땅 값의 일부를 감추다', '행 5:1-6', '땅 값 일부를 감추고 전부인 것처럼 가져왔다.', '', 'act', 'r'],
+    ]],
+    ['nt-sapphira', '삽비라', 'NT', 38, '행 5:1-11', '아나니아의 아내.', { primary: false, note: '거짓 사건은 사용자와 연결하지 않는다.' }, [
+      ['같은 대답', '행 5:7-10', '베드로의 질문에 남편과 같은 대답을 했다.', '', 'act', 'r'],
+    ]],
+    ['nt-demas', '데마', 'NT', 39, '골 4:14; 몬 24; 딤후 4:10', '한때 바울의 동역자.', { primary: false, note: '기록이 짧고 떠난 사건 중심.' }, [
+      ['동역자 데마', '몬 24', '바울의 동역자로 이름이 나온다.', '11B', 'serve', 'l'],
+      ['세상을 사랑하여', '딤후 4:10', '이 세상을 사랑하여 바울을 떠났다고 기록된다.', '', 'restore', 'r'],
+    ]],
+    ['nt-rich-young-man', '부자 청년', 'NT', 40, '마 19:16-22', '영생을 물은 청년.', { primary: false, note: '이름 없음. 근심하며 떠난 사건 중심이라 묵상용.' }, [
+      ['무슨 선한 일을', '마 19:16-22', '영생에 대해 묻고, 말씀을 듣고 근심하며 떠났다.', '2A', 'learn', 'r'],
+    ]],
+    ['nt-bartimaeus', '바디매오', 'NT', 41, '막 10:46-52', '여리고의 맹인.', {}, [
+      ['더욱 크게 소리 지르다', '막 10:46-52', '꾸짖음에도 더욱 크게 불렀고, 보게 된 후 길에서 예수를 따랐다.', '5A 6B 8B', 'pray', 'p'],
+    ]],
+    ['nt-bleeding-woman', '혈루증을 앓던 여인', 'NT', 42, '막 5:25-34', '열두 해 동안 아팠던 여인.', { note: '이름 없음. 질병을 믿음 부족으로 해석하지 않는다.' }, [
+      ['옷에 손을 대다', '막 5:25-34', '무리 가운데 뒤로 와서 옷에 손을 댔고, 두려워 떨며 모든 사실을 말했다.', '1B 5A', 'courage', 'p'],
+    ]],
+    ['nt-centurion-capernaum', '가버나움의 백부장', 'NT', 43, '마 8:5-13; 눅 7:1-10', '하인을 위해 간구한 백부장.', { note: '이름 없음.' }, [
+      ['말씀만 하옵소서', '마 8:5-13', '중풍병으로 괴로워하는 하인을 위해 간구하며 말씀만 하시면 낫겠다고 했다.', '1A 11B 10A', 'pray', 'p'],
+      ['회당을 지어 준 사람', '눅 7:4-5', '유대 장로들은 그가 회당을 지어 주었다고 말했다.', '11B', 'serve', 'l'],
+    ]],
+    ['nt-syrophoenician-woman', '수로보니게 여인', 'NT', 44, '막 7:24-30', '딸을 위해 간청한 이방 여인.', { note: '이름 없음.' }, [
+      ['부스러기라도', '막 7:24-30', '딸을 위해 거절의 말에도 지혜롭게 다시 간청했다.', '6B 12A 5A 1B', 'pray', 'p'],
+    ]],
+    ['nt-lazarus', '나사로', 'NT', 45, '요 11-12', '베다니의 나사로.', { primary: false, distinguishing: '베다니', note: '본인의 행동 기록이 거의 없다.' }, [
+      ['나사로야 나오라', '요 11:43-44', '죽은 지 나흘 만에 무덤에서 나왔다.', '', 'restore', 'l'],
+      ['함께 앉은 자리', '요 12:2', '잔치 자리에 예수와 함께 앉아 있었다.', '7A', 'meditate', 'l'],
+    ]],
+    ['nt-joseph-arimathea', '아리마대 요셉', 'NT', 46, '막 15:43-46; 요 19:38', '공회원이자 숨은 제자.', {}, [
+      ['당돌히 빌라도에게', '막 15:43-46', '당돌히 빌라도에게 들어가 시신을 구하고 세마포로 싸서 장사했다.', '11B 2B 1B 10A', 'courage', 'p'],
+      ['숨은 제자', '요 19:38', '유대인을 두려워하여 숨겨 온 제자였다고 기록된다.', '10B', 'learn', 'l'],
+    ]],
+    ['nt-onesimus', '오네시모', 'NT', 47, '몬 10-16', '빌레몬의 종이었던 사람.', {}, [
+      ['이제는 유익한 자', '몬 10-16', '바울 곁에서 섬기다가 빌레몬에게 돌아가게 되었다.', '9A 12A 11B 10A', 'restore', 'p'],
+    ]],
+    ['nt-philemon', '빌레몬', 'NT', 48, '몬 4-21', '골로새 교회의 동역자.', {}, [
+      ['성도들의 마음을 평안하게', '몬 4-7', '바울은 그를 통해 성도들의 마음이 평안함을 얻었다고 썼다.', '11A 3B 8B', 'serve', 'p'],
+      ['형제로 받아 달라', '몬 17-21', '바울은 오네시모를 형제로 받아 달라고 그에게 부탁했다.', '12A 2B', 'reconcile', 's'],
+    ]],
+    ['nt-james-brother', '야고보', 'NT', 49, '갈 1:19; 행 15:13-21', '예수의 형제. 예루살렘 교회의 지도자.', { distinguishing: '예수의 형제', note: '갈 1:19와 행 15의 야고보를 같은 인물로 보는 통상적 해석을 따른다.' }, [
+      ['예루살렘 회의의 결론', '행 15:13-21', '회의에서 의견을 들은 뒤 성경을 인용해 결론을 제시했다.', '4B 12A 3A 11A', 'learn', 'p'],
+      ['교제의 악수', '갈 2:9', '바울과 바나바에게 친교의 악수를 했다.', '12A', 'reconcile', 'l'],
+    ]],
+    ['nt-simon-cyrene', '구레네 시몬', 'NT', 50, '막 15:21', '십자가를 대신 진 사람.', { primary: false, note: '본인의 행동 기록이 한 구절이다.' }, [
+      ['십자가를 지고 가다', '막 15:21', '시골에서 오다가 억지로 십자가를 지고 갔다.', '11B', 'serve', 'l'],
+    ]],
+  ];
+
+  // Templates (service's own wording; reviewed=false until a human editor approves)
+  const SIGNAL_TEXT = {
+    '1A': '어려움 앞에서 먼저 기도한', '1B': '움직이며 길을 찾은', '2A': '의미를 묻고 살핀', '2B': '작은 행동부터 순종한',
+    '3A': '말씀을 오래 곱씹은', '3B': '말씀을 삶으로 옮긴', '4A': '홀로 마음을 살핀', '4B': '함께 묻고 나눈',
+    '5A': '마음을 솔직하게 아뢴', '5B': '정해진 기도의 자리를 지킨', '6A': '지친 마음을 표현하고 쉬어 간', '6B': '답이 더딜 때도 기도를 이어간',
+    '7A': '조용히 말씀에 귀 기울인', '7B': '감사하며 찬양한', '8A': '받은 은혜를 다시 떠올린', '8B': '예배를 행동으로 이어간',
+    '9A': '작은 것부터 다시 시작한', '9B': '어려웠던 이유를 오래 돌아본', '10A': '가까운 사람에게 도움을 구한', '10B': '혼자 시간을 갖고 방향을 찾은',
+    '11A': '곁에서 들어 주고 격려한', '11B': '필요한 도움을 구체적으로 챙긴', '12A': '대화로 이해하려 한', '12B': '시간을 두고 관계를 돌아본',
+  };
+  const ACTION_TEXT = {
+    '1A': '오늘 걱정되는 일 하나를 적고, 움직이기 전에 1분 기도로 시작해 보세요.',
+    '1B': '미뤄 둔 일 하나를 골라 오늘 할 수 있는 첫 단계를 실행해 보세요.',
+    '2A': '오늘 읽은 말씀에서 궁금한 점 하나를 적고 관련 구절을 찾아보세요.',
+    '2B': '말씀에서 배운 방향 중 오늘 할 수 있는 아주 작은 행동 하나를 정해 보세요.',
+    '3A': '한 구절을 정해 하루 세 번 천천히 다시 읽어 보세요.',
+    '3B': '오늘 마음에 남은 말씀을 한 가지 행동으로 옮겨 보세요.',
+    '4A': '잠들기 전 5분, 오늘 한 말과 행동의 이유를 조용히 돌아보세요.',
+    '4B': '믿음의 친구에게 이번 주 마음에 남은 말씀을 한 줄로 나눠 보세요.',
+    '5A': '오늘 감사한 일과 답답한 일을 하나씩 솔직하게 기도로 말해 보세요.',
+    '5B': '내일 기도할 시간과 장소를 하나 정해 두세요.',
+    '6A': '지친 마음을 그대로 적어 보고, 오늘은 쉬어 가는 시간을 허락해 보세요.',
+    '6B': '오래 기도해 온 제목 하나를 오늘도 짧게 이어서 기도해 보세요.',
+    '7A': '예배나 묵상 시간에 마음에 남은 한 문장을 적어 두세요.',
+    '7B': '좋아하는 찬양 한 곡을 들으며 감사 세 가지를 떠올려 보세요.',
+    '8A': '지난 예배에서 받은 말씀을 오늘 한 번 더 떠올려 보세요.',
+    '8B': '지난 예배에서 느낀 것을 이번 주 행동 하나로 연결해 보세요.',
+    '9A': '지키지 못한 다짐을 더 작은 크기로 다시 정해 오늘 시작해 보세요.',
+    '9B': '어려웠던 이유를 세 줄로 정리하고, 그중 하나를 기도 제목으로 삼아 보세요.',
+    '10A': '고민을 들어 줄 수 있는 사람에게 짧게 안부와 함께 마음을 나눠 보세요.',
+    '10B': '오늘 10분, 휴대폰을 내려놓고 혼자 생각하는 시간을 가져 보세요.',
+    '11A': '힘들어 보이는 사람에게 격려의 메시지를 하나 보내 보세요.',
+    '11B': '주변에서 필요한 일 하나를 찾아 구체적으로 도와 보세요.',
+    '12A': '서먹해진 관계가 있다면 먼저 안부를 묻는 한마디를 건네 보세요.',
+    '12B': '불편한 관계를 떠올리며 내 마음을 먼저 가라앉히는 시간을 가져 보세요.',
+  };
+  const CONTEXT_TEMPLATES = {
+    wait: { q: '지금 내가 기다리고 있는 것은 무엇이고, 그 기다림 속에서 무엇을 붙들고 있나요?', prayer: '하나님, 기다림이 길게 느껴질 때에도 제 마음을 지켜 주세요. 서두르지 않고 오늘 할 수 있는 일을 하게 하시고, 때를 아시는 주님을 신뢰하게 해 주세요.' },
+    meditate: { q: '요즘 내 마음에 오래 머무는 말씀이나 생각은 무엇인가요?', prayer: '하나님, 분주한 하루 속에서도 말씀 앞에 머무는 시간을 주세요. 제가 들은 것을 깊이 새기고, 그 말씀이 제 생각과 걸음을 이끌게 해 주세요.' },
+    act: { q: '알고 있지만 아직 옮기지 못한 작은 순종은 무엇인가요?', prayer: '하나님, 다 알지 못해도 오늘 한 걸음을 내딛게 해 주세요. 제 손과 발이 말씀을 따라 움직이고, 그 걸음 위에 주님의 인도하심이 있게 해 주세요.' },
+    restore: { q: '다시 시작하고 싶은 것이 있다면, 오늘 가장 작은 첫걸음은 무엇일까요?', prayer: '하나님, 넘어진 자리에서 다시 일어설 힘을 주세요. 부족함을 숨기지 않고 고백하게 하시고, 작은 것부터 다시 시작하는 마음을 허락해 주세요.' },
+    serve: { q: '내 주변에서 지금 도움이 필요한 사람은 누구인가요?', prayer: '하나님, 제 곁의 사람들의 필요를 볼 수 있는 눈을 주세요. 제가 가진 것으로 기쁘게 섬기고, 그 섬김 속에서 주님의 사랑을 배우게 해 주세요.' },
+    worship: { q: '이번 주 감사의 고백으로 남기고 싶은 일은 무엇인가요?', prayer: '하나님, 주신 은혜를 기억하며 감사의 노래를 드립니다. 예배의 자리에서 받은 기쁨이 제 일상의 말과 행동으로 이어지게 해 주세요.' },
+    courage: { q: '두렵지만 해야 한다고 느끼는 일이 있나요? 그 일을 함께 짊어질 사람은 누구인가요?', prayer: '하나님, 두려움이 있을 때에도 주님을 바라보게 해 주세요. 혼자가 아님을 기억하게 하시고, 필요한 때에 담대히 한 걸음 나아가게 해 주세요.' },
+    lament: { q: '아직 하나님께 솔직하게 말하지 못한 마음이 있나요?', prayer: '하나님, 지치고 답답한 마음을 있는 그대로 주님께 드립니다. 제 눈물과 한숨도 들으시는 주님 앞에서 쉬어 가게 하시고, 다시 일어설 때를 허락해 주세요.' },
+    learn: { q: '요즘 신앙에 대해 품고 있는 질문은 무엇인가요? 누구와 함께 나눠 볼 수 있을까요?', prayer: '하나님, 제 질문을 부끄러워하지 않게 해 주세요. 묻고 배우는 시간 속에서 주님을 더 알아가게 하시고, 함께 배울 사람들을 허락해 주세요.' },
+    reconcile: { q: '마음에 걸리는 관계가 있다면, 이해하기 위해 먼저 들어 볼 이야기는 무엇일까요?', prayer: '하나님, 갈등 앞에서 제 마음을 먼저 가라앉혀 주세요. 상대의 이야기를 듣는 귀와 화해의 말을 건넬 용기를 주시고, 관계를 회복하는 길을 보여 주세요.' },
+    pray: { q: '지금 가장 오래 품어 온 기도 제목은 무엇인가요?', prayer: '하나님, 제 마음을 주님 앞에 쏟아놓습니다. 기도의 자리를 지키게 하시고, 응답을 기다리는 동안에도 주님과 대화하는 기쁨을 잃지 않게 해 주세요.' },
+  };
+
+  const CONFIG = {
+    scoreWeights: { cos: 0.5, behavior: 0.25, coverage: 0.2, specificity: 0.05 },
+    coverageTarget: 4,           // matched independent questions needed for coverage = 1
+    minEvidenceQuestions: 2,     // minimum distinct matched questions for any candidate
+    minPrimaryScore: 55,         // below this → no representative card (reflection card only)
+    minTopScore: 50,             // TOP3 inclusion threshold
+    nearTieGap: 0.5,             // gap under which the result mentions co-candidates
+    bonusCap: 5,
+    rarityThresholds: { N: 129, R: 33, SR: 9, SSR: 1 }, // patternCount >= value (4,096 space)
+    rarityRuleVersion: 'rarity-1',
+  };
+
+  // ── Build normalized structures
+  const OPT = {}; QUESTIONS.forEach(q => q.options.forEach(o => { OPT[o.id] = Object.assign({ q: q.n, area: q.area }, o); }));
+  const SKILL_BY_ID = {}; SKILLS.forEach(s => { SKILL_BY_ID[s.id] = s; });
+  const CHARACTERS = []; const EVENTS = []; const CHAR_BY_ID = {}; const EVENT_BY_ID = {};
+  C.forEach(([id, name, testament, no, refLabel, bio, opts, evs]) => {
+    const ch = {
+      id, displayName: name, testament, number: no,
+      cardCode: testament + '-' + String(no).padStart(3, '0'),
+      distinguishingLabel: opts.distinguishing || '', aliases: [], bioSummary: bio,
+      references: refLabel, portraitAssetId: 'portrait-' + id,
+      eligibleForPrimary: opts.primary !== false, reviewStatus: 'draft-needs-human-review',
+      notes: opts.note || '', eventIds: [],
+    };
+    evs.forEach((e, i) => {
+      const [title, refs, summary, sig, ctx, elig] = e;
+      const signals = sig ? sig.split(/\s+/) : [];
+      const traits = {};
+      signals.forEach(s => { const o = OPT[s]; if (!o) return; Object.entries(o.weights).forEach(([t, w]) => { traits[t] = Math.max(traits[t] || 0, w); }); });
+      const ev = {
+        id: id + '-' + (i + 1), characterId: id, index: i + 1, title, scriptureRefs: refs,
+        factualSummary: summary, signals, traits, context: ctx,
+        eligibility: { p: 'primary', s: 'support', r: 'reflection', l: 'library' }[elig],
+        sceneAssetId: 'scene-' + id + '-' + (i + 1), reviewStatus: 'draft-needs-human-review',
+      };
+      EVENTS.push(ev); EVENT_BY_ID[ev.id] = ev; ch.eventIds.push(ev.id);
+    });
+    ch.eligibleForPrimary = ch.eligibleForPrimary && ch.eventIds.some(eid => EVENT_BY_ID[eid].eligibility === 'primary');
+    CHARACTERS.push(ch); CHAR_BY_ID[id] = ch;
+  });
+
+  const api = {
+    DATA_VERSION, AREAS, TRAITS, QUESTIONS, OPT, CONTEXTS, FAMILIES, SKILLS, SKILL_BY_ID, MATCH_RULES,
+    CHARACTERS, CHAR_BY_ID, EVENTS, EVENT_BY_ID, SIGNAL_TEXT, ACTION_TEXT, CONTEXT_TEMPLATES, CONFIG,
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.MFS_DATA = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+;
+/* GENERATED by scripts/generate-rarity.js — do not edit. */
+(function(r){var x={"dataVersion":"6.1.0-draft.1","rarityRuleVersion":"rarity-1","thresholds":{"N":129,"R":33,"SR":9,"SSR":1},"space":4096,"noCard":0,"keys":{"sk-10A|prayer|pray":{"patternCount":7,"rarity":"SSR"},"sk-10A|worship|courage":{"patternCount":1,"rarity":"SSR"},"sk-10B|worship|meditate":{"patternCount":88,"rarity":"R"},"sk-11A|community|serve":{"patternCount":189,"rarity":"N"},"sk-11A|word|serve":{"patternCount":7,"rarity":"SSR"},"sk-11A|worship|serve":{"patternCount":12,"rarity":"SR"},"sk-11B|action|courage":{"patternCount":45,"rarity":"R"},"sk-11B|action|serve":{"patternCount":11,"rarity":"SR"},"sk-11B|community|serve":{"patternCount":141,"rarity":"N"},"sk-12B|action|reconcile":{"patternCount":31,"rarity":"SR"},"sk-1A|care|pray":{"patternCount":4,"rarity":"SSR"},"sk-1A|community|pray":{"patternCount":94,"rarity":"R"},"sk-1A|reconcile|reconcile":{"patternCount":2,"rarity":"SSR"},"sk-1B|care|serve":{"patternCount":1,"rarity":"SSR"},"sk-1B|prayer|lament":{"patternCount":74,"rarity":"R"},"sk-1B|reconcile|reconcile":{"patternCount":68,"rarity":"R"},"sk-1B|reflect|wait":{"patternCount":53,"rarity":"R"},"sk-2A|community|learn":{"patternCount":21,"rarity":"SR"},"sk-2A|prayer|pray":{"patternCount":2,"rarity":"SSR"},"sk-2A|reflect|learn":{"patternCount":29,"rarity":"SR"},"sk-2B|community|act":{"patternCount":13,"rarity":"SR"},"sk-2B|prayer|learn":{"patternCount":37,"rarity":"R"},"sk-2B|word|act":{"patternCount":1,"rarity":"SSR"},"sk-3A|community|learn":{"patternCount":56,"rarity":"R"},"sk-3A|inquiry|learn":{"patternCount":98,"rarity":"R"},"sk-3B|action|act":{"patternCount":24,"rarity":"SR"},"sk-3B|community|act":{"patternCount":163,"rarity":"N"},"sk-4B|care|learn":{"patternCount":2,"rarity":"SSR"},"sk-5A|action|pray":{"patternCount":1,"rarity":"SSR"},"sk-5A|reflect|lament":{"patternCount":69,"rarity":"R"},"sk-5B|care|serve":{"patternCount":1,"rarity":"SSR"},"sk-6A|action|learn":{"patternCount":2,"rarity":"SSR"},"sk-6A|community|restore":{"patternCount":4,"rarity":"SSR"},"sk-6B|reconcile|pray":{"patternCount":45,"rarity":"R"},"sk-6B|worship|wait":{"patternCount":115,"rarity":"R"},"sk-7A|community|learn":{"patternCount":37,"rarity":"R"},"sk-7A|inquiry|learn":{"patternCount":5,"rarity":"SSR"},"sk-7A|prayer|learn":{"patternCount":4,"rarity":"SSR"},"sk-7A|reflect|meditate":{"patternCount":248,"rarity":"N"},"sk-7A|restore|worship":{"patternCount":2,"rarity":"SSR"},"sk-7B|action|worship":{"patternCount":55,"rarity":"R"},"sk-7B|prayer|worship":{"patternCount":14,"rarity":"SR"},"sk-8B|community|act":{"patternCount":2,"rarity":"SSR"},"sk-9A|action|restore":{"patternCount":4,"rarity":"SSR"},"sk-9B|inquiry|meditate":{"patternCount":21,"rarity":"SR"},"sk-9B|prayer|lament":{"patternCount":2,"rarity":"SSR"},"sk-ask-together|reconcile|learn":{"patternCount":100,"rarity":"R"},"sk-ask-together|reflect|learn":{"patternCount":127,"rarity":"R"},"sk-bridge|action|courage":{"patternCount":62,"rarity":"R"},"sk-bridge|action|reconcile":{"patternCount":22,"rarity":"SR"},"sk-bridge|action|serve":{"patternCount":44,"rarity":"R"},"sk-bridge|community|learn":{"patternCount":139,"rarity":"N"},"sk-bridge|worship|reconcile":{"patternCount":17,"rarity":"SR"},"sk-honest-lament|care|lament":{"patternCount":8,"rarity":"SSR"},"sk-honest-lament|prayer|lament":{"patternCount":4,"rarity":"SSR"},"sk-honest-lament|reflect|lament":{"patternCount":111,"rarity":"R"},"sk-honest-return|community|restore":{"patternCount":64,"rarity":"R"},"sk-honest-return|reconcile|restore":{"patternCount":6,"rarity":"SSR"},"sk-listen-ponder|community|learn":{"patternCount":8,"rarity":"SSR"},"sk-listen-ponder|reflect|meditate":{"patternCount":285,"rarity":"N"},"sk-living-praise|care|worship":{"patternCount":1,"rarity":"SSR"},"sk-mended|care|restore":{"patternCount":80,"rarity":"R"},"sk-steady-knees|care|pray":{"patternCount":201,"rarity":"N"},"sk-steady-knees|reflect|pray":{"patternCount":34,"rarity":"R"},"sk-steady-knees|worship|pray":{"patternCount":188,"rarity":"N"},"sk-steady-knees|worship|worship":{"patternCount":256,"rarity":"N"},"sk-wait-pray|reconcile|pray":{"patternCount":91,"rarity":"R"},"sk-wait-pray|restore|pray":{"patternCount":5,"rarity":"SSR"},"sk-wait-pray|worship|pray":{"patternCount":67,"rarity":"R"},"sk-wait-pray|worship|worship":{"patternCount":7,"rarity":"SSR"},"sk-word-hands|action|act":{"patternCount":170,"rarity":"N"},"sk-word-hands|action|serve":{"patternCount":77,"rarity":"R"},"sk-word-hands|restore|restore":{"patternCount":17,"rarity":"SR"}}};if(typeof module!=="undefined"&&module.exports)module.exports=x;else r.MFS_RARITY=x;})(typeof window!=="undefined"?window:globalThis);
+
+;
+/* MY FAITH STORY — matching / skill / rarity engine. Pure functions, no I/O, no randomness.
+ * Same data version + same answers → same result. Works in the browser (window.MFS_ENGINE) and Node. */
+(function (root) {
+  'use strict';
+  function create(D, rarityIndex) {
+    const QN = D.QUESTIONS.length;
+
+    // Denominator per trait: sum over questions of the max weight either option gives that trait.
+    const OPPORTUNITY = {};
+    D.QUESTIONS.forEach(q => {
+      const local = {};
+      q.options.forEach(o => Object.entries(o.weights).forEach(([t, w]) => { local[t] = Math.max(local[t] || 0, w); }));
+      Object.entries(local).forEach(([t, w]) => { OPPORTUNITY[t] = (OPPORTUNITY[t] || 0) + w; });
+    });
+    // Specificity: how distinctive a behaviour signal is across the eligible event DB (IDF, 0~1).
+    const SIG_COUNT = {}; let NEV = 0;
+    D.EVENTS.forEach(ev => { if (ev.eligibility !== 'primary' && ev.eligibility !== 'support') return; NEV++; ev.signals.forEach(s => { SIG_COUNT[s] = (SIG_COUNT[s] || 0) + 1; }); });
+    const IDF = {}; let IDF_MAX = 0;
+    Object.keys(D.OPT).forEach(s => { IDF[s] = Math.log((NEV + 1) / ((SIG_COUNT[s] || 0) + 1)); IDF_MAX = Math.max(IDF_MAX, IDF[s]); });
+    const ALL_TRAITS = [].concat(...Object.values(D.TRAITS));
+    const MEASURED = ALL_TRAITS.filter(t => OPPORTUNITY[t] > 0);
+    const UNMEASURED = ALL_TRAITS.filter(t => !(OPPORTUNITY[t] > 0));
+
+    /** answers: string of 12 'A'/'B' chars (index 0 = Q01). Returns null when invalid. */
+    function normalize(answers) {
+      if (Array.isArray(answers)) answers = answers.join('');
+      if (typeof answers !== 'string' || answers.length !== QN || !/^[AB]+$/.test(answers)) return null;
+      return answers;
+    }
+    function signalsOf(ans) { return ans.split('').map((c, i) => (i + 1) + c); }
+
+    function userVector(ans) {
+      const sum = {};
+      signalsOf(ans).forEach(s => Object.entries(D.OPT[s].weights).forEach(([t, w]) => { sum[t] = (sum[t] || 0) + w; }));
+      const u = {};
+      MEASURED.forEach(t => { u[t] = (sum[t] || 0) / OPPORTUNITY[t]; });
+      return u;
+    }
+
+    function cosine(u, ev) {
+      const keys = Object.keys(ev.traits).filter(t => OPPORTUNITY[t] > 0);
+      if (!keys.length) return 0;
+      let dot = 0, nu = 0, ne = 0;
+      keys.forEach(t => { const a = u[t] || 0, b = ev.traits[t] / 3; dot += a * b; nu += a * a; ne += b * b; });
+      if (nu === 0 || ne === 0) return 0;
+      return dot / Math.sqrt(nu * ne);
+    }
+
+    function scoreEvent(ev, ctx) {
+      if (!ev.signals.length) return null;
+      const qs = new Set(ev.signals.map(s => D.OPT[s].q));
+      const matched = ev.signals.filter(s => ctx.sigSet.has(s));
+      const matchedQ = new Set(matched.map(s => D.OPT[s].q)).size;
+      const behavior = matchedQ / qs.size;
+      const coverage = Math.min(1, matchedQ / D.CONFIG.coverageTarget);
+      const cos = cosine(ctx.u, ev);
+      const specificity = matched.length ? matched.reduce((a, s) => a + IDF[s], 0) / matched.length / IDF_MAX : 0;
+      let bonus = 0; const rules = [];
+      D.MATCH_RULES.forEach(r => {
+        if (r.events.includes(ev.id) && r.all.every(s => ctx.sigSet.has(s))) { bonus += r.bonus; rules.push(r.id); }
+      });
+      bonus = Math.max(-D.CONFIG.bonusCap, Math.min(D.CONFIG.bonusCap, bonus));
+      const W = D.CONFIG.scoreWeights;
+      let score = 100 * (W.cos * cos + W.behavior * behavior + W.coverage * coverage + W.specificity * specificity) + bonus;
+      score = Math.round(Math.max(0, Math.min(100, score)) * 100) / 100;
+      return { eventId: ev.id, characterId: ev.characterId, score, cos, behavior, coverage, specificity, matched, matchedQ, rules, bonus };
+    }
+
+    function cmp(a, b) {
+      return (b.score - a.score) || (b.matchedQ - a.matchedQ) || (b.coverage - a.coverage) ||
+        (b.rules.length - a.rules.length) || (a.eventId < b.eventId ? -1 : a.eventId > b.eventId ? 1 : 0);
+    }
+
+    /** Skill: first combo skill fully supported by (event signals ∩ user signals), else base skill of the
+     *  first matched event signal (authoring order = most characteristic behaviour of the event). */
+    function chooseSkill(ev, matched) {
+      const m = new Set(matched);
+      const combo = D.SKILLS.find(s => s.requiredSignals.length > 1 && s.requiredSignals.every(x => m.has(x)));
+      const primary = combo || D.SKILL_BY_ID['sk-' + matched[0]];
+      const rest = matched.filter(x => !primary.requiredSignals.includes(x)).map(x => D.SKILL_BY_ID['sk-' + x]);
+      const secondary = rest.find(s => s.family !== primary.family) || null;
+      return { skill: primary, secondary, secondaryTraits: rest.slice(0, 3) };
+    }
+
+    function rarityFor(key) {
+      if (!rarityIndex || !rarityIndex.keys) return null;
+      const hit = rarityIndex.keys[key];
+      return hit ? hit.rarity : null;
+    }
+
+    function chart(ans) {
+      return D.AREAS.map(area => {
+        const qs = D.QUESTIONS.filter(q => q.area === area.id);
+        const picks = qs.map(q => ({ questionId: q.id, key: ans[q.n - 1], text: q.options.find(o => o.key === ans[q.n - 1]).text }));
+        const aShare = picks.filter(p => p.key === 'A').length / qs.length; // 0, 0.5, 1 — direction, not strength
+        return { area: area.id, label: area.label, aShare, aText: area.a, bText: area.b, picks };
+      });
+    }
+
+    function match(answers) {
+      const ans = normalize(answers);
+      if (!ans) return { ok: false, error: 'invalid_answers' };
+      const sigs = signalsOf(ans);
+      const ctx = { sigSet: new Set(sigs), u: userVector(ans) };
+      const scored = [];
+      D.EVENTS.forEach(ev => {
+        if (ev.eligibility !== 'primary' && ev.eligibility !== 'support') return;
+        const s = scoreEvent(ev, ctx);
+        if (s && s.matchedQ >= D.CONFIG.minEvidenceQuestions) scored.push(s);
+      });
+      scored.sort(cmp);
+      // best event per character
+      const bestByChar = new Map();
+      scored.forEach(s => { if (!bestByChar.has(s.characterId)) bestByChar.set(s.characterId, s); });
+      const bestPrimaryByChar = new Map();
+      scored.forEach(s => {
+        const ev = D.EVENT_BY_ID[s.eventId];
+        if (ev.eligibility === 'primary' && D.CHAR_BY_ID[s.characterId].eligibleForPrimary && !bestPrimaryByChar.has(s.characterId)) bestPrimaryByChar.set(s.characterId, s);
+      });
+      const primaryList = [...bestPrimaryByChar.values()].sort(cmp);
+      const primary = primaryList[0] && primaryList[0].score >= D.CONFIG.minPrimaryScore ? primaryList[0] : null;
+
+      const top = [];
+      if (primary) top.push(primary);
+      [...bestByChar.values()].sort(cmp).forEach(s => {
+        if (top.length >= 3) return;
+        if (top.some(t => t.characterId === s.characterId)) return;
+        if (s.score < D.CONFIG.minTopScore) return;
+        top.push(s);
+      });
+
+      const result = {
+        ok: true, version: D.DATA_VERSION, rarityRuleVersion: D.CONFIG.rarityRuleVersion,
+        answers: ans, signals: sigs, chartData: chart(ans),
+        primary: null, top, nearTie: false, lowFit: !primary,
+      };
+      if (primary) {
+        const ev = D.EVENT_BY_ID[primary.eventId];
+        const sk = chooseSkill(ev, primary.matched);
+        const secondaryFamily = sk.secondary ? sk.secondary.family : 'none';
+        const signatureKey = sk.skill.id + '|' + secondaryFamily + '|' + ev.context;
+        const ch = D.CHAR_BY_ID[ev.characterId];
+        result.primary = {
+          characterId: ch.id, eventId: ev.id, score: primary.score, matched: primary.matched, rules: primary.rules,
+          evidenceQuestionIds: primary.matched.map(s => 'Q' + String(D.OPT[s].q).padStart(2, '0')),
+          skillId: sk.skill.id, secondarySkillId: sk.secondary ? sk.secondary.id : null,
+          secondaryTraits: sk.secondaryTraits.map(s => s.id),
+          signatureKey, rarity: rarityFor(signatureKey),
+          cardVariantId: ev.id + '--' + sk.skill.id,
+          cardNumber: ch.cardCode + '-' + String(ev.index).padStart(2, '0'),
+        };
+        result.nearTie = primaryList[1] ? (primary.score - primaryList[1].score) < D.CONFIG.nearTieGap : false;
+        if (result.nearTie) result.coCandidateId = primaryList[1].characterId;
+      }
+      return result;
+    }
+
+    /** Public share hash: character + event only. Never answers, scores or identifiers. */
+    function sharePath(characterId, eventId) {
+      const ev = D.EVENT_BY_ID[eventId];
+      if (!D.CHAR_BY_ID[characterId] || !ev || ev.characterId !== characterId) return '#characters';
+      return '#share-' + characterId + '-e' + ev.index;
+    }
+    function parseSharePath(hash) {
+      const m = /^#?share-([a-z0-9-]+)-e(\d+)$/.exec(hash || '');
+      if (!m) return null;
+      const ev = D.EVENT_BY_ID[m[1] + '-' + m[2]];
+      return ev ? { characterId: m[1], eventId: ev.id } : null;
+    }
+
+    return { IDF, sharePath, parseSharePath, normalize, signalsOf, userVector, cosine, scoreEvent, chooseSkill, chart, match, rarityFor, MEASURED, UNMEASURED, OPPORTUNITY };
+  }
+
+  /** Enumerate all 2^12 answer strings in a stable order. */
+  function allAnswers(n) {
+    n = n || 12; const out = [];
+    for (let i = 0; i < (1 << n); i++) { let s = ''; for (let b = n - 1; b >= 0; b--) s += (i >> b) & 1 ? 'B' : 'A'; out.push(s); }
+    return out;
+  }
+
+  const api = { create, allAnswers };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.MFS_ENGINE = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+;
+/* MY FAITH STORY — Canvas renderers (trading card, card back, card news, portraits, scenes).
+ * The same renderer produces both the on-screen preview and the saved PNG, so they always match.
+ * Portraits/scenes here are PROCEDURAL PLACEHOLDERS (marked 임시), not generated illustrations. */
+(function (root) {
+  'use strict';
+  const D = root.MFS_DATA;
+  const FONT = { serif: '"Noto Serif KR", serif', sans: '"Noto Sans KR", sans-serif', display: '"Cinzel", "Noto Serif KR", serif' };
+  const C = { bg: '#141B17', card: '#25332C', sage: '#91B39A', gold: '#DCC48A', ivory: '#F3EBDD', muted: '#C4BBA9', line: '#3B4D43' };
+
+  // deterministic PRNG for decorative art only (never used for results)
+  function hash(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function rng(seed) { let a = hash(seed); return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+  function wrap(ctx, text, maxW) {
+    const lines = []; let line = '';
+    const tokens = String(text).split(/(\s+)/);
+    tokens.forEach(tok => {
+      if (/^\s+$/.test(tok)) { if (line) line += ' '; return; }
+      const test = line + tok;
+      if (ctx.measureText(test).width <= maxW) { line = test; return; }
+      if (line.trim()) { lines.push(line.trim()); line = ''; }
+      // break long token by characters
+      let chunk = '';
+      for (const ch of tok) { if (ctx.measureText(chunk + ch).width > maxW) { lines.push(chunk); chunk = ch; } else chunk += ch; }
+      line = chunk;
+    });
+    if (line.trim()) lines.push(line.trim());
+    return lines;
+  }
+  function text(ctx, str, x, y, maxW, lh, maxLines, align) {
+    let lines = wrap(ctx, str, maxW);
+    if (maxLines && lines.length > maxLines) {
+      lines = lines.slice(0, maxLines);
+      let last = lines[maxLines - 1];
+      while (last.length && ctx.measureText(last + '…').width > maxW) last = last.slice(0, -1);
+      lines[maxLines - 1] = last + '…';
+    }
+    ctx.textAlign = align || 'left';
+    lines.forEach((l, i) => ctx.fillText(l, x, y + i * lh));
+    return y + lines.length * lh;
+  }
+  function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+
+  // ── Procedural watercolor scene + figure (placeholder art)
+  function wash(ctx, r, x, y, rad, color, alpha) {
+    for (let i = 0; i < 6; i++) {
+      ctx.globalAlpha = alpha * (0.5 + r() * 0.5);
+      ctx.fillStyle = color; ctx.beginPath();
+      const rx = rad * (0.7 + r() * 0.6), ry = rad * (0.5 + r() * 0.5);
+      ctx.ellipse(x + (r() - 0.5) * rad * 0.6, y + (r() - 0.5) * rad * 0.4, rx, ry, r() * Math.PI, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+  function paper(ctx, w, h, r) {
+    ctx.globalAlpha = 0.06;
+    for (let i = 0; i < 900; i++) { ctx.fillStyle = r() > 0.5 ? '#fff' : '#000'; ctx.fillRect(r() * w, r() * h, 1 + r() * 2, 1 + r() * 2); }
+    ctx.globalAlpha = 1;
+  }
+  const PALETTES = [
+    ['#E9C98F', '#B98A5A', '#5E7A63'], ['#F0D7A8', '#C9926A', '#4E6B5A'], ['#E4D3B1', '#9DB3A0', '#3F5A4B'],
+    ['#F2C994', '#D08C63', '#56705E'], ['#DCC9A4', '#8FA89A', '#455E52'], ['#EBCF9D', '#A9886A', '#5A7262'],
+  ];
+  function scene(ctx, w, h, seed, opts) {
+    opts = opts || {};
+    const r = rng(seed);
+    const pal = PALETTES[hash(seed) % PALETTES.length];
+    const sky = ctx.createLinearGradient(0, 0, 0, h);
+    sky.addColorStop(0, '#2B3A31'); sky.addColorStop(0.45, pal[0]); sky.addColorStop(1, '#3A4B40');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    // sun glow
+    const sx = w * (0.55 + r() * 0.35), sy = h * (0.25 + r() * 0.15);
+    const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, w * 0.6);
+    g.addColorStop(0, 'rgba(255,240,205,.95)'); g.addColorStop(0.25, 'rgba(250,220,160,.45)'); g.addColorStop(1, 'rgba(250,220,160,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    wash(ctx, r, w * 0.3, h * 0.2, w * 0.35, '#FFF4DC', 0.12);
+    // hills
+    for (let layer = 0; layer < 3; layer++) {
+      ctx.fillStyle = ['#7E9483', '#5B7363', '#3B4F43'][layer];
+      ctx.globalAlpha = 0.75 + layer * 0.1;
+      ctx.beginPath(); const base = h * (0.55 + layer * 0.12); ctx.moveTo(0, base);
+      for (let x = 0; x <= w; x += w / 8) ctx.lineTo(x, base - r() * h * 0.08 - (layer === 0 ? h * 0.05 : 0));
+      ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    if (opts.tree !== false) { // olive tree
+      const tx = r() > 0.5 ? w * 0.12 : w * 0.86, ty = h * 0.72;
+      ctx.strokeStyle = '#3A2F25'; ctx.lineWidth = w * 0.012; ctx.beginPath(); ctx.moveTo(tx, ty + h * 0.12); ctx.quadraticCurveTo(tx + w * 0.02, ty, tx - w * 0.01, ty - h * 0.08); ctx.stroke();
+      wash(ctx, r, tx, ty - h * 0.1, w * 0.09, '#5E7A57', 0.35);
+    }
+    paper(ctx, w, h, r);
+  }
+  function figure(ctx, w, h, seed) {
+    const r = rng(seed + 'fig');
+    const pal = PALETTES[hash(seed) % PALETTES.length];
+    const cx = w * 0.5, top = h * 0.2;
+    const robe = pal[1], mantle = r() > 0.5 ? '#E8DCC4' : '#B8A27E', skin = ['#C99A74', '#B88763', '#A9785A', '#D3A882'][hash(seed) % 4];
+    // halo light behind figure (light, not a religious halo)
+    const g = ctx.createRadialGradient(cx, top + h * 0.12, 0, cx, top + h * 0.12, w * 0.5);
+    g.addColorStop(0, 'rgba(255,236,190,.55)'); g.addColorStop(1, 'rgba(255,236,190,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    // body / robe
+    ctx.fillStyle = robe; ctx.beginPath();
+    ctx.moveTo(cx - w * 0.36, h); ctx.quadraticCurveTo(cx - w * 0.33, top + h * 0.33, cx - w * 0.12, top + h * 0.27);
+    ctx.lineTo(cx + w * 0.12, top + h * 0.27); ctx.quadraticCurveTo(cx + w * 0.33, top + h * 0.33, cx + w * 0.36, h); ctx.closePath(); ctx.fill();
+    // mantle drape
+    ctx.fillStyle = mantle; ctx.globalAlpha = 0.85; ctx.beginPath();
+    ctx.moveTo(cx - w * 0.3, h); ctx.quadraticCurveTo(cx - w * 0.18, top + h * 0.4, cx + w * 0.1, top + h * 0.28);
+    ctx.quadraticCurveTo(cx + w * 0.02, top + h * 0.55, cx + w * 0.08, h); ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1;
+    // folds
+    ctx.strokeStyle = 'rgba(40,30,20,.25)'; ctx.lineWidth = w * 0.006;
+    for (let i = 0; i < 5; i++) { ctx.beginPath(); const fx = cx - w * 0.2 + i * w * 0.1; ctx.moveTo(fx, top + h * 0.45 + r() * h * 0.05); ctx.quadraticCurveTo(fx + (r() - 0.5) * w * 0.06, top + h * 0.6, fx + (r() - 0.5) * w * 0.05, h); ctx.stroke(); }
+    // neck + head
+    ctx.fillStyle = skin; ctx.fillRect(cx - w * 0.04, top + h * 0.2, w * 0.08, h * 0.08);
+    ctx.beginPath(); ctx.ellipse(cx, top + h * 0.13, w * 0.1, h * 0.095, 0, 0, Math.PI * 2); ctx.fill();
+    const covered = r() > 0.45;
+    if (covered) { // head covering
+      ctx.fillStyle = mantle; ctx.beginPath();
+      ctx.moveTo(cx - w * 0.15, top + h * 0.3); ctx.quadraticCurveTo(cx - w * 0.16, top + h * 0.0, cx, top + h * 0.015);
+      ctx.quadraticCurveTo(cx + w * 0.16, top + h * 0.0, cx + w * 0.15, top + h * 0.3);
+      ctx.quadraticCurveTo(cx + w * 0.1, top + h * 0.12, cx, top + h * 0.06); ctx.quadraticCurveTo(cx - w * 0.1, top + h * 0.12, cx - w * 0.15, top + h * 0.3); ctx.fill();
+    } else { // hair
+      ctx.fillStyle = ['#3B2A1E', '#4A3423', '#5A4430', '#8C8478'][hash(seed + 'h') % 4]; ctx.beginPath();
+      ctx.ellipse(cx, top + h * 0.085, w * 0.11, h * 0.07, 0, Math.PI, Math.PI * 2); ctx.fill();
+    }
+    // soft shading on face (no facial features: avoids fixing historical appearance)
+    ctx.fillStyle = 'rgba(60,35,20,.18)'; ctx.beginPath(); ctx.ellipse(cx + w * 0.04, top + h * 0.14, w * 0.05, h * 0.08, 0, 0, Math.PI * 2); ctx.fill();
+    paper(ctx, w, h, r);
+  }
+  // Placeholder art until a generated portrait exists: watercolor landscape + name medallion
+  // (no faceless figure — it read as unfinished).
+  function emblem(ctx, w, h, charId) {
+    const ch = D.CHAR_BY_ID[charId]; if (!ch) return;
+    const cx = w / 2, cy = h * 0.42, R = Math.min(w, h) * 0.27;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2.2);
+    g.addColorStop(0, 'rgba(255,240,205,.55)'); g.addColorStop(1, 'rgba(255,240,205,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(20,32,26,.78)'; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(220,196,138,.95)'; ctx.lineWidth = Math.max(2, w * 0.006); ctx.stroke();
+    ctx.strokeStyle = 'rgba(220,196,138,.45)'; ctx.lineWidth = Math.max(1, w * 0.003); ctx.beginPath(); ctx.arc(cx, cy, R * 0.86, 0, Math.PI * 2); ctx.stroke();
+    // laurel ticks around the ring
+    ctx.fillStyle = 'rgba(220,196,138,.8)';
+    for (let i = 0; i < 18; i++) { const a = Math.PI * 0.62 + i * (Math.PI * 1.76 / 17); const x = cx + Math.cos(a) * R * 1.1, y = cy + Math.sin(a) * R * 1.1; ctx.save(); ctx.translate(x, y); ctx.rotate(a + Math.PI / 2); ctx.beginPath(); ctx.ellipse(0, 0, R * 0.035, R * 0.09, 0.5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+    ctx.fillStyle = '#F3EBDD'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const name = ch.displayName.replace(/\s+/g, '');
+    if (name.length <= 4) {
+      const size = R * [0, 0.95, 0.62, 0.46, 0.36][name.length];
+      ctx.font = `700 ${Math.round(size)}px ${FONT.serif}`; ctx.fillText(name, cx, cy - R * 0.06);
+    } else { // long names: open-book mark instead of a truncated name
+      const bw = R * 0.5, by = cy - R * 0.08;
+      ctx.strokeStyle = '#F3EBDD'; ctx.lineWidth = Math.max(2, R * 0.035); ctx.lineJoin = 'round'; ctx.beginPath();
+      ctx.moveTo(cx - bw, by - bw * 0.25); ctx.quadraticCurveTo(cx - bw * 0.5, by - bw * 0.5, cx, by - bw * 0.15); ctx.quadraticCurveTo(cx + bw * 0.5, by - bw * 0.5, cx + bw, by - bw * 0.25);
+      ctx.lineTo(cx + bw, by + bw * 0.5); ctx.quadraticCurveTo(cx + bw * 0.5, by + bw * 0.25, cx, by + bw * 0.6); ctx.quadraticCurveTo(cx - bw * 0.5, by + bw * 0.25, cx - bw, by + bw * 0.5); ctx.closePath();
+      ctx.moveTo(cx, by - bw * 0.15); ctx.lineTo(cx, by + bw * 0.6); ctx.stroke();
+    }
+    ctx.fillStyle = 'rgba(220,196,138,.95)'; ctx.font = `600 ${Math.round(R * 0.13)}px ${FONT.display}`;
+    ctx.fillText(ch.cardCode, cx, cy + R * 0.48);
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  // Real generated portraits (served as files next to the page); others fall back to the procedural placeholder.
+  const REAL = new Set(root.MFS_PORTRAITS || []);
+  const PORTRAIT_BASE = 'assets/characters/';
+  const imgs = new Map();
+  function hasPortrait(id) { return REAL.has(id); }
+  function portraitSrc(id) { return PORTRAIT_BASE + id + '.webp'; }
+  function loadPortrait(id) {
+    if (!REAL.has(id)) return Promise.resolve(null);
+    if (imgs.has(id)) return imgs.get(id).p;
+    const im = new Image(); const rec = { im, ok: false };
+    rec.p = new Promise(res => { im.onload = () => { rec.ok = true; res(im); }; im.onerror = () => res(null); });
+    im.src = portraitSrc(id); imgs.set(id, rec); return rec.p;
+  }
+  function preload(ids) { return Promise.all([...new Set(ids)].map(loadPortrait)); }
+  const portraitCache = new Map();
+  function portraitCanvas(charId, w, h) {
+    const rec = imgs.get(charId); const real = rec && rec.ok;
+    const key = charId + w + 'x' + h + (real ? 'r' : 'p');
+    if (portraitCache.has(key)) return portraitCache.get(key);
+    const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+    const ctx = cv.getContext('2d');
+    if (real) { // cover-fit, focal point slightly above centre
+      const im = rec.im, sc = Math.max(w / im.naturalWidth, h / im.naturalHeight);
+      const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
+      ctx.drawImage(im, (w - dw) / 2, (h - dh) * 0.4, dw, dh);
+    } else { scene(ctx, w, h, charId); emblem(ctx, w, h, charId); }
+    const v = ctx.createLinearGradient(0, h * 0.6, 0, h); v.addColorStop(0, 'rgba(20,27,23,0)'); v.addColorStop(1, 'rgba(20,27,23,.55)');
+    ctx.fillStyle = v; ctx.fillRect(0, 0, w, h);
+    portraitCache.set(key, cv);
+    return cv;
+  }
+  function portraitURL(charId) { return REAL.has(charId) ? portraitSrc(charId) : portraitCanvas(charId, 288, 360).toDataURL('image/jpeg', 0.85); }
+  function sceneURL(seed, w, h) { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; scene(cv.getContext('2d'), w, h, seed); return cv.toDataURL('image/jpeg', 0.82); }
+
+  // ── Trading card
+  const FRAMES = {
+    N: { name: 'Normal', a: '#E8DCC2', b: '#A8865A', text: '#2A231A', plate: '#EFE5D0', glow: null },
+    R: { name: 'Rare', a: '#DCE6DE', b: '#7E9B87', text: '#1E2A23', plate: '#E4ECE5', glow: 'rgba(200,225,210,.35)' },
+    SR: { name: 'Super Rare', a: '#F6E3A8', b: '#B8913F', text: '#2A2010', plate: '#F4E6BF', glow: 'rgba(255,225,150,.45)' },
+    SSR: { name: 'Signature Super Rare', a: '#FFF0BF', b: '#C9A24C', text: '#2A2010', plate: '#FFF3D2', glow: 'rgba(255,230,170,.6)' },
+  };
+  function frameGrad(ctx, x, y, w, h, rarity) {
+    const f = FRAMES[rarity] || FRAMES.N;
+    if (rarity === 'SSR') {
+      const g = ctx.createLinearGradient(x, y, x + w, y + h);
+      ['#F7E3A3', '#E9B7C8', '#B9D7F0', '#C8EBC9', '#F7E3A3', '#E0B860'].forEach((c, i, a) => g.addColorStop(i / (a.length - 1), c));
+      return g;
+    }
+    const g = ctx.createLinearGradient(x, y, x + w, y + h);
+    g.addColorStop(0, f.a); g.addColorStop(0.5, f.b); g.addColorStop(1, f.a);
+    return g;
+  }
+  function stainedGlass(ctx, x, y, w, h, seed) {
+    const r = rng(seed + 'glass');
+    const cols = ['rgba(233,183,200,.22)', 'rgba(185,215,240,.22)', 'rgba(200,235,201,.22)', 'rgba(247,227,163,.25)'];
+    for (let i = 0; i < 26; i++) {
+      ctx.fillStyle = cols[i % 4]; ctx.beginPath();
+      const px = x + r() * w, py = y + r() * h, s = 40 + r() * 90;
+      ctx.moveTo(px, py); ctx.lineTo(px + s, py + r() * s * 0.5); ctx.lineTo(px + r() * s, py + s); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(60,45,20,.35)'; ctx.lineWidth = 3; ctx.stroke();
+    }
+  }
+  function sparkles(ctx, x, y, w, h, seed, n) {
+    const r = rng(seed + 'spk');
+    for (let i = 0; i < n; i++) {
+      const px = x + r() * w, py = y + r() * h, s = 6 + r() * 14;
+      ctx.fillStyle = 'rgba(255,246,215,' + (0.5 + r() * 0.5) + ')';
+      ctx.beginPath(); ctx.moveTo(px, py - s); ctx.lineTo(px + s * 0.25, py - s * 0.25); ctx.lineTo(px + s, py); ctx.lineTo(px + s * 0.25, py + s * 0.25);
+      ctx.lineTo(px, py + s); ctx.lineTo(px - s * 0.25, py + s * 0.25); ctx.lineTo(px - s, py); ctx.lineTo(px - s * 0.25, py - s * 0.25); ctx.closePath(); ctx.fill();
+    }
+  }
+
+  /** card: { characterId, eventId, skillId, secondaryTraits[], rarity, cardNumber, example? } ; W×H canvas, format 'feed'|'story' */
+  function drawCard(ctx, W, H, card) {
+    const ch = D.CHAR_BY_ID[card.characterId], ev = D.EVENT_BY_ID[card.eventId], sk = D.SKILL_BY_ID[card.skillId];
+    const story = H / W > 1.5;
+    const s = W / 1080; ctx.save(); ctx.scale(s, s);
+    const w = 1080, h = H / s;
+    const f = FRAMES[card.rarity] || FRAMES.N;
+    // outer frame
+    ctx.fillStyle = '#0E1411'; ctx.fillRect(0, 0, w, h);
+    rr(ctx, 18, 18, w - 36, h - 36, 46); ctx.fillStyle = frameGrad(ctx, 0, 0, w, h, card.rarity); ctx.fill();
+    // inner body
+    rr(ctx, 44, 44, w - 88, h - 88, 32);
+    const body = ctx.createLinearGradient(0, 0, 0, h); body.addColorStop(0, '#22302A'); body.addColorStop(1, '#16201B');
+    ctx.fillStyle = body; ctx.fill();
+    // header
+    ctx.fillStyle = f.a; ctx.font = `600 30px ${FONT.display}`; ctx.textAlign = 'left';
+    ctx.fillText('MY FAITH STORY', 84, 108);
+    ctx.font = `500 24px ${FONT.sans}`; ctx.fillStyle = C.muted; ctx.textAlign = 'right';
+    ctx.fillText((ch.testament === 'OT' ? '구약' : '신약') + ' 성경 인물 카드', w - 84, 106);
+    // portrait window
+    const px = 84, py = 136, pw = w - 168, ph = story ? 980 : 640;
+    ctx.save(); rr(ctx, px, py, pw, ph, 24); ctx.clip();
+    ctx.drawImage(portraitCanvas(ch.id, 720, Math.round(720 * ph / pw)), px, py, pw, ph);
+    if (card.rarity === 'SSR') stainedGlass(ctx, px, py, pw, ph * 0.45, ch.id);
+    if (f.glow) { const g = ctx.createLinearGradient(px, py, px + pw, py + ph); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.45, f.glow); g.addColorStop(0.55, 'rgba(255,255,255,0)'); ctx.fillStyle = g; ctx.fillRect(px, py, pw, ph); }
+    if (card.rarity === 'SR' || card.rarity === 'SSR') sparkles(ctx, px, py, pw, ph * 0.6, ch.id, card.rarity === 'SSR' ? 22 : 12);
+    ctx.restore();
+    ctx.strokeStyle = frameGrad(ctx, px, py, pw, ph, card.rarity); ctx.lineWidth = 6; rr(ctx, px, py, pw, ph, 24); ctx.stroke();
+    if (!REAL.has(ch.id)) { ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, px + 16, py + 16, 172, 40, 20); ctx.fill();
+      ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('일러스트 준비 중', px + 102, py + 43); }
+    // name plate
+    let y = py + ph - 40;
+    rr(ctx, px + 60, y, pw - 120, 112, 56); ctx.fillStyle = f.plate; ctx.fill();
+    ctx.strokeStyle = f.b; ctx.lineWidth = 3; ctx.stroke();
+    ctx.fillStyle = f.text; ctx.textAlign = 'center';
+    let nameSize = 52; ctx.font = `700 ${nameSize}px ${FONT.serif}`;
+    const nm = ch.displayName + (ch.distinguishingLabel ? '' : '');
+    while (ctx.measureText(nm).width > pw - 180 && nameSize > 30) { nameSize -= 2; ctx.font = `700 ${nameSize}px ${FONT.serif}`; }
+    ctx.fillText(nm, w / 2, y + 62);
+    ctx.font = `500 24px ${FONT.sans}`; ctx.fillStyle = '#5C4E36';
+    ctx.fillText(ch.distinguishingLabel ? ch.distinguishingLabel + ' · ' + ev.title : ev.title, w / 2, y + 95);
+    y += 150;
+    // skill
+    ctx.textAlign = 'left'; ctx.fillStyle = C.sage; ctx.font = `600 24px ${FONT.sans}`; ctx.fillText('대표 특기', 84, y);
+    ctx.fillStyle = C.ivory; ctx.font = `700 44px ${FONT.serif}`; ctx.fillText(sk.label, 84, y + 56);
+    ctx.fillStyle = C.muted; ctx.font = `400 27px ${FONT.sans}`;
+    y = text(ctx, sk.description, 84, y + 102, w - 168, 40, 2);
+    // secondary traits
+    const chips = (card.secondaryTraits || []).slice(0, 3).map(id => D.SKILL_BY_ID[id].label);
+    if (chips.length) {
+      y += 8; let x = 84; ctx.font = `500 23px ${FONT.sans}`;
+      chips.forEach(c => { const cw = ctx.measureText(c).width + 36; if (x + cw > w - 84) return; rr(ctx, x, y, cw, 44, 22); ctx.strokeStyle = 'rgba(145,179,154,.6)'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = C.sage; ctx.fillText(c, x + 18, y + 30); x += cw + 10; });
+      y += 64;
+    }
+    ctx.fillStyle = C.gold; ctx.font = `500 26px ${FONT.serif}`; ctx.fillText('성경 · ' + ev.scriptureRefs, 84, Math.min(y + 30, h - 170));
+    // footer: disclaimer (left) + rarity & number (bottom-right)
+    const fy = h - 96;
+    ctx.strokeStyle = 'rgba(220,196,138,.35)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(84, fy - 46); ctx.lineTo(w - 84, fy - 46); ctx.stroke();
+    ctx.fillStyle = C.muted; ctx.font = `400 20px ${FONT.sans}`;
+    ctx.fillText(card.example ? '예시 카드 · 실제 결과와 무관합니다' : '등급은 특기 조합의 설계상 희귀도이며', 84, fy - 6);
+    ctx.fillText(card.example ? '등급은 신앙 수준이 아닙니다' : '신앙의 높고 낮음을 뜻하지 않아요', 84, fy + 22);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = card.rarity === 'SSR' ? frameGrad(ctx, w - 300, fy - 40, 220, 60, 'SSR') : f.a;
+    ctx.font = `700 62px ${FONT.display}`; ctx.fillText(card.rarity || '—', w - 84, fy + 18);
+    ctx.fillStyle = C.muted; ctx.font = `500 22px ${FONT.sans}`;
+    ctx.fillText((card.cardNumber || ch.cardCode) + ' · ' + (FRAMES[card.rarity] ? FRAMES[card.rarity].name : ''), w - 84, fy + 50);
+    ctx.restore();
+  }
+  function drawCardBack(ctx, W, H) {
+    const s = W / 1080; ctx.save(); ctx.scale(s, s); const w = 1080, h = H / s;
+    ctx.fillStyle = '#0E1411'; ctx.fillRect(0, 0, w, h);
+    rr(ctx, 18, 18, w - 36, h - 36, 46); const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#E7D49C'); g.addColorStop(.5, '#A88A4E'); g.addColorStop(1, '#E7D49C'); ctx.fillStyle = g; ctx.fill();
+    rr(ctx, 44, 44, w - 88, h - 88, 32); ctx.fillStyle = '#1C2822'; ctx.fill();
+    ctx.strokeStyle = 'rgba(220,196,138,.35)'; ctx.lineWidth = 2;
+    for (let i = 0; i < 14; i++) { ctx.beginPath(); ctx.arc(w / 2, h / 2, 60 + i * 34, 0, Math.PI * 2); ctx.stroke(); }
+    for (let a = 0; a < 24; a++) { ctx.beginPath(); ctx.moveTo(w / 2, h / 2); ctx.lineTo(w / 2 + Math.cos(a * Math.PI / 12) * 520, h / 2 + Math.sin(a * Math.PI / 12) * 520); ctx.stroke(); }
+    ctx.fillStyle = '#1C2822'; ctx.beginPath(); ctx.arc(w / 2, h / 2, 180, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 4; ctx.stroke();
+    // open book mark
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(w / 2 - 80, h / 2 - 20); ctx.quadraticCurveTo(w / 2 - 40, h / 2 - 40, w / 2, h / 2 - 10); ctx.quadraticCurveTo(w / 2 + 40, h / 2 - 40, w / 2 + 80, h / 2 - 20);
+    ctx.lineTo(w / 2 + 80, h / 2 + 40); ctx.quadraticCurveTo(w / 2 + 40, h / 2 + 20, w / 2, h / 2 + 50); ctx.quadraticCurveTo(w / 2 - 40, h / 2 + 20, w / 2 - 80, h / 2 + 40); ctx.closePath(); ctx.moveTo(w / 2, h / 2 - 10); ctx.lineTo(w / 2, h / 2 + 50); ctx.stroke();
+    ctx.fillStyle = C.gold; ctx.textAlign = 'center'; ctx.font = `600 40px ${FONT.display}`; ctx.fillText('MY FAITH STORY', w / 2, h / 2 + 260);
+    ctx.font = `500 28px ${FONT.sans}`; ctx.fillStyle = C.muted; ctx.fillText('탭하여 카드를 뒤집어 보세요', w / 2, h / 2 + 310);
+    ctx.restore();
+  }
+
+  // ── Radar (canvas)
+  function drawRadar(ctx, cx, cy, R, chart, opts) {
+    opts = opts || {};
+    const n = chart.length, ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+    ctx.lineWidth = 2;
+    [0.5, 1].forEach((k, j) => { ctx.strokeStyle = j ? 'rgba(243,235,221,.35)' : 'rgba(243,235,221,.18)'; ctx.beginPath(); for (let i = 0; i <= n; i++) { const a = ang(i % n); const x = cx + Math.cos(a) * R * k, y = cy + Math.sin(a) * R * k; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); });
+    for (let i = 0; i < n; i++) { ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(ang(i)) * R, cy + Math.sin(ang(i)) * R); ctx.stroke(); }
+    ctx.beginPath(); chart.forEach((c, i) => { const v = 0.12 + 0.88 * c.aShare; const x = cx + Math.cos(ang(i)) * R * v, y = cy + Math.sin(ang(i)) * R * v; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.closePath();
+    ctx.fillStyle = 'rgba(145,179,154,.42)'; ctx.fill(); ctx.strokeStyle = C.sage; ctx.lineWidth = 4; ctx.stroke();
+    chart.forEach((c, i) => { const v = 0.12 + 0.88 * c.aShare; ctx.fillStyle = C.ivory; ctx.beginPath(); ctx.arc(cx + Math.cos(ang(i)) * R * v, cy + Math.sin(ang(i)) * R * v, 7, 0, Math.PI * 2); ctx.fill(); });
+    ctx.fillStyle = C.ivory; ctx.font = `700 ${opts.label || 34}px ${FONT.serif}`; ctx.textAlign = 'center';
+    chart.forEach((c, i) => { const a = ang(i); ctx.fillText(c.label, cx + Math.cos(a) * (R + 50), cy + Math.sin(a) * (R + 50) + 12); });
+  }
+
+  // ── Card news (7 slides)
+  function slideFrame(ctx, w, h, i, title) {
+    const g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#1C2822'); g.addColorStop(1, '#121915'); ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    const gl = ctx.createRadialGradient(w * 0.85, 0, 0, w * 0.85, 0, w * 0.9); gl.addColorStop(0, 'rgba(220,196,138,.16)'); gl.addColorStop(1, 'rgba(220,196,138,0)'); ctx.fillStyle = gl; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(220,196,138,.4)'; ctx.lineWidth = 2; rr(ctx, 36, 36, w - 72, h - 72, 30); ctx.stroke();
+    ctx.fillStyle = C.gold; ctx.font = `600 28px ${FONT.display}`; ctx.textAlign = 'left'; ctx.fillText('MY FAITH STORY', 84, 116);
+    ctx.textAlign = 'right'; ctx.font = `600 28px ${FONT.display}`; ctx.fillText(String(i).padStart(2, '0') + ' / 07', w - 84, 116);
+    ctx.textAlign = 'left'; ctx.fillStyle = C.ivory; ctx.font = `700 58px ${FONT.serif}`;
+    const y = text(ctx, title, 84, 210, w - 168, 72, 2);
+    ctx.fillStyle = C.gold; ctx.fillRect(84, y - 20, 70, 3);
+    ctx.fillStyle = '#8E978C'; ctx.font = `400 22px ${FONT.sans}`; ctx.textAlign = 'center';
+    ctx.fillText('응답 기반 콘텐츠 비교이며 신앙 평가나 진단이 아닙니다 · 회원가입 없이 무료', w / 2, h - 70);
+    return y + 30;
+  }
+  function drawSlide(ctx, W, H, idx, R) {
+    // R: view-model built by app (see app.js buildView)
+    const s = W / 1080; ctx.save(); ctx.scale(s, s);
+    const w = 1080, h = H / s, story = h / w > 1.5;
+    const L = 84, MW = w - 168;
+    let y;
+    if (idx === 1) {
+      y = slideFrame(ctx, w, h, 1, R.hasCard ? '지금의 나와 닮은 성경 속 모습' : '지금의 나를 돌아보는 묵상 카드');
+      if (R.hasCard) {
+        const cw = story ? 760 : 560, chh = cw * 1.25; const cx = (w - cw) / 2;
+        const cv = document.createElement('canvas'); cv.width = cw; cv.height = chh; drawCard(cv.getContext('2d'), cw, chh, R.card);
+        ctx.drawImage(cv, cx, y, cw, chh); y += chh + 40;
+        ctx.textAlign = 'center'; ctx.fillStyle = C.ivory; ctx.font = `700 40px ${FONT.serif}`;
+        text(ctx, R.headline, w / 2, y, MW, 54, 2, 'center');
+      }
+    } else if (idx === 2) {
+      y = slideFrame(ctx, w, h, 2, '나의 신앙 프로필');
+      const RR = story ? 300 : 230; const cy = y + RR + 70;
+      drawRadar(ctx, w / 2, cy, RR, R.chart);
+      y = cy + RR + 100;
+      ctx.textAlign = 'left'; ctx.font = `400 26px ${FONT.sans}`;
+      R.chart.forEach(c => {
+        if (y > h - 150) return;
+        ctx.fillStyle = C.sage; ctx.font = `700 26px ${FONT.serif}`; ctx.fillText(c.label, L, y);
+        ctx.fillStyle = C.muted; ctx.font = `400 24px ${FONT.sans}`;
+        const dir = c.aShare === 1 ? 'A 방향 2개 · ' + c.aText : c.aShare === 0 ? 'B 방향 2개 · ' + c.bText : 'A·B 하나씩 · 두 방향을 모두 선택';
+        y = text(ctx, dir, L + 110, y, MW - 110, 34, story ? 2 : 1) + 10;
+      });
+      ctx.fillStyle = '#8E978C'; ctx.font = `400 22px ${FONT.sans}`; text(ctx, '바깥쪽은 A, 안쪽은 B 방향을 고른 정도예요. 높고 낮음의 평가가 아니에요.', L, Math.min(y + 10, h - 110), MW, 30, 2);
+    } else if (idx === 3) {
+      y = slideFrame(ctx, w, h, 3, '나와 닮은 성경 인물 TOP 3');
+      const rowH = story ? 360 : 260;
+      R.top.forEach((t, i) => {
+        const ty = y + i * (rowH + 20);
+        rr(ctx, L, ty, MW, rowH, 24); ctx.fillStyle = 'rgba(37,51,44,.8)'; ctx.fill(); ctx.strokeStyle = 'rgba(59,77,67,1)'; ctx.lineWidth = 2; ctx.stroke();
+        const pw = rowH - 40, ph = pw; ctx.save(); rr(ctx, L + 20, ty + 20, pw * 0.8, ph, 18); ctx.clip(); ctx.drawImage(portraitCanvas(t.characterId, 288, 360), L + 20, ty + 20, pw * 0.8, ph); ctx.restore();
+        const tx = L + 40 + pw * 0.8;
+        ctx.textAlign = 'left'; ctx.fillStyle = C.gold; ctx.font = `700 30px ${FONT.display}`; ctx.fillText(String(i + 1), tx, ty + 60);
+        ctx.fillStyle = C.ivory; ctx.font = `700 42px ${FONT.serif}`; ctx.fillText(t.name, tx + 40, ty + 62);
+        ctx.fillStyle = C.sage; ctx.font = `500 26px ${FONT.sans}`; text(ctx, t.eventTitle + ' · ' + t.refs, tx, ty + 108, MW - (tx - L) - 20, 34, 1);
+        ctx.fillStyle = C.muted; ctx.font = `400 24px ${FONT.sans}`; text(ctx, t.why, tx, ty + 150, MW - (tx - L) - 20, 34, story ? 5 : 3);
+      });
+      if (!R.top.length) { ctx.fillStyle = C.muted; ctx.font = `400 30px ${FONT.sans}`; text(ctx, '근거가 충분한 후보가 없어 묵상 주제로 안내해요.', L, y + 40, MW, 44); }
+    } else if (idx === 4) {
+      y = slideFrame(ctx, w, h, 4, '성경 속 사건');
+      if (R.hasCard) {
+        const ih = story ? 620 : 420; ctx.save(); rr(ctx, L, y, MW, ih, 24); ctx.clip();
+        const sc = document.createElement('canvas'); sc.width = 900; sc.height = Math.round(900 * ih / MW); scene(sc.getContext('2d'), sc.width, sc.height, R.event.id);
+        ctx.drawImage(sc, L, y, MW, ih); ctx.restore();
+        ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, L + 16, y + 16, 150, 40, 20); ctx.fill(); ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('임시 일러스트', L + 91, y + 43);
+        y += ih + 70; ctx.textAlign = 'left';
+        ctx.fillStyle = C.gold; ctx.font = `600 30px ${FONT.serif}`; ctx.fillText(R.event.refs, L, y);
+        ctx.fillStyle = C.ivory; ctx.font = `700 46px ${FONT.serif}`; y = text(ctx, R.name + ' · ' + R.event.title, L, y + 66, MW, 58, 2);
+        ctx.fillStyle = C.sage; ctx.font = `600 24px ${FONT.sans}`; ctx.fillText('본문 요약 (자체 요약)', L, y + 20);
+        ctx.fillStyle = C.muted; ctx.font = `400 30px ${FONT.sans}`; text(ctx, R.event.summary, L, y + 66, MW, 46, story ? 8 : 4);
+      }
+    } else if (idx === 5) {
+      y = slideFrame(ctx, w, h, 5, '나의 강점과 돌아볼 점');
+      ctx.textAlign = 'left'; ctx.fillStyle = C.sage; ctx.font = `600 26px ${FONT.sans}`; ctx.fillText('강점 · 내가 고른 응답에서', L, y); y += 52;
+      ctx.fillStyle = C.ivory; ctx.font = `700 40px ${FONT.serif}`; y = text(ctx, R.skillLabel, L, y, MW, 52, 2);
+      ctx.fillStyle = C.muted; ctx.font = `400 28px ${FONT.sans}`; y = text(ctx, R.strength, L, y + 6, MW, 42, 3) + 20;
+      R.evidence.slice(0, story ? 4 : 3).forEach(e => { ctx.fillStyle = C.gold; ctx.fillRect(L, y - 24, 4, 30); ctx.fillStyle = C.muted; ctx.font = `400 25px ${FONT.sans}`; y = text(ctx, e, L + 20, y, MW - 20, 36, 2) + 14; });
+      y += 30; ctx.fillStyle = C.sage; ctx.font = `600 26px ${FONT.sans}`; ctx.fillText('돌아볼 질문', L, y); y += 52;
+      ctx.fillStyle = C.ivory; ctx.font = `500 34px ${FONT.serif}`; text(ctx, R.reflection, L, y, MW, 50, 4);
+    } else if (idx === 6) {
+      y = slideFrame(ctx, w, h, 6, '오늘의 말씀과 실천');
+      ctx.textAlign = 'left'; ctx.fillStyle = C.gold; ctx.font = `600 32px ${FONT.serif}`; ctx.fillText(R.event ? R.event.refs : '', L, y); y += 52;
+      ctx.fillStyle = C.muted; ctx.font = `400 28px ${FONT.sans}`; y = text(ctx, R.commentary, L, y, MW, 42, 4) + 40;
+      ctx.fillStyle = C.sage; ctx.font = `600 26px ${FONT.sans}`; ctx.fillText('오늘 해 볼 3가지', L, y); y += 30;
+      R.actions.forEach((a, i) => {
+        const bh = story ? 190 : 150; rr(ctx, L, y, MW, bh, 20); ctx.fillStyle = 'rgba(37,51,44,.8)'; ctx.fill();
+        ctx.strokeStyle = C.gold; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(L + 50, y + 54, 24, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = C.gold; ctx.font = `700 26px ${FONT.serif}`; ctx.textAlign = 'center'; ctx.fillText(String(i + 1), L + 50, y + 63);
+        ctx.textAlign = 'left'; ctx.fillStyle = C.ivory; ctx.font = `400 28px ${FONT.sans}`; text(ctx, a, L + 96, y + 62, MW - 120, 40, story ? 3 : 2);
+        y += bh + 18;
+      });
+    } else if (idx === 7) {
+      y = slideFrame(ctx, w, h, 7, '오늘의 기도');
+      const g = ctx.createRadialGradient(w / 2, y + 260, 0, w / 2, y + 260, 520); g.addColorStop(0, 'rgba(255,236,190,.12)'); g.addColorStop(1, 'rgba(255,236,190,0)'); ctx.fillStyle = g; ctx.fillRect(0, y, w, 900);
+      ctx.fillStyle = C.ivory; ctx.font = `500 36px ${FONT.serif}`; ctx.textAlign = 'left';
+      y = text(ctx, R.prayer, L, y + 30, MW, 62, story ? 12 : 8) + 30;
+      ctx.fillStyle = C.gold; ctx.font = `500 30px ${FONT.serif}`; ctx.fillText('아멘.', L, y); y += 90;
+      ctx.fillStyle = C.muted; ctx.font = `400 26px ${FONT.sans}`;
+      text(ctx, '개인 성찰을 위해 서비스가 작성한 기도문이에요. 나의 말로 바꾸어 드려도 좋아요.', L, y, MW, 38, 2);
+      ctx.fillStyle = C.gold; ctx.font = `700 34px ${FONT.serif}`; ctx.textAlign = 'center'; ctx.fillText('나의 믿음은 누구를 닮았을까?', w / 2, h - 190);
+      ctx.fillStyle = C.muted; ctx.font = `400 24px ${FONT.sans}`; ctx.fillText('12개의 질문 · 회원가입 없이 누구나 무료', w / 2, h - 146);
+    }
+    ctx.restore();
+  }
+
+  // ── Link-preview (Open Graph) image, 1200×630: portrait left, text right. Used only at build time.
+  function drawOG(ctx, W, H, characterId, eventId, opts) {
+    const s = W / 1200; ctx.save(); ctx.scale(s, s); const w = 1200, h = 630;
+    const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#1F2B25'); g.addColorStop(1, '#121915'); ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    const gl = ctx.createRadialGradient(w * 0.85, 0, 0, w * 0.85, 0, 700); gl.addColorStop(0, 'rgba(220,196,138,.18)'); gl.addColorStop(1, 'rgba(220,196,138,0)'); ctx.fillStyle = gl; ctx.fillRect(0, 0, w, h);
+    const ch = characterId && D.CHAR_BY_ID[characterId], ev = eventId && D.EVENT_BY_ID[eventId];
+    let tx = 80;
+    if (ch) {
+      const pw = 400, ph = 500, px = 70, py = 65;
+      ctx.save(); rr(ctx, px, py, pw, ph, 26); ctx.clip(); ctx.drawImage(portraitCanvas(ch.id, 480, 600), px, py, pw, ph); ctx.restore();
+      const fg = ctx.createLinearGradient(px, py, px + pw, py + ph); fg.addColorStop(0, '#F6E3A8'); fg.addColorStop(.5, '#B8913F'); fg.addColorStop(1, '#F6E3A8');
+      ctx.strokeStyle = fg; ctx.lineWidth = 6; rr(ctx, px, py, pw, ph, 26); ctx.stroke();
+      tx = px + pw + 60;
+    }
+    const mw = w - tx - 70;
+    ctx.textAlign = 'left'; ctx.fillStyle = C.gold; ctx.font = `600 26px ${FONT.display}`; ctx.fillText('MY FAITH STORY', tx, 120);
+    if (ch) {
+      ctx.fillStyle = C.ivory; ctx.font = `700 70px ${FONT.serif}`; let y = text(ctx, ch.displayName, tx, 215, mw, 80, 1);
+      if (ch.distinguishingLabel) { ctx.fillStyle = C.muted; ctx.font = `500 26px ${FONT.sans}`; ctx.fillText(ch.distinguishingLabel, tx, y - 18); y += 22; }
+      // character-level image (shared by all of the character's events): no event title here,
+      // the event appears in the link text instead
+      ctx.fillStyle = C.sage; ctx.font = `600 28px ${FONT.sans}`; ctx.fillText((ch.testament === 'OT' ? '구약' : '신약') + ' 성경 인물 카드 · ' + ch.cardCode, tx, y + 14);
+      ctx.fillStyle = C.muted; ctx.font = `400 30px ${FONT.sans}`; y = text(ctx, ch.bioSummary, tx, y + 70, mw, 44, 2);
+      ctx.fillStyle = C.gold; ctx.font = `500 26px ${FONT.serif}`; ctx.fillText(ch.references, tx, y + 14);
+    } else {
+      const fan = (opts && opts.fan) || [];
+      fan.slice(0, 4).forEach((id, i) => {
+        const fw = 170, fh = 212, fx = 700 + i * 105, fy = 150 + (i % 2) * 24;
+        ctx.save(); ctx.translate(fx + fw / 2, fy + fh / 2); ctx.rotate((i - 1.5) * 0.07); ctx.translate(-fw / 2, -fh / 2);
+        ctx.save(); rr(ctx, 0, 0, fw, fh, 14); ctx.clip(); ctx.drawImage(portraitCanvas(id, 340, 424), 0, 0, fw, fh); ctx.restore();
+        ctx.strokeStyle = '#DCC48A'; ctx.lineWidth = 4; rr(ctx, 0, 0, fw, fh, 14); ctx.stroke(); ctx.restore();
+      });
+      const tw = fan.length ? 560 : w - 160;
+      ctx.fillStyle = C.ivory; ctx.font = `700 64px ${FONT.serif}`; text(ctx, '나의 믿음은 누구를 닮았을까?', tx, 230, tw, 84, 2);
+      ctx.fillStyle = C.muted; ctx.font = `400 28px ${FONT.sans}`; text(ctx, '12개의 질문으로 만나는 나의 성경 인물 카드', tx, 420, tw, 40, 2);
+    }
+    // CTA pill
+    const cy = h - 110; ctx.font = `700 30px ${FONT.sans}`; const label = '나도 테스트하기 ›'; const cw = ctx.measureText(label).width + 64;
+    rr(ctx, tx, cy, cw, 62, 31); const bg = ctx.createLinearGradient(0, cy, 0, cy + 62); bg.addColorStop(0, '#EBD9A6'); bg.addColorStop(1, '#C9AC6A'); ctx.fillStyle = bg; ctx.fill();
+    ctx.fillStyle = '#1E241F'; ctx.fillText(label, tx + 32, cy + 42);
+    ctx.fillStyle = '#8E978C'; ctx.font = `400 22px ${FONT.sans}`; ctx.fillText('회원가입 없이 무료 · 12문항', tx + cw + 24, cy + 40);
+    ctx.restore();
+  }
+
+  function toBlob(canvas) { return new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png')); }
+  function render(fn, W, H) { const cv = document.createElement('canvas'); cv.width = W; cv.height = H; fn(cv.getContext('2d'), W, H); return cv; }
+
+  root.MFS_RENDER = { drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
+})(window);
+
+;
+/* MY FAITH STORY — application shell (hash router, quiz, reveal, result, card news, dictionary).
+ * Privacy: answers live only in memory + sessionStorage. No network calls carry answers or results. */
+(function () {
+  'use strict';
+  const D = window.MFS_DATA, RENDER = window.MFS_RENDER;
+  const ENG = window.MFS_ENGINE.create(D, window.MFS_RARITY);
+  const $app = document.getElementById('app');
+  const SKEY = 'mfs-session-v6';
+  // Public base URL for share links. Leave empty until a real public deployment exists.
+  const PUBLIC_BASE_URL = 'https://my-faith-story.web.app/'; // Firebase Hosting site (project my-faith-story)
+  const KAKAO_JS_KEY = ''; // VITE_KAKAO_JS_KEY equivalent; not configured in this build.
+  const JSZIP_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+  const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── utils
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const josa = (word, a, b) => { const c = word.charCodeAt(word.length - 1); if (c < 0xAC00 || c > 0xD7A3) return word + b; return word + ((c - 0xAC00) % 28 ? a : b); };
+  let toastTimer;
+  function toast(msg) {
+    let t = document.querySelector('.toast');
+    if (!t) { t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); t.setAttribute('aria-live', 'polite'); document.body.appendChild(t); }
+    t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 3200);
+  }
+  function confirmDialog(message, okLabel) {
+    return new Promise(res => {
+      const d = document.createElement('div'); d.className = 'dialog'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
+      d.innerHTML = `<div class="panel"><p style="margin-top:0">${esc(message)}</p><div class="row"><button class="btn gold sm" data-ok>${esc(okLabel)}</button><button class="btn sm" data-no>취소</button></div></div>`;
+      document.body.appendChild(d); d.querySelector('[data-ok]').focus();
+      const done = v => { d.remove(); res(v); };
+      d.querySelector('[data-ok]').onclick = () => done(true); d.querySelector('[data-no]').onclick = () => done(false);
+      d.addEventListener('keydown', e => { if (e.key === 'Escape') done(false); });
+    });
+  }
+  const charName = ch => ch.displayName + (ch.distinguishingLabel ? `(${ch.distinguishingLabel})` : '');
+
+  // ── session (sessionStorage only; cleared on restart)
+  const blank = () => ({ v: D.DATA_VERSION, n: 12, answers: Array(12).fill(null), idx: 0, revealed: false });
+  let S = blank(), sessionNotice = '';
+  try {
+    const raw = sessionStorage.getItem(SKEY) || sessionStorage.getItem('mfs-session');
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (p && p.v === D.DATA_VERSION && p.n === 12 && Array.isArray(p.answers) && p.answers.length === 12) S = p;
+      else { sessionNotice = '검사 문항이 바뀌어 이전 응답을 초기화했어요. 새 12문항으로 다시 시작해 주세요.'; sessionStorage.removeItem('mfs-session'); sessionStorage.removeItem(SKEY); }
+    }
+  } catch (e) { /* storage unavailable: memory only */ }
+  function save() { try { sessionStorage.setItem(SKEY, JSON.stringify(S)); } catch (e) { /* memory only */ } }
+  function clearSession() { S = blank(); try { sessionStorage.removeItem(SKEY); } catch (e) { } RESULT = null; }
+  const complete = () => S.answers.every(a => a === 'A' || a === 'B');
+  let RESULT = null;
+  function result() { if (!complete()) return null; if (!RESULT || RESULT.answers !== S.answers.join('')) RESULT = ENG.match(S.answers.join('')); return RESULT; }
+
+  // ── fonts must be ready before canvas text
+  let fontsReady = null;
+  function ensureFonts() {
+    if (fontsReady) return fontsReady;
+    const loads = ['700 40px "Noto Serif KR"', '500 40px "Noto Serif KR"', '400 30px "Noto Sans KR"', '500 30px "Noto Sans KR"', '700 30px "Noto Sans KR"', '600 30px "Cinzel"']
+      .map(f => (document.fonts && document.fonts.load ? document.fonts.load(f, '가나다 MY FAITH') : Promise.resolve()).catch(() => { }));
+    fontsReady = Promise.race([Promise.all(loads), new Promise(r => setTimeout(r, 3500))]);
+    return fontsReady;
+  }
+
+  // ── view model for result + card news
+  function cardOf(r) {
+    const p = r.primary; if (!p) return null;
+    return { characterId: p.characterId, eventId: p.eventId, skillId: p.skillId, secondaryTraits: p.secondaryTraits, rarity: p.rarity, cardNumber: p.cardNumber };
+  }
+  function view(r) {
+    const p = r.primary;
+    const ev = p && D.EVENT_BY_ID[p.eventId], ch = p && D.CHAR_BY_ID[p.characterId], sk = p && D.SKILL_BY_ID[p.skillId];
+    const ctx = ev ? ev.context : (r.top[0] ? D.EVENT_BY_ID[r.top[0].eventId].context : 'meditate');
+    const tpl = D.CONTEXT_TEMPLATES[ctx];
+    const evidence = p ? p.matched.map(s => {
+      const o = D.OPT[s];
+      return `Q${String(o.q).padStart(2, '0')}에서 “${o.text}”를 골랐어요. ${ev.scriptureRefs}에도 ${D.SIGNAL_TEXT[s]} 모습이 기록되어 있어요.`;
+    }) : [];
+    const order = (p ? p.matched : []).concat(r.signals);
+    const actions = [...new Set(order)].slice(0, 3).map(s => D.ACTION_TEXT[s]);
+    const top = r.top.map(t => {
+      const e = D.EVENT_BY_ID[t.eventId], c = D.CHAR_BY_ID[t.characterId];
+      return { characterId: c.id, name: charName(c), eventTitle: e.title, refs: e.scriptureRefs, score: t.score, matched: t.matched,
+        why: t.matched.map(s => D.SIGNAL_TEXT[s]).join(', ') + ' 모습이 닮았어요.' };
+    });
+    return {
+      hasCard: !!p, card: cardOf(r), chart: r.chartData, top, evidence, actions,
+      name: ch ? charName(ch) : '', skillLabel: sk ? sk.label : '마음을 돌아보는 시간', strength: sk ? sk.description + '이 응답과 본문에서 함께 보여요.' : '이번 응답에서는 근거가 충분한 대표 인물을 정하지 않았어요.',
+      headline: ch ? `${josa(ch.displayName, '은', '는')} ‘${ev.title}’ 장면에서 ${sk.description}을 보여 줍니다.` : '',
+      event: ev ? { id: ev.id, title: ev.title, refs: ev.scriptureRefs, summary: ev.factualSummary } : null,
+      commentary: ev ? `${ev.scriptureRefs} — ${ev.factualSummary} 이 장면은 ${p.matched.map(s => D.SIGNAL_TEXT[s]).join(', ')} 모습으로 오늘의 나를 비추어 볼 수 있게 해요. (서비스 해설)` : '',
+      reflection: tpl.q, prayer: tpl.prayer,
+    };
+  }
+
+  // ── images: cache rendered data URLs
+  const imgCache = new Map();
+  async function cardURL(card, format) {
+    const key = JSON.stringify(card) + format;
+    if (imgCache.has(key)) return imgCache.get(key);
+    await ensureFonts(); await RENDER.preload([card.characterId]);
+    const [W, H] = format === 'story' ? [1080, 1920] : format === 'thumb' ? [432, 540] : [1080, 1350];
+    const url = RENDER.render((c, w, h) => RENDER.drawCard(c, w, h, card), W, H).toDataURL(format === 'thumb' ? 'image/jpeg' : 'image/png', 0.9);
+    imgCache.set(key, url); return url;
+  }
+
+  // ── downloads: artifact `downloads` capability when available, else <a download> (normal browsers)
+  let dlCap = null;
+  if (window.claude && typeof window.claude.use === 'function') window.claude.use('downloads').then(x => { dlCap = x; }).catch(() => { });
+  async function saveBlob(blob, filename) {
+    if (dlCap) {
+      try { await dlCap.save({ filename, data: blob }); toast('저장했어요: ' + filename); return true; }
+      catch (e) { if (e && e.code === 'declined') { toast('저장을 취소했어요.'); return false; } if (e && e.code === 'rate_limited') { toast('잠시 후 다시 시도해 주세요.'); return false; } toast('이 화면에서는 저장할 수 없어요. 브라우저에서 열어 주세요.'); return false; }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    toast('저장을 시작했어요: ' + filename);
+    return true;
+  }
+  const slug = r => (r.primary ? r.primary.characterId.replace(/^(ot|nt)-/, '') : 'reflection');
+
+  async function saveCard(format) {
+    const r = result(); if (!r || !r.primary) return;
+    try {
+      await ensureFonts(); await RENDER.preload([r.primary.characterId]);
+      const [W, H] = format === 'story' ? [1080, 1920] : [1080, 1350];
+      const blob = await RENDER.toBlob(RENDER.render((c, w, h) => RENDER.drawCard(c, w, h, cardOf(r)), W, H));
+      await saveBlob(blob, `my-faith-story-${slug(r)}-card-${format}.png`);
+    } catch (e) { toast('이미지를 만들지 못했어요. 다시 시도해 주세요.'); }
+  }
+  const resultIds = r => r.top.map(t => t.characterId).concat(r.primary ? [r.primary.characterId] : []);
+  async function slideBlob(r, i, format) {
+    await ensureFonts(); await RENDER.preload(resultIds(r));
+    const [W, H] = format === 'story' ? [1080, 1920] : [1080, 1350];
+    return RENDER.toBlob(RENDER.render((c, w, h) => RENDER.drawSlide(c, w, h, i, view(r)), W, H));
+  }
+  let jszipPromise = null;
+  function loadJSZip() {
+    if (window.JSZip) return Promise.resolve(window.JSZip);
+    if (!jszipPromise) jszipPromise = new Promise((res, rej) => { const s = document.createElement('script'); s.src = JSZIP_URL; s.onload = () => (window.JSZip ? res(window.JSZip) : rej(new Error('jszip'))); s.onerror = () => { jszipPromise = null; rej(new Error('jszip')); }; document.head.appendChild(s); });
+    return jszipPromise;
+  }
+
+  // ── share (public, non-personal only)
+  // Inside the Claude artifact frame the page cannot see its own public address, so links point at the
+  // artifact URL (the viewer must have access to the artifact). Set PUBLIC_BASE_URL after a real deployment.
+  const ARTIFACT_URL = 'https://claude.ai/artifact/1rWeoJg4p6YchzgV62eJ4G';
+  const framed = (() => { try { return window.top !== window; } catch (e) { return true; } })();
+  // Share links use the static /share/<id>-e<n> pages (they carry per-character link-preview tags that
+  // KakaoTalk and other apps read) when a public site exists; otherwise the in-app #share route.
+  function publicURL(hash) {
+    const m = /^#share-(.+)$/.exec(hash || '');
+    if (PUBLIC_BASE_URL) return PUBLIC_BASE_URL + (m ? 'share/' + m[1] : '');
+    const base = !framed && /^https?:$/.test(location.protocol) ? location.origin + location.pathname : ARTIFACT_URL;
+    return base + hash;
+  }
+  const shareHash = r => (r.primary ? ENG.sharePath(r.primary.characterId, r.primary.eventId) : '');
+  function shareText(r) {
+    if (!r.primary) return '나의 믿음은 누구를 닮았을까? 12개의 질문으로 지금의 나를 돌아보세요.';
+    const ch = D.CHAR_BY_ID[r.primary.characterId], ev = D.EVENT_BY_ID[r.primary.eventId];
+    return `[나의 믿음은 누구를 닮았을까?] ${charName(ch)} — ${ev.title} (${ev.scriptureRefs}) · 나도 테스트하기`;
+  }
+  const shareMessage = r => shareText(r) + '\n' + publicURL(shareHash(r));
+  async function copy(text, quiet) {
+    try { await navigator.clipboard.writeText(text); if (!quiet) toast('복사했어요. 원하는 곳에 붙여넣기 하세요.'); return true; }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand('copy'); } catch (x) { } ta.remove();
+      if (!quiet) toast(ok ? '복사했어요. 원하는 곳에 붙여넣기 하세요.' : '복사가 막혀 있어요. 아래 문구를 길게 눌러 직접 복사해 주세요.');
+      return ok;
+    }
+  }
+
+  // In-page share panel: works everywhere (artifact frame, desktop, mobile) without any external SDK.
+  async function sharePanel(r, mode) {
+    const title = { native: '공유하기', kakao: '카카오톡으로 보내기', link: '소개 링크 복사' }[mode];
+    const steps = mode === 'kakao'
+      ? '<ol class="small" style="margin:0 0 12px;padding-left:18px"><li>‘문구·링크 복사’를 누르고 카카오톡 대화방에 붙여넣어요.</li><li>카드 이미지도 보내려면 ‘카드 이미지 저장’ 후 사진으로 첨부해요.</li></ol>'
+      : mode === 'native' ? '<p class="small muted" style="margin:0 0 12px">이 화면에서는 기기 공유 창을 열 수 없어요. 문구를 복사하거나 카드 이미지를 저장해 원하는 앱에 올려 주세요.</p>' : '';
+    const d = document.createElement('div'); d.className = 'dialog'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'sp-title');
+    d.innerHTML = `<div class="panel share-panel">
+      <div class="sectitle"><h2 id="sp-title" style="font-size:20px">${esc(title)}</h2><button class="btn ghost sm" data-close aria-label="닫기">✕</button></div>
+      ${r.primary ? '<img class="sp-card" alt="공유할 카드 미리보기" data-sp-card>' : ''}
+      ${steps}
+      <label class="small muted" for="sp-text">보낼 문구 (나의 응답·점수는 담기지 않아요)</label>
+      <textarea id="sp-text" readonly rows="4">${esc(shareMessage(r))}</textarea>
+      <div class="row" style="margin-top:12px"><button class="btn gold sm" data-copy>문구·링크 복사</button>${r.primary ? '<button class="btn sm" data-save>카드 이미지 저장</button>' : ''}</div>
+      ${PUBLIC_BASE_URL ? '<p class="small muted" style="margin:10px 0 0">카카오톡·메신저에 링크를 붙여넣으면 인물 그림이 담긴 미리보기가 떠요.</p>' : ''}
+    </div>`;
+    document.body.appendChild(d);
+    const close = () => { d.remove(); };
+    d.addEventListener('click', e => { if (e.target === d) close(); });
+    d.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    d.querySelector('[data-close]').onclick = close;
+    const ta = d.querySelector('#sp-text');
+    ta.addEventListener('focus', () => ta.select());
+    d.querySelector('[data-copy]').onclick = async () => { const ok = await copy(ta.value, true); if (ok) toast('복사했어요. 원하는 곳에 붙여넣기 하세요.'); else { ta.focus(); ta.select(); toast('자동 복사가 막혀 있어요. 선택된 문구를 직접 복사해 주세요.'); } };
+    const sv = d.querySelector('[data-save]'); if (sv) sv.onclick = () => saveCard('feed');
+    d.querySelector('[data-copy]').focus();
+    const img = d.querySelector('[data-sp-card]'); if (img) img.src = await cardURL(cardOf(r), 'thumb');
+  }
+
+  async function shareLink(r) {
+    const ok = await copy(shareMessage(r), true);
+    if (ok) toast('소개 문구와 링크를 복사했어요.'); else sharePanel(r, 'link');
+  }
+  // Pre-rendered share image so navigator.share runs inside the click (user activation is kept).
+  let shareFile = null;
+  async function prepareShareFile(r) {
+    shareFile = null;
+    if (!r.primary || !navigator.share) return;
+    try { const blob = await slideBlob(r, 1, 'feed'); shareFile = new File([blob], `my-faith-story-${slug(r)}-card.png`, { type: 'image/png' }); } catch (e) { }
+  }
+  function shareNative(r) {
+    if (!navigator.share) { sharePanel(r, 'native'); return; }
+    const data = { title: '나의 믿음은 누구를 닮았을까?', text: shareText(r), url: publicURL(shareHash(r)) };
+    const withFile = shareFile && navigator.canShare && navigator.canShare({ files: [shareFile] });
+    navigator.share(withFile ? { files: [shareFile], text: data.text + '\n' + data.url } : data)
+      .catch(e => { if (e && e.name === 'AbortError') return; sharePanel(r, 'native'); });
+  }
+  // Kakao: official JS SDK when a key + registered public domain exist (not in the artifact frame,
+  // whose CSP blocks the SDK). Otherwise the share panel with copy + image save.
+  const KAKAO_SDK = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
+  let kakaoReady = null;
+  function loadKakao() {
+    if (kakaoReady) return kakaoReady;
+    kakaoReady = new Promise((res, rej) => { const s = document.createElement('script'); s.src = KAKAO_SDK; s.onload = () => { try { if (!window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY); res(window.Kakao); } catch (e) { rej(e); } }; s.onerror = () => { kakaoReady = null; rej(new Error('kakao sdk')); }; document.head.appendChild(s); });
+    return kakaoReady;
+  }
+  async function shareKakao(r) {
+    if (!KAKAO_JS_KEY || framed || !PUBLIC_BASE_URL) { sharePanel(r, 'kakao'); return; }
+    try {
+      const K = await loadKakao();
+      const url = publicURL(shareHash(r));
+      const ch = r.primary && D.CHAR_BY_ID[r.primary.characterId];
+      const imageUrl = ch && RENDER.hasPortrait(ch.id) ? PUBLIC_BASE_URL.replace(/[^/]*$/, '') + RENDER.portraitSrc(ch.id) : undefined;
+      K.Share.sendDefault({ objectType: 'feed', content: { title: '나의 믿음은 누구를 닮았을까?', description: shareText(r), imageUrl, link: { mobileWebUrl: url, webUrl: url } }, buttons: [{ title: '나도 테스트하기', link: { mobileWebUrl: url, webUrl: url } }] });
+    } catch (e) { sharePanel(r, 'kakao'); }
+  }
+
+  // ── routing
+  const routes = { '': intro, test: quiz, reveal, result: resultPage, cards: cardNews, characters: dictionary, about };
+  let current = '';
+  function go(h) { if (location.hash === '#' + h) render(); else location.hash = h; }
+  function render() {
+    const h = location.hash.replace(/^#/, '');
+    let fn = routes[h];
+    let arg = null;
+    if (!fn && h.startsWith('character-')) { fn = characterPage; arg = h.slice(10); }
+    if (!fn && h.startsWith('share-')) { fn = sharePage; arg = ENG.parseSharePath(h); }
+    if (!fn) fn = intro;
+    current = h;
+    document.querySelectorAll('.nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + (h.startsWith('character-') ? 'characters' : h) ? 'page' : 'false'));
+    $app.innerHTML = ''; window.scrollTo(0, 0);
+    fn(arg);
+    const h1 = $app.querySelector('h1, h2'); if (h1) { h1.setAttribute('tabindex', '-1'); h1.focus({ preventScroll: true }); }
+  }
+  window.addEventListener('hashchange', render);
+
+  function needResult(where) {
+    $app.innerHTML = `<section class="wrap prose"><p class="eyebrow">${esc(where)}</p><h1>아직 완료된 검사가 없어요</h1>
+      <p>12개의 질문에 모두 답하면 나의 성경 인물 카드와 결과를 볼 수 있어요. ${S.answers.some(Boolean) ? '진행 중인 검사를 이어서 할 수 있어요.' : ''}</p>
+      <div class="row"><a class="btn gold" href="#test">${S.answers.some(Boolean) ? '이어서 검사하기' : '12문항 테스트 시작하기'}</a><a class="btn ghost" href="#">처음으로</a></div></section>`;
+  }
+
+  // ── pages
+  function intro() {
+    const examples = [['nt-martha', 'nt-martha-1', 'sk-11B', 'N'], ['ot-daniel', 'ot-daniel-2', 'sk-steady-knees', 'R'], ['ot-david', 'ot-david-3', 'sk-living-praise', 'SR'], ['nt-peter', 'nt-peter-2', 'sk-mended', 'SSR']];
+    $app.innerHTML = `
+      <section class="wrap">
+        ${sessionNotice ? `<p class="notice" role="status">${esc(sessionNotice)}</p>` : ''}
+        <div class="hero">
+          <div>
+            <p class="eyebrow">My Faith Story</p>
+            <h1>나의 믿음은<br>누구를 닮았을까?</h1>
+            <div class="rule" aria-hidden="true"></div>
+            <p class="lead">12개의 질문으로 지금의 나를 돌아보고, 성경 속 인물의 한 장면과 비교해 보세요.</p>
+            <div class="pills">
+              <div class="pill">${icon('cards')}<div><b>성경 인물 카드</b><span>100명의 인물 사전과 근거 있는 사건 비교</span></div></div>
+              <div class="pill">${icon('swap')}<div><b>간단한 테스트</b><span>12문항, 둘 중 하나 선택. 정답은 없어요</span></div></div>
+              <div class="pill">${icon('star')}<div><b>카드 에디션</b><span>N · R · SR · SSR은 특기 조합의 희귀도예요</span></div></div>
+            </div>
+            <div class="row"><a class="btn gold" href="#test" id="start">${S.answers.some(Boolean) && !complete() ? '이어서 검사하기' : '12문항 테스트 시작하기'} ›</a>${complete() ? '<a class="btn" href="#result">내 결과 다시 보기</a>' : ''}</div>
+            <div class="policy"><ul>
+              <li>회원가입 없이 누구나 무료로 이용할 수 있어요.</li>
+              <li>나의 신앙 응답은 서비스 서버에 저장되지 않아요.</li>
+              <li>12개의 질문으로 지금 나의 믿음을 돌아보세요. (예상 2~3분, 기획값)</li>
+            </ul></div>
+          </div>
+          <figure class="fan" aria-label="카드 등급 예시: N, R, SR, SSR 프레임">
+            ${examples.map(e => `<img class="tc-mini" data-ex="${e.join('|')}" alt="${esc(D.CHAR_BY_ID[e[0]].displayName)} 예시 카드, ${e[3]} 프레임" width="432" height="540">`).join('')}
+            <figcaption>예시 카드 · 실제 결과는 응답과 본문 근거로 정해져요</figcaption>
+          </figure>
+        </div>
+        <div class="steps panel" style="padding:18px">
+          <div><h2 style="font-size:22px">어떻게 진행되나요?</h2><p class="muted small" style="margin:6px 0 0">간단한 4단계로 나의 성경 인물 카드를 만나 보세요.</p></div>
+          <div class="step"><b><span class="n">1</span>12문항 선택</b><p>둘 중 지금의 나와 더 가까운 쪽을 골라요.</p></div>
+          <div class="step"><b><span class="n">2</span>사건 비교</b><p>${D.EVENTS.length}개 사건 프로필과 응답을 비교해요.</p></div>
+          <div class="step"><b><span class="n">3</span>카드 공개</b><p>카드를 뒤집어 인물·특기·에디션을 확인해요.</p></div>
+          <div class="step"><b><span class="n">4</span>결과 · 저장</b><p>차트, TOP3, 카드뉴스 7장을 저장하고 나눠요.</p></div>
+        </div>
+        <div class="panel row" style="justify-content:space-between;margin-bottom:24px">
+          <div><h2 style="font-size:22px">총 100명의 성경 인물</h2><p class="muted" style="margin:4px 0 0">구약 50명 + 신약 50명. 대표 결과로 나올 수 있는 인물은 근거가 충분한 ${D.CHARACTERS.filter(c => c.eligibleForPrimary).length}명이에요.</p></div>
+          <a class="btn" href="#characters">성경 인물 사전 둘러보기 ›</a>
+        </div>
+      </section>`;
+    ensureFonts().then(() => {
+      $app.querySelectorAll('img[data-ex]').forEach(async img => {
+        const [c, e, s, rar] = img.dataset.ex.split('|');
+        img.src = await cardURL({ characterId: c, eventId: e, skillId: s, secondaryTraits: [], rarity: rar, cardNumber: D.CHAR_BY_ID[c].cardCode + '-' + e.split('-').pop().padStart(2, '0'), example: true }, 'thumb');
+      });
+    });
+  }
+  function icon(kind) {
+    const p = { cards: '<rect x="4" y="6" width="14" height="20" rx="3"/><path d="M10 4h12a3 3 0 0 1 3 3v17"/>', swap: '<circle cx="16" cy="16" r="12"/><path d="M10 13h12l-3-3M22 19H10l3 3"/>', star: '<path d="M16 3l3 10 10 3-10 3-3 10-3-10-10-3 10-3z"/>' }[kind];
+    return `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#DCC48A" stroke-width="1.6" aria-hidden="true">${p}</svg>`;
+  }
+
+  const optArt = new Map();
+  function quiz() {
+    if (complete() && S.idx >= 12) S.idx = 11;
+    const i = Math.max(0, Math.min(11, S.idx || 0)); const q = D.QUESTIONS[i];
+    const answered = S.answers.filter(Boolean).length;
+    $app.innerHTML = `
+      <section class="wrap"><div class="quiz">
+        <p class="eyebrow" style="text-align:center">둘 중 하나 고르기 · 12문항</p>
+        <div class="progress"><span>성경 인물 카드 테스트</span><span aria-hidden="true">${i + 1} / 12</span></div>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="${answered}" aria-label="응답한 문항 ${answered}개 / 12개"><i style="width:${Math.max(4, (answered / 12) * 100)}%"></i></div>
+        <div class="qtag"><span>Q${i + 1}</span></div>
+        <h2 id="qtitle">${esc(q.prompt)}</h2>
+        <p class="sub">정답은 없어요. 최근 4주 동안의 나와 더 가까운 모습을 골라 주세요.</p>
+        <fieldset class="opts" aria-labelledby="qtitle">
+          <legend class="sr-only">${i + 1}번 문항 선택지</legend>
+          ${q.options.map(o => `
+            <label class="opt" for="opt-${o.id}">
+              <input type="radio" name="q" id="opt-${o.id}" value="${o.key}" ${S.answers[i] === o.key ? 'checked' : ''}>
+              <span class="art" aria-hidden="true"><img alt="" data-art="${q.id}-${o.key}"></span>
+              <span><span class="k">${o.key}</span><br><span class="t">${esc(o.text)}</span></span>
+              <span class="dot" aria-hidden="true"></span>
+            </label>`).join('')}
+        </fieldset>
+        <div class="hint"><span aria-hidden="true">${icon('star')}</span><span><b>정답은 없어요!</b> 고르면 바로 다음 문항으로 넘어가요. 이전 버튼으로 언제든 고칠 수 있어요.</span></div>
+        <p class="sr-only" id="needmsg" aria-live="polite"></p>
+        <div class="qnav">
+          <button class="btn" id="prev" ${i === 0 ? 'disabled' : ''}>‹ 이전</button>
+          <button class="btn gold" id="next" ${S.answers[i] ? '' : 'disabled'} aria-describedby="needmsg">${i === 11 ? '결과 카드 만들기' : '다음 질문'} ›</button>
+        </div>
+        <p class="small muted" style="text-align:center;margin-top:18px">검사를 중간에 나가도 이 브라우저 탭에서는 이어서 할 수 있어요. 탭을 닫으면 응답이 지워져요.</p>
+      </div></section>`;
+    $app.querySelectorAll('img[data-art]').forEach(img => {
+      const k = img.dataset.art; if (!optArt.has(k)) optArt.set(k, RENDER.sceneURL('opt-' + k, 224, 192)); img.src = optArt.get(k);
+    });
+    let submitting = false, advanceTimer = null;
+    const advance = () => {
+      if (!S.answers[i]) { document.getElementById('needmsg').textContent = '선택지를 하나 골라 주세요.'; return; }
+      if (i < 11) { S.idx = i + 1; save(); render(); return; }
+      if (submitting) return; submitting = true; document.getElementById('next').disabled = true;
+      const missing = S.answers.findIndex(a => !a);
+      if (missing >= 0) { submitting = false; S.idx = missing; save(); toast(`${missing + 1}번 문항에 아직 답하지 않았어요.`); render(); return; }
+      S.revealed = false; save(); go('reveal');
+    };
+    const pick = (val) => {
+      S.answers[i] = val; RESULT = null; S.revealed = false; save();
+      document.getElementById('next').disabled = false;
+      const bar = $app.querySelector('.bar'); const n = S.answers.filter(Boolean).length;
+      bar.setAttribute('aria-valuenow', n); bar.setAttribute('aria-label', `응답한 문항 ${n}개 / 12개`); bar.querySelector('i').style.width = Math.max(4, n / 12 * 100) + '%';
+    };
+    // Tap/click on an option selects it and moves straight to the next question (user request).
+    // Pointer vs keyboard is tracked explicitly: some browsers (e.g. Safari) report label clicks with
+    // event.detail === 0, so detail cannot be used. Arrow keys only select; Enter selects and moves on.
+    let viaPointer = false;
+    const schedule = () => { clearTimeout(advanceTimer); advanceTimer = setTimeout(advance, reduceMotion ? 0 : 220); };
+    $app.querySelectorAll('label.opt').forEach(label => {
+      const inp = label.querySelector('input');
+      ['pointerdown', 'mousedown', 'touchstart'].forEach(t => label.addEventListener(t, () => { viaPointer = true; }, { passive: true }));
+      label.addEventListener('click', () => { if (!viaPointer) return; inp.checked = true; pick(inp.value); schedule(); });
+      inp.addEventListener('change', () => { pick(inp.value); if (viaPointer) schedule(); });
+      inp.addEventListener('keydown', e => {
+        viaPointer = false;
+        if (e.key === 'Enter') { e.preventDefault(); inp.checked = true; pick(inp.value); clearTimeout(advanceTimer); advance(); }
+      });
+    });
+    document.getElementById('prev').onclick = () => { clearTimeout(advanceTimer); S.idx = i - 1; save(); render(); };
+    document.getElementById('next').onclick = () => { clearTimeout(advanceTimer); advance(); };
+  }
+
+  function reveal() {
+    const r = result(); if (!r) return needResult('카드 공개');
+    const p = r.primary;
+    if (!p) { S.revealed = true; save(); go('result'); return; }
+    const ch = D.CHAR_BY_ID[p.characterId], sk = D.SKILL_BY_ID[p.skillId];
+    const open = S.revealed || reduceMotion;
+    $app.innerHTML = `<section class="wrap reveal"><div>
+      <p class="eyebrow">Card Reveal</p>
+      <h1 style="font-size:clamp(24px,4vw,34px);margin-top:8px">나의 성경 인물 카드가 준비되었어요</h1>
+      <div class="flip ${open ? 'open' : ''}" id="flip" role="button" tabindex="0" aria-label="${open ? '공개된 카드' : '카드 뒤집기'}">
+        <div class="inner"><div class="face back"><img id="back" alt="카드 뒷면"></div><div class="face front"><img id="front" alt=""></div></div>
+      </div>
+      <p id="revealmsg" aria-live="polite" class="muted">${open ? '' : '카드를 탭하거나 Enter 키를 눌러 뒤집어 보세요.'}</p>
+      <div class="row" style="justify-content:center">
+        <button class="btn gold" id="flipbtn" ${open ? 'hidden' : ''}>카드 뒤집기</button>
+        <a class="btn ${open ? 'gold' : 'ghost'}" href="#result" id="toresult">${open ? '결과 자세히 보기 ›' : '건너뛰기'}</a>
+        <button class="btn" id="savecard" ${open ? '' : 'hidden'}>이미지 저장</button>
+      </div></div></section>`;
+    const back = document.getElementById('back'), front = document.getElementById('front');
+    ensureFonts().then(async () => {
+      back.src = RENDER.render((c, w, h) => RENDER.drawCardBack(c, w, h), 540, 675).toDataURL('image/jpeg', 0.9);
+      front.src = await cardURL(cardOf(r), 'feed');
+      front.alt = `${charName(ch)} 카드, ${p.rarity} 에디션, 대표 특기 ${sk.label}, 카드 번호 ${p.cardNumber}`;
+      if (open) document.getElementById('revealmsg').textContent = `${p.rarity} · ${charName(ch)} · ${sk.label}`;
+    });
+    const doFlip = () => {
+      if (S.revealed) return; S.revealed = true; save();
+      document.getElementById('flip').classList.add('open'); document.getElementById('flip').setAttribute('aria-label', '공개된 카드');
+      document.getElementById('revealmsg').textContent = `${p.rarity} · ${charName(ch)} · ${sk.label}`;
+      document.getElementById('flipbtn').hidden = true; document.getElementById('savecard').hidden = false;
+      const t = document.getElementById('toresult'); t.textContent = '결과 자세히 보기 ›'; t.className = 'btn gold';
+    };
+    // A div (not <button>): Safari does not render 3D transforms / backface-visibility inside <button>.
+    const flipEl = document.getElementById('flip');
+    flipEl.onclick = doFlip; document.getElementById('flipbtn').onclick = doFlip;
+    flipEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doFlip(); } });
+    document.getElementById('toresult').onclick = () => { S.revealed = true; save(); };
+    document.getElementById('savecard').onclick = () => saveCard('feed');
+  }
+
+  function radarSVG(chart) {
+    const cx = 210, cy = 200, R = 140, n = chart.length, ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+    const pt = (i, k) => [cx + Math.cos(ang(i)) * R * k, cy + Math.sin(ang(i)) * R * k].map(v => v.toFixed(1)).join(',');
+    const ring = k => chart.map((_, i) => pt(i, k)).join(' ');
+    const poly = chart.map((c, i) => pt(i, 0.12 + 0.88 * c.aShare)).join(' ');
+    return `<svg viewBox="0 0 420 410" role="img" aria-labelledby="rt rd"><title id="rt">6개 영역 응답 방향 차트</title>
+      <desc id="rd">${esc(chart.map(c => `${c.label}: ${c.aShare === 1 ? 'A 방향 2개' : c.aShare === 0 ? 'B 방향 2개' : 'A와 B 하나씩'}`).join(', '))}</desc>
+      <polygon points="${ring(1)}" fill="none" stroke="rgba(243,235,221,.35)" stroke-width="1.5"/>
+      <polygon points="${ring(0.5)}" fill="none" stroke="rgba(243,235,221,.18)" stroke-width="1.5"/>
+      ${chart.map((_, i) => `<line x1="${cx}" y1="${cy}" x2="${pt(i, 1).split(',')[0]}" y2="${pt(i, 1).split(',')[1]}" stroke="rgba(243,235,221,.18)"/>`).join('')}
+      <polygon points="${poly}" fill="rgba(145,179,154,.42)" stroke="#91B39A" stroke-width="2.5"/>
+      ${chart.map((c, i) => { const [x, y] = pt(i, 0.12 + 0.88 * c.aShare).split(','); return `<circle cx="${x}" cy="${y}" r="4.5" fill="#F3EBDD"/>`; }).join('')}
+      ${chart.map((c, i) => { const [x, y] = pt(i, 1.2).split(','); return `<text x="${x}" y="${+y + 6}" text-anchor="middle" fill="#F3EBDD" font-family="Noto Serif KR, serif" font-weight="700" font-size="17">${esc(c.label)}</text>`; }).join('')}
+      <text x="${cx + 6}" y="${cy - R * 0.5 + 14}" fill="#9FA79C" font-size="11">A·B 반반</text>
+    </svg>`;
+  }
+
+  function resultPage() {
+    const r = result(); if (!r) return needResult('분석 결과');
+    S.revealed = true; save();
+    const V = view(r), p = r.primary;
+    const ch = p && D.CHAR_BY_ID[p.characterId], ev = p && D.EVENT_BY_ID[p.eventId], sk = p && D.SKILL_BY_ID[p.skillId];
+    const co = r.coCandidateId ? D.CHAR_BY_ID[r.coCandidateId] : null;
+    $app.innerHTML = `
+      <section class="wrap result">
+        <div class="cardcol">
+          ${p ? `<img class="tc" id="tc" alt="${esc(`${charName(ch)} 카드, ${p.rarity} 에디션, 대표 특기 ${sk.label}, 카드 번호 ${p.cardNumber}`)}" width="1080" height="1350">
+          <p class="notice small" style="margin:0">카드 등급은 특기 조합의 설계상 희귀도이며, 신앙의 높고 낮음을 뜻하지 않아요. 같은 응답은 언제나 같은 카드가 나와요.</p>
+          <div class="row"><button class="btn gold sm" id="sv-feed">카드 저장 (피드 1080×1350)</button><button class="btn sm" id="sv-story">스토리 1080×1920</button></div>`
+          : `<div class="panel"><h2>묵상 카드</h2><p class="muted">이번 응답에서는 근거가 충분한 대표 인물을 정하지 않았어요. 아래 묵상 주제로 돌아보세요.</p></div>`}
+          <div class="row"><a class="btn sm" href="#cards">카드뉴스 7장 보기 ›</a><button class="btn ghost sm" id="restart">다시 검사하기</button></div>
+        </div>
+        <div style="display:grid;gap:18px">
+          <div class="panel">
+            <p class="eyebrow">My Faith Story · 결과</p>
+            ${p ? `<h1 style="font-size:clamp(26px,3.6vw,38px);margin:8px 0">지금의 나는 <span style="color:var(--gold)">${esc(charName(ch))}</span>의<br>‘${esc(ev.title)}’ 모습과 닮았어요</h1>
+              <div class="row" style="margin-bottom:8px"><span class="chip gold">${esc(p.rarity)} · ${esc(D.FAMILIES[sk.family])}</span><span class="chip">대표 특기 · ${esc(sk.label)}</span><span class="chip">${esc(ev.scriptureRefs)}</span><span class="chip">${esc(p.cardNumber)}</span></div>
+              <p style="margin:0">${esc(V.headline)}</p>
+              ${co ? `<p class="small muted">${esc(josa(charName(co), '과', '와'))}의 모습과도 거의 같은 정도로 가까워요. 한 사람의 모습으로만 단정하지 않아도 좋아요.</p>` : ''}`
+            : `<h1 style="font-size:32px">여러 모습이 함께 보여요</h1>`}
+          </div>
+          ${p ? `<div class="panel"><div class="sectitle"><h2>왜 이 카드인가요?</h2><span class="small muted">내가 고른 답 × 본문 기록</span></div><ul class="evid">${V.evidence.map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+            ${(p.secondaryTraits || []).length ? `<p class="small" style="margin:14px 0 0">보조 특성 · ${p.secondaryTraits.map(id => `<span class="chip">${esc(D.SKILL_BY_ID[id].label)}</span>`).join(' ')}</p>` : ''}</div>` : ''}
+          <div class="grid2">
+            <div class="panel radar"><div class="sectitle"><h2>나의 신앙 프로필</h2></div>${radarSVG(r.chartData)}
+              <p class="small muted">각 영역에서 A 방향(바깥)과 B 방향(안쪽) 중 어느 쪽을 골랐는지 보여 줘요. 높고 낮음의 평가가 아니에요.</p>
+              <div class="legend">${r.chartData.map(c => `<div><b>${esc(c.label)}</b><span class="small">${c.picks.map(pk => `${pk.questionId.replace('Q0', 'Q')}-${pk.key}: ${esc(pk.text)}`).join('<br>')}</span></div>`).join('')}</div>
+            </div>
+            <div class="panel"><div class="sectitle"><h2>나와 닮은 인물 TOP 3</h2></div>
+              <ol class="top3" style="padding:0;margin:0">${V.top.map((t, i) => `<li><img alt="" data-portrait="${t.characterId}"><div><b style="font-family:var(--serif)">${i + 1}. <a href="#character-${t.characterId}">${esc(t.name)}</a></b><div class="small muted">${esc(t.eventTitle)} · ${esc(t.refs)}</div><div class="small">${esc(t.why)}</div></div><div class="sc" title="내부 텍스트·행동 유사도 지표">${t.score.toFixed(1)}</div></li>`).join('')}</ol>
+              <p class="small muted" style="margin-bottom:0">숫자는 응답과 사건 기록 사이의 내부 유사도 지표(0~100)예요. 확률이나 신앙 점수가 아니에요.</p>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="panel"><div class="sectitle"><h2>강점과 돌아볼 점</h2></div><p><b>${esc(V.skillLabel)}</b> — ${esc(V.strength)}</p><p class="muted" style="margin-bottom:0"><b style="color:var(--sage)">돌아볼 질문</b><br>${esc(V.reflection)}</p></div>
+            <div class="panel"><div class="sectitle"><h2>오늘의 말씀</h2>${ev ? `<span class="chip gold">${esc(ev.scriptureRefs)}</span>` : ''}</div>${ev ? `<p><b class="small" style="color:var(--sage)">본문 요약(자체 요약)</b><br>${esc(ev.factualSummary)}</p><p class="small muted" style="margin-bottom:0">서비스 해설 · 이 장면은 ${esc(p.matched.map(s => D.SIGNAL_TEXT[s]).join(', '))} 모습으로 오늘의 나를 비추어 보게 해요. 성경 본문을 직접 찾아 읽어 보세요.</p>` : ''}</div>
+          </div>
+          <div class="grid2">
+            <div class="panel"><div class="sectitle"><h2>오늘의 실천 3가지</h2></div><ol class="acts">${V.actions.map(a => `<li><span>${esc(a)}</span></li>`).join('')}</ol></div>
+            <div class="panel"><div class="sectitle"><h2>오늘의 기도</h2></div><p class="prayer" style="margin:0">${esc(V.prayer)}</p></div>
+          </div>
+          <div class="panel"><div class="sectitle"><h2>저장하고 나누기</h2></div>
+            <div class="row"><button class="btn sm" id="sh-native">기기 기본 공유</button><button class="btn sm" id="sh-kakao">카카오톡 공유</button><button class="btn sm" id="sh-copy">소개 링크 복사</button><a class="btn sm" href="#cards">카드뉴스 저장 ›</a></div>
+            <p class="small muted" style="margin-bottom:0">공유 링크에는 인물·사건 소개만 담기고, 나의 응답·차트·점수는 담기지 않아요. 개인 카드 이미지는 기기에 저장한 뒤 직접 올려 주세요.</p>
+          </div>
+        </div>
+      </section>`;
+    if (p) {
+      cardURL(cardOf(r), 'feed').then(u => { const el = document.getElementById('tc'); if (el) el.src = u; });
+      document.getElementById('sv-feed').onclick = () => saveCard('feed');
+      document.getElementById('sv-story').onclick = () => saveCard('story');
+    }
+    $app.querySelectorAll('img[data-portrait]').forEach(img => { img.src = RENDER.portraitURL(img.dataset.portrait); });
+    document.getElementById('restart').onclick = restart;
+    prepareShareFile(r);
+    document.getElementById('sh-native').onclick = () => shareNative(r);
+    document.getElementById('sh-kakao').onclick = () => shareKakao(r);
+    document.getElementById('sh-copy').onclick = () => shareLink(r);
+  }
+  async function restart() {
+    if (await confirmDialog('다시 검사하면 지금의 응답과 결과가 지워져요. 다시 시작할까요?', '응답 지우고 다시 시작')) { clearSession(); toast('응답을 지웠어요.'); go('test'); }
+  }
+
+  const SLIDE_TITLES = ['대표 인물 카드', '나의 신앙 프로필', '닮은 인물 TOP 3', '성경 속 사건', '강점과 돌아볼 점', '오늘의 말씀과 실천', '오늘의 기도'];
+  let cnIndex = 1, cnFormat = 'feed';
+  function cardNews() {
+    const r = result(); if (!r) return needResult('카드뉴스');
+    const V = view(r);
+    $app.innerHTML = `
+      <section class="wrap cn">
+        <div>
+          <div class="sectitle"><h1 style="font-size:28px">나의 카드뉴스 7장</h1>
+            <div class="seg" role="group" aria-label="저장 규격"><button data-fmt="feed" aria-pressed="${cnFormat === 'feed'}">피드 4:5</button><button data-fmt="story" aria-pressed="${cnFormat === 'story'}">스토리 9:16</button></div></div>
+          <div class="viewer ${cnFormat === 'story' ? 'story' : ''}" id="viewer" tabindex="0" aria-roledescription="carousel" aria-label="카드뉴스. 왼쪽/오른쪽 방향키로 넘겨요">
+            <div class="slide" id="slide" aria-live="polite"><div class="loading">카드를 그리는 중…</div></div>
+          </div>
+          <div class="row" style="justify-content:center;margin-top:12px"><button class="btn sm" id="cn-prev">‹ 이전</button><button class="btn sm" id="cn-next">다음 ›</button></div>
+          <div class="dots" role="tablist" aria-label="카드 선택">${SLIDE_TITLES.map((t, i) => `<button role="tab" data-i="${i + 1}" aria-label="${i + 1}번 ${t}" aria-current="${cnIndex === i + 1}"><i></i></button>`).join('')}</div>
+          <div class="cn-text panel"><details><summary>이 카드의 텍스트 보기</summary><div id="cntext"></div></details></div>
+        </div>
+        <aside class="side">
+          <div class="panel"><h2 style="font-size:18px;margin-bottom:10px">저장하기</h2>
+            <div class="thumbs">${SLIDE_TITLES.map((t, i) => `<label><input type="checkbox" data-pick="${i + 1}" checked aria-label="${i + 1}번 ${t} 선택">${i + 1}</label>`).join('')}</div>
+            <div style="display:grid;gap:10px;margin-top:14px">
+              <button class="btn gold" id="cn-save1">현재 카드 저장 (PNG)</button>
+              <button class="btn" id="cn-savesel">선택한 카드 저장</button>
+              <button class="btn" id="cn-zip">전체 7장 ZIP</button>
+            </div>
+            <p class="small muted" id="cn-status" aria-live="polite" style="margin-bottom:0">${cnFormat === 'story' ? '1080×1920' : '1080×1350'} PNG로 저장돼요. iOS에서는 브라우저 다운로드/파일 앱에 저장될 수 있어요.</p>
+          </div>
+          <div class="panel"><h2 style="font-size:18px;margin-bottom:10px">공유하기</h2>
+            <div style="display:grid;gap:10px"><button class="btn sm" id="cn-native">기기 기본 공유</button><button class="btn sm" id="cn-kakao">카카오톡 공유</button><button class="btn sm" id="cn-copy">소개 링크 복사</button></div>
+            <p class="small muted" style="margin-bottom:0">인스타그램은 PNG 저장 후 직접 올려 주세요.</p></div>
+          <a class="btn ghost" href="#result">‹ 결과로 돌아가기</a>
+        </aside>
+      </section>`;
+    const slideCache = new Map();
+    const draw = (i) => {
+      const k = i + cnFormat; if (slideCache.has(k)) return slideCache.get(k);
+      const [W, H] = cnFormat === 'story' ? [540, 960] : [540, 675];
+      const u = RENDER.render((c, w, h) => RENDER.drawSlide(c, w, h, i, V), W, H).toDataURL('image/jpeg', 0.9);
+      slideCache.set(k, u); return u;
+    };
+    const textFor = i => [
+      [V.headline, ...(V.card ? [`등급 ${V.card.rarity} · 카드 번호 ${V.card.cardNumber}`] : [])],
+      V.chart.map(c => `${c.label}: ${c.picks.map(p => p.questionId + '-' + p.key + ' ' + p.text).join(' / ')}`),
+      V.top.map((t, n) => `${n + 1}. ${t.name} — ${t.eventTitle} (${t.refs}) ${t.why}`),
+      V.event ? [V.event.refs, V.event.title, V.event.summary] : [],
+      [V.skillLabel, V.strength, ...V.evidence, '돌아볼 질문: ' + V.reflection],
+      [V.commentary, ...V.actions.map((a, n) => `${n + 1}. ${a}`)],
+      [V.prayer],
+    ][i - 1];
+    const show = async () => {
+      await ensureFonts(); await RENDER.preload(resultIds(r));
+      const sl = document.getElementById('slide'); if (!sl) return;
+      sl.innerHTML = `<img draggable="false" alt="${cnIndex}번 카드: ${SLIDE_TITLES[cnIndex - 1]}" src="${draw(cnIndex)}">`;
+      document.getElementById('cntext').innerHTML = '<p>' + textFor(cnIndex).map(esc).join('</p><p>') + '</p>';
+      $app.querySelectorAll('.dots button').forEach(b => b.setAttribute('aria-current', String(+b.dataset.i === cnIndex)));
+      // pre-render neighbours lazily
+      setTimeout(() => { [cnIndex - 1, cnIndex + 1].filter(n => n >= 1 && n <= 7).forEach(draw); }, 50);
+    };
+    const step = d => { cnIndex = Math.min(7, Math.max(1, cnIndex + d)); show(); };
+    document.getElementById('cn-prev').onclick = () => step(-1);
+    document.getElementById('cn-next').onclick = () => step(1);
+    $app.querySelectorAll('.dots button').forEach(b => { b.onclick = () => { cnIndex = +b.dataset.i; show(); }; });
+    $app.querySelectorAll('[data-fmt]').forEach(b => { b.onclick = () => { cnFormat = b.dataset.fmt; cardNews(); }; });
+    const viewer = document.getElementById('viewer');
+    viewer.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { step(1); e.preventDefault(); } if (e.key === 'ArrowLeft') { step(-1); e.preventDefault(); } });
+    let sx = null; viewer.addEventListener('dragstart', e => e.preventDefault()); viewer.addEventListener('pointercancel', () => { sx = null; }); viewer.addEventListener('pointerdown', e => { sx = e.clientX; }); viewer.addEventListener('pointerup', e => { if (sx == null) return; const dx = e.clientX - sx; if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1); sx = null; });
+    const status = m => { const s = document.getElementById('cn-status'); if (s) s.textContent = m; };
+    const name = i => `my-faith-story-${slug(r)}-${String(i).padStart(2, '0')}-${cnFormat}.png`;
+    let busy = false;
+    const guard = fn => async () => { if (busy) return; busy = true; try { await fn(); } catch (e) { status('저장에 실패했어요. 다시 시도해 주세요.'); toast('저장에 실패했어요. 다시 시도해 주세요.'); } finally { busy = false; } };
+    document.getElementById('cn-save1').onclick = guard(async () => { status('이미지를 만드는 중…'); await saveBlob(await slideBlob(r, cnIndex, cnFormat), name(cnIndex)); status('저장 요청을 보냈어요.'); });
+    document.getElementById('cn-savesel').onclick = guard(async () => {
+      const picks = [...$app.querySelectorAll('[data-pick]:checked')].map(x => +x.dataset.pick);
+      if (!picks.length) { status('저장할 카드를 하나 이상 골라 주세요.'); return; }
+      if (picks.length === 1) { await saveBlob(await slideBlob(r, picks[0], cnFormat), name(picks[0])); return; }
+      await zip(picks);
+    });
+    document.getElementById('cn-zip').onclick = guard(() => zip([1, 2, 3, 4, 5, 6, 7]));
+    async function zip(list) {
+      status('ZIP 도구를 불러오는 중…');
+      let JSZip; try { JSZip = await loadJSZip(); } catch (e) { status('ZIP 도구를 불러오지 못했어요. 카드를 한 장씩 저장해 주세요.'); toast('ZIP 도구를 불러오지 못했어요.'); return; }
+      const z = new JSZip();
+      for (const i of list) { status(`${i}번 카드를 만드는 중… (${list.indexOf(i) + 1}/${list.length})`); z.file(name(i), await slideBlob(r, i, cnFormat)); } // sequential: memory-friendly on mobile Safari
+      status('ZIP 파일을 묶는 중…');
+      const blob = await z.generateAsync({ type: 'blob' });
+      await saveBlob(blob, `my-faith-story-${slug(r)}-cardnews-${cnFormat}.zip`);
+      status(`${list.length}장을 ZIP으로 저장 요청했어요.`);
+    }
+    prepareShareFile(r);
+    document.getElementById('cn-native').onclick = () => shareNative(r);
+    document.getElementById('cn-kakao').onclick = () => shareKakao(r);
+    document.getElementById('cn-copy').onclick = () => shareLink(r);
+    show();
+  }
+
+  let dictState = { t: 'all', q: '', page: 1 };
+  function dictionary() {
+    const per = 24;
+    const list = D.CHARACTERS.filter(c => (dictState.t === 'all' || c.testament === dictState.t) && (!dictState.q || (c.displayName + c.distinguishingLabel).includes(dictState.q.trim())));
+    const pages = Math.max(1, Math.ceil(list.length / per)); dictState.page = Math.min(dictState.page, pages);
+    const slice = list.slice((dictState.page - 1) * per, dictState.page * per);
+    $app.innerHTML = `<section class="wrap" style="padding-block:28px">
+      <p class="eyebrow">Bible Characters</p><h1 style="font-size:clamp(26px,4vw,36px);margin-top:6px">성경 인물 사전</h1>
+      <p class="muted">구약 50명 · 신약 50명. 사전 등록과 대표 결과 가능 여부는 달라요. 수채화 일러스트 ${(window.MFS_PORTRAITS || []).length}명, 나머지는 <b>임시 이미지</b>예요.</p>
+      <div class="dict-tools">
+        <div class="seg" role="group" aria-label="구약/신약 필터">${[['all', '전체'], ['OT', '구약'], ['NT', '신약']].map(([v, l]) => `<button data-t="${v}" aria-pressed="${dictState.t === v}">${l}</button>`).join('')}</div>
+        <label class="sr-only" for="dq">이름 검색</label><input id="dq" type="search" placeholder="이름으로 검색 (예: 다윗)" value="${esc(dictState.q)}">
+        <span class="small muted" aria-live="polite">${list.length}명</span>
+      </div>
+      <ul class="dict">${slice.map(c => `<li><a href="#character-${c.id}"><img alt="" loading="lazy" data-portrait="${c.id}" width="288" height="360"><b>${esc(c.displayName)}</b><span>${c.cardCode}${c.distinguishingLabel ? ' · ' + esc(c.distinguishingLabel) : ''}${c.eligibleForPrimary ? '' : ' · 사전 소개용'}</span></a></li>`).join('') || '<li class="muted">검색 결과가 없어요.</li>'}</ul>
+      <nav class="pager" aria-label="페이지">${Array.from({ length: pages }, (_, i) => `<button class="btn sm ${dictState.page === i + 1 ? 'gold' : ''}" data-p="${i + 1}" aria-current="${dictState.page === i + 1 ? 'page' : 'false'}">${i + 1}</button>`).join('')}</nav>
+    </section>`;
+    let k = 0; const imgs = [...$app.querySelectorAll('img[data-portrait]')];
+    const paint = () => { const end = Math.min(imgs.length, k + 6); for (; k < end; k++) imgs[k].src = RENDER.portraitURL(imgs[k].dataset.portrait); if (k < imgs.length) requestAnimationFrame(paint); };
+    paint();
+    $app.querySelectorAll('[data-t]').forEach(b => { b.onclick = () => { dictState.t = b.dataset.t; dictState.page = 1; dictionary(); }; });
+    $app.querySelectorAll('[data-p]').forEach(b => { b.onclick = () => { dictState.page = +b.dataset.p; dictionary(); window.scrollTo(0, 0); }; });
+    const dq = document.getElementById('dq'); let t;
+    dq.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { dictState.q = dq.value; dictState.page = 1; dictionary(); const n = document.getElementById('dq'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); });
+  }
+
+  const ELIG = { primary: '대표 매칭 가능', support: 'TOP3 보조 후보', reflection: '묵상용 (매칭 제외)', library: '사전 소개용 (근거 부족)' };
+  function characterPage(id) {
+    const c = D.CHAR_BY_ID[id];
+    if (!c) { $app.innerHTML = `<section class="wrap prose"><h1>인물을 찾을 수 없어요</h1><a class="btn" href="#characters">성경 인물 사전</a></section>`; return; }
+    $app.innerHTML = `<section class="wrap detail">
+      <div><img class="portrait" alt="${esc(c.displayName)} ${RENDER.hasPortrait(c.id) ? '수채화 일러스트' : '임시 일러스트'}" data-portrait="${c.id}"><p class="small muted">${RENDER.hasPortrait(c.id) ? 'AI 이미지 생성 도구로 만든 창작 일러스트예요. 실제 인물의 모습을 재현한 것이 아니에요.' : '임시 일러스트 · 실제 일러스트 교체 예정'}</p></div>
+      <div>
+        <p class="eyebrow">${c.cardCode} · ${c.testament === 'OT' ? '구약' : '신약'}</p>
+        <h1 style="font-size:clamp(28px,4vw,40px);margin:6px 0">${esc(c.displayName)}${c.distinguishingLabel ? ` <span class="muted" style="font-size:.55em">${esc(c.distinguishingLabel)}</span>` : ''}</h1>
+        <p>${esc(c.bioSummary)}</p>
+        <div class="row" style="margin-bottom:14px"><span class="chip">${esc(c.references)}</span><span class="chip ${c.eligibleForPrimary ? 'gold' : ''}">${c.eligibleForPrimary ? '대표 결과 가능' : '대표 결과 제외 · 사전 소개'}</span><span class="chip">콘텐츠 검수 전(초안)</span></div>
+        ${c.notes ? `<p class="notice">${esc(c.notes)}</p>` : ''}
+        <h2 style="font-size:20px;margin:18px 0 10px">기록된 사건</h2>
+        <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel"><div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
+        <p class="small muted">장절과 요약은 서비스의 자체 요약이며 성경 번역 본문을 옮기지 않았어요. 성경을 직접 펼쳐 읽어 보세요.</p>
+        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#characters">‹ 사전으로</a></div>
+      </div></section>`;
+    $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
+  }
+
+  function sharePage(arg) {
+    if (!arg) { $app.innerHTML = `<section class="wrap prose"><h1>공유된 카드를 찾을 수 없어요</h1><a class="btn gold" href="#test">나도 테스트하기</a></section>`; return; }
+    const c = D.CHAR_BY_ID[arg.characterId], e = D.EVENT_BY_ID[arg.eventId];
+    $app.innerHTML = `<section class="wrap detail">
+      <div><img class="portrait" alt="${esc(c.displayName)} 임시 일러스트" data-portrait="${c.id}"></div>
+      <div><p class="eyebrow">공유된 성경 인물 소개</p>
+        <h1 style="font-size:clamp(28px,4vw,40px);margin:6px 0">${esc(charName(c))} · ${esc(e.title)}</h1>
+        <p class="chip gold">${esc(e.scriptureRefs)}</p><p>${esc(e.factualSummary)}</p>
+        <p class="small muted">이 페이지는 공개 인물·사건 소개예요. 공유한 사람의 응답이나 결과는 담겨 있지 않아요.</p>
+        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#character-${c.id}">인물 더 보기</a></div></div></section>`;
+    $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
+  }
+
+  function about() {
+    const R = window.MFS_RARITY; const T = D.CONFIG.rarityThresholds;
+    const kc = Object.values(R.keys).reduce((a, v) => (a[v.rarity] = (a[v.rarity] || 0) + 1, a), {});
+    $app.innerHTML = `<section class="wrap prose">
+      <p class="eyebrow">About</p><h1 style="font-size:34px;margin-top:6px">서비스 소개 · FAQ</h1>
+      <h2>무엇을 하나요?</h2><p>최근 4주 동안의 신앙·말씀·기도·예배·성찰·공동체 행동에 관한 12개의 A/B 질문에 답하면, 등록된 성경 사건 프로필 ${D.EVENTS.length}개(대표·보조 비교 대상 ${D.EVENTS.filter(e => e.eligibility === 'primary' || e.eligibility === 'support').length}개)와 비교해 닮은 장면을 보여 줘요. 신앙 수준, 구원, 영성, 인격, 하나님의 평가, 심리 상태를 판정하지 않아요.</p>
+      <h2>어떻게 비교하나요?</h2><p>선택지마다 행동 신호와 내용 가중치가 있고, 각 사건에는 본문에 기록된 행동 신호가 있어요. 응답과 사건 사이의 특성 유사도, 행동 일치도, 서로 다른 문항 근거 수, 행동의 고유성을 합쳐 내부 지표(0~100)를 만들고, 서로 다른 문항에서 2개 이상 근거가 있는 사건만 후보가 돼요. 실시간 AI를 쓰지 않으며 같은 응답은 항상 같은 결과가 나와요.</p>
+      <h2>카드 등급(N·R·SR·SSR)은?</h2><p>대표 특기 + 보조 특성 계열 + 사건 상황 유형 조합이 4,096가지 응답 조합 가운데 몇 번 나오는지로 정한 <b>설계상 희귀도</b>예요. 실제 이용자 비율이나 뽑기 확률이 아니고, 좋은 답에 높은 등급을 주지 않아요.</p>
+      <div class="tablewrap"><table><tr><th>등급</th><th>조합 등장 건수(4,096 기준)</th><th>현재 조합 수</th></tr>
+        <tr><td>N</td><td>${T.N} 이상</td><td>${kc.N || 0}</td></tr><tr><td>R</td><td>${T.R}~${T.N - 1}</td><td>${kc.R || 0}</td></tr><tr><td>SR</td><td>${T.SR}~${T.R - 1}</td><td>${kc.SR || 0}</td></tr><tr><td>SSR</td><td>${T.SSR}~${T.SR - 1}</td><td>${kc.SSR || 0}</td></tr></table></div>
+      <h2>개인정보</h2><p>로그인·회원가입이 없고 이름, 이메일, 전화번호, 교회명을 묻지 않아요. 응답은 이 브라우저 탭의 메모리와 sessionStorage에만 있고, 서버·외부 AI·분석 도구로 보내지 않아요. ‘다시 검사하기’를 누르거나 탭을 닫으면 지워져요. 공유 링크에는 인물·사건 소개만 담겨요.</p>
+      <h2>성경 인용과 저작권</h2><p>성경 번역 본문을 옮기지 않고, 장절 표기와 서비스의 자체 요약만 사용해요. 모든 인물·사건 데이터는 <b>콘텐츠 검수 전 초안</b>이며 전문가 검수가 필요해요.</p>
+      <h2>일러스트</h2><p>인물 ${(window.MFS_PORTRAITS || []).length}명은 AI 이미지 생성 도구로 만든 창작 수채화 일러스트예요(실제 모습을 재현한 것이 아니며 콘텐츠 검수 전). 나머지 인물과 사건 장면은 코드로 그린 <b>임시 이미지</b>이고, 생성 큐에 남아 있어요.</p>
+      <h2>한계</h2><ul><li>12개 문항으로 볼 수 있는 행동은 일부예요. 결과는 성경 속 사건의 한 장면과 비교한 묵상 자료일 뿐이에요.</li><li>100명이 사전에 등록되어 있지만 대표 결과로 나올 수 있는 인물은 근거가 충분한 ${D.CHARACTERS.filter(c => c.eligibleForPrimary).length}명이고, 실제로 4,096 조합에서 대표로 나오는 인물은 그보다 적어요.</li><li>유사도 임계값과 가중치는 경험적 설정이며 검증된 심리 척도가 아니에요.</li></ul>
+      <p class="small muted">데이터 버전 ${esc(D.DATA_VERSION)} · 희귀도 규칙 ${esc(D.CONFIG.rarityRuleVersion)}</p>
+    </section>`;
+  }
+
+  // header links
+  render();
+})();
+
+</script>
+
+</body></html>

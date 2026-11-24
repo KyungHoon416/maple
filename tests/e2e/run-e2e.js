@@ -111,7 +111,7 @@ async function download(page, clickSel) {
 
   // share fallbacks
   const scores = expected.top.map(t => t.score.toFixed(1));
-  const safeShare = c => !!c && !c.includes(ANSWERS) && !scores.some(s => c.includes(s)) && /https?:\S+#share-[a-z0-9-]+-e\d+$/.test(c.trim());
+  const safeShare = c => !!c && !c.includes(ANSWERS) && !scores.some(s => c.includes(s)) && /https:\/\/my-faith-story\.web\.app\/share\/[a-z0-9-]+-e\d+$/.test(c.trim());
   // Kakao (no key) → share panel with copy + image save
   await page.click('#sh-kakao');
   await page.waitForSelector('.share-panel');
@@ -137,7 +137,10 @@ async function download(page, clickSel) {
   const clip = await page.evaluate(() => navigator.clipboard.readText()).catch(() => '');
   check('copy-link button copies text + public #share-<id>-e<n> link only', safeShare(clip), JSON.stringify(clip));
   // the copied link opens the public share page
-  await page.goto(clip.trim().split('\n').pop()); await page.waitForSelector('h1');
+  const slug = clip.trim().split('/share/').pop();
+  const sharePage = fs.readFileSync(path.join(root, 'hosting/share', slug + '.html'), 'utf8');
+  check('static share page has per-character preview tags and redirects to in-app page', sharePage.includes(`og:image" content="https://my-faith-story.web.app/og/${expected.primary.characterId}.jpg`) && sharePage.includes(`/#share-${slug}`) && fs.existsSync(path.join(root, 'hosting/og', expected.primary.characterId + '.jpg')));
+  await page.goto(URL + '#share-' + slug); await page.waitForSelector('h1');
   check('copied link opens public character/event page', (await page.locator('h1').textContent()).includes(D.CHAR_BY_ID[expected.primary.characterId].displayName));
   await page.goto(URL + '#result'); await page.waitForSelector('#tc');
 

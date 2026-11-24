@@ -7,7 +7,7 @@
   const $app = document.getElementById('app');
   const SKEY = 'mfs-session-v6';
   // Public base URL for share links. Leave empty until a real public deployment exists.
-  const PUBLIC_BASE_URL = '';
+  const PUBLIC_BASE_URL = 'https://my-faith-story.web.app/'; // Firebase Hosting site (project my-faith-story)
   const KAKAO_JS_KEY = ''; // VITE_KAKAO_JS_KEY equivalent; not configured in this build.
   const JSZIP_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -145,8 +145,12 @@
   // artifact URL (the viewer must have access to the artifact). Set PUBLIC_BASE_URL after a real deployment.
   const ARTIFACT_URL = 'https://claude.ai/artifact/1rWeoJg4p6YchzgV62eJ4G';
   const framed = (() => { try { return window.top !== window; } catch (e) { return true; } })();
+  // Share links use the static /share/<id>-e<n> pages (they carry per-character link-preview tags that
+  // KakaoTalk and other apps read) when a public site exists; otherwise the in-app #share route.
   function publicURL(hash) {
-    const base = PUBLIC_BASE_URL || (!framed && /^https?:$/.test(location.protocol) ? location.origin + location.pathname : ARTIFACT_URL);
+    const m = /^#share-(.+)$/.exec(hash || '');
+    if (PUBLIC_BASE_URL) return PUBLIC_BASE_URL + (m ? 'share/' + m[1] : '');
+    const base = !framed && /^https?:$/.test(location.protocol) ? location.origin + location.pathname : ARTIFACT_URL;
     return base + hash;
   }
   const shareHash = r => (r.primary ? ENG.sharePath(r.primary.characterId, r.primary.eventId) : '');
@@ -180,7 +184,7 @@
       <label class="small muted" for="sp-text">보낼 문구 (나의 응답·점수는 담기지 않아요)</label>
       <textarea id="sp-text" readonly rows="4">${esc(shareMessage(r))}</textarea>
       <div class="row" style="margin-top:12px"><button class="btn gold sm" data-copy>문구·링크 복사</button>${r.primary ? '<button class="btn sm" data-save>카드 이미지 저장</button>' : ''}</div>
-      ${framed && !PUBLIC_BASE_URL ? '<p class="small muted" style="margin:10px 0 0">링크는 이 아티팩트 주소예요. 받는 사람이 열려면 아티팩트가 공유되어 있어야 해요.</p>' : ''}
+      ${PUBLIC_BASE_URL ? '<p class="small muted" style="margin:10px 0 0">카카오톡·메신저에 링크를 붙여넣으면 인물 그림이 담긴 미리보기가 떠요.</p>' : ''}
     </div>`;
     document.body.appendChild(d);
     const close = () => { d.remove(); };

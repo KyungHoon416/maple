@@ -10,4 +10,5 @@
 - Never hardcode mock scores (베드로 88 / 다윗 81 / 모세 74).
 - Do not claim generated illustrations, human content review, deployment or tests that did not happen. Portraits: 25 generated (public/assets/characters/*.webp, list baked by build), the rest show a placeholder (watercolor landscape + name medallion, labelled 일러스트 준비 중). Add new portraits via scripts/fetch-portraits.sh + WebP conversion, then `npm run build`.
 - Quiz: tapping an option auto-advances (user request, overrides spec §3).
+- Hosting: Firebase project my-faith-story → https://my-faith-story.web.app. `npm run build:hosting` writes hosting/ (committed; CI deploys it). Share links = /share/<id>-e<n> static pages with OG tags. Rebuild hosting/ after any data or portrait change.
 - Workflow: `npm run generate:rarity && npm run validate:data && npm test && npm run test:exhaustive && npm run build && npm run test:e2e` (= `npm run qa`).

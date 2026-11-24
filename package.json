@@ -10,8 +10,9 @@
     "test:exhaustive": "node scripts/exhaustive-test.js",
     "build": "node scripts/build.js",
     "generate:docs": "node scripts/generate-docs.js",
+    "build:hosting": "node scripts/build.js && node scripts/build-hosting.js",
     "test:e2e": "node tests/e2e/run-e2e.js",
-    "qa": "npm run generate:rarity && npm run validate:data && npm test && npm run test:exhaustive && npm run build && npm run test:e2e"
+    "qa": "npm run generate:rarity && npm run validate:data && npm test && npm run test:exhaustive && npm run build:hosting && npm run test:e2e"
   },
   "devDependencies": {
     "jszip": "^3.10.1"
