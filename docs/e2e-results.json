@@ -1,5 +1,5 @@
 {
-  "ranAt": "2026-11-24T14:18:09.191Z",
+  "ranAt": "2026-11-24T15:45:32.501Z",
   "browser": "Playwright Chromium (headless)",
   "passed": 73,
   "failed": 0,
@@ -37,12 +37,12 @@
     {
       "name": "reveal shows rarity + character + skill",
       "ok": true,
-      "detail": "N · 예레미야 · 탄식을 드리는 정직함"
+      "detail": "R · 여호사밧 · 기도로 여는 하루"
     },
     {
       "name": "browser result equals Node engine result",
       "ok": true,
-      "detail": "예레미야 N"
+      "detail": "여호사밧 R"
     },
     {
       "name": "result shows rarity disclaimer",
@@ -67,12 +67,12 @@
     {
       "name": "card PNG feed 1080×1350",
       "ok": true,
-      "detail": "my-faith-story-jeremiah-card-feed.png"
+      "detail": "my-faith-story-jehoshaphat-card-feed.png"
     },
     {
       "name": "card PNG story 1080×1920",
       "ok": true,
-      "detail": "my-faith-story-jeremiah-card-story.png"
+      "detail": "my-faith-story-jehoshaphat-card-story.png"
     },
     {
       "name": "refresh restores same card (no re-roll)",
@@ -87,12 +87,12 @@
     {
       "name": "panel copy puts text + public share link on clipboard (no answers/scores)",
       "ok": true,
-      "detail": "\"[나의 믿음은 누구를 닮았을까?] 예레미야 — 뼛속의 불 (렘 20:7-18) · 나도 테스트하기\\nhttp://127.0.0.1:34115/standalone.html#share-ot-jeremiah-e2\""
+      "detail": "\"[나의 믿음은 누구를 닮았을까?] 여호사밧 — 우리의 눈은 주만 바라봅니다 (대하 20:3-12) · 나도 테스트하기\\nhttp://127.0.0.1:33681/standalone.html#share-ot-jehoshaphat-e2\""
     },
     {
       "name": "panel saves card PNG 1080×1350",
       "ok": true,
-      "detail": "my-faith-story-jeremiah-card-feed.png"
+      "detail": "my-faith-story-jehoshaphat-card-feed.png"
     },
     {
       "name": "panel closes with Escape",
@@ -107,7 +107,7 @@
     {
       "name": "copy-link button copies text + public #share-<id>-e<n> link only",
       "ok": true,
-      "detail": "\"[나의 믿음은 누구를 닮았을까?] 예레미야 — 뼛속의 불 (렘 20:7-18) · 나도 테스트하기\\nhttp://127.0.0.1:34115/standalone.html#share-ot-jeremiah-e2\""
+      "detail": "\"[나의 믿음은 누구를 닮았을까?] 여호사밧 — 우리의 눈은 주만 바라봅니다 (대하 20:3-12) · 나도 테스트하기\\nhttp://127.0.0.1:33681/standalone.html#share-ot-jehoshaphat-e2\""
     },
     {
       "name": "copied link opens public character/event page",
@@ -122,12 +122,12 @@
     {
       "name": "card-news current PNG 1080×1350",
       "ok": true,
-      "detail": "my-faith-story-jeremiah-02-feed.png"
+      "detail": "my-faith-story-jehoshaphat-02-feed.png"
     },
     {
       "name": "ZIP contains 7 PNG files at 1080×1350",
       "ok": true,
-      "detail": "my-faith-story-jeremiah-01-feed.png, my-faith-story-jeremiah-02-feed.png, my-faith-story-jeremiah-03-feed.png, my-faith-story-jeremiah-04-feed.png, my-faith-story-jeremiah-05-feed.png, my-faith-story-jeremiah-06-feed.png, my-faith-story-jeremiah-07-feed.png"
+      "detail": "my-faith-story-jehoshaphat-01-feed.png, my-faith-story-jehoshaphat-02-feed.png, my-faith-story-jehoshaphat-03-feed.png, my-faith-story-jehoshaphat-04-feed.png, my-faith-story-jehoshaphat-05-feed.png, my-faith-story-jehoshaphat-06-feed.png, my-faith-story-jehoshaphat-07-feed.png"
     },
     {
       "name": "story ZIP 7 × 1080×1920",
@@ -167,7 +167,7 @@
     {
       "name": "no requests outside fonts/cdnjs, none carry answers",
       "ok": true,
-      "detail": "107 external requests, bad=0"
+      "detail": "129 external requests, bad=0"
     },
     {
       "name": "no page errors",

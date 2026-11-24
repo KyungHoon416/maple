@@ -290,7 +290,7 @@
         <div class="steps panel" style="padding:18px">
           <div><h2 style="font-size:22px">어떻게 진행되나요?</h2><p class="muted small" style="margin:6px 0 0">간단한 4단계로 나의 성경 인물 카드를 만나 보세요.</p></div>
           <div class="step"><b><span class="n">1</span>12문항 선택</b><p>둘 중 지금의 나와 더 가까운 쪽을 골라요.</p></div>
-          <div class="step"><b><span class="n">2</span>사건 비교</b><p>약 250개 사건 프로필과 응답을 비교해요.</p></div>
+          <div class="step"><b><span class="n">2</span>사건 비교</b><p>${D.EVENTS.length}개 사건 프로필과 응답을 비교해요.</p></div>
           <div class="step"><b><span class="n">3</span>카드 공개</b><p>카드를 뒤집어 인물·특기·에디션을 확인해요.</p></div>
           <div class="step"><b><span class="n">4</span>결과 · 저장</b><p>차트, TOP3, 카드뉴스 7장을 저장하고 나눠요.</p></div>
         </div>

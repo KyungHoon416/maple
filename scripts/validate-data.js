@@ -39,7 +39,7 @@ D.AREAS.forEach(a => { if (perArea[a.id] !== 2) err('area ' + a.id + ' must have
 
 // Events
 const refRe = /^[가-힣]{1,3} \d+/;
-const seen = new Set();
+const seen = new Set(); const sigSets = new Map();
 D.EVENTS.forEach(ev => {
   if (!D.CHAR_BY_ID[ev.characterId]) err('event without character ' + ev.id);
   if (!ev.title || !ev.factualSummary) err('event missing text ' + ev.id);
@@ -51,6 +51,7 @@ D.EVENTS.forEach(ev => {
   if ((ev.eligibility === 'primary' || ev.eligibility === 'support') && ev.signals.length < 2) err('matchable event needs ≥2 signals: ' + ev.id);
   const dupKey = ev.characterId + '|' + ev.scriptureRefs;
   if (seen.has(dupKey)) warn('same character+reference twice: ' + dupKey); seen.add(dupKey);
+  if (ev.eligibility === 'primary') { const sk = [...ev.signals].sort().join(' '); if (sigSets.has(sk)) warn('identical signal set (always ties): ' + sigSets.get(sk) + ' = ' + ev.id); else sigSets.set(sk, ev.id); }
   if (!D.CONTEXT_TEMPLATES[ev.context]) err('missing template for context ' + ev.context);
 });
 D.CHARACTERS.forEach(c => { if (!c.eventIds.length) err('character without events ' + c.id); if (c.eventIds.length > 5) err('more than 5 events ' + c.id); });

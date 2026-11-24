@@ -1,140 +1,133 @@
 {
   "summary": {
-    "dataVersion": "6.0.0-draft.1",
+    "dataVersion": "6.1.0-draft.1",
     "space": 4096,
     "note": "equal-weight QA space, not a real user distribution",
     "failures": 0,
     "failSamples": [],
     "primaryCards": 4096,
     "noCardLowFit": 0,
-    "nearTieRate": 0.3079,
-    "exactTop2TieRate": 0.0288,
+    "nearTieRate": 0.3206,
+    "exactTop2TieRate": 0.0083,
     "top3ShorterThan3": 0,
     "primaryScore": {
-      "min": 81.14,
-      "p25": 86.15,
-      "median": 87.41,
-      "p75": 88.25,
-      "max": 93.41
+      "min": 88.55,
+      "p25": 93.81,
+      "median": 94.99,
+      "p75": 96.01,
+      "max": 99.71
     },
-    "distinctPrimaryCharacters": 38,
-    "primaryEligibleCharacters": 81,
-    "distinctPrimaryEvents": 46,
-    "distinctSkills": 26,
-    "signatureKeys": 44,
+    "distinctPrimaryCharacters": 67,
+    "primaryEligibleCharacters": 80,
+    "distinctPrimaryEvents": 89,
+    "distinctSkills": 31,
+    "signatureKeys": 73,
     "rarityCombos": {
-      "N": 3271,
-      "R": 613,
-      "SR": 179,
-      "SSR": 33
+      "N": 1980,
+      "R": 1791,
+      "SR": 232,
+      "SSR": 93
     },
     "rarityKeys": {
-      "SSR": 12,
-      "SR": 12,
-      "N": 13,
-      "R": 7
+      "SSR": 26,
+      "R": 25,
+      "N": 10,
+      "SR": 12
     },
     "sensitivity": {
       "flips": 49152,
-      "primaryCharacterChanged": 0.4545,
-      "rarityChanged": 0.1927
+      "primaryCharacterChanged": 0.5392,
+      "rarityChanged": 0.2968
     },
-    "maxCharacterShare": 0.123
+    "maxCharacterShare": 0.0728
   },
   "optionBias": [
     {
       "question": "Q01",
-      "A_highRarityShare": 0.073,
-      "A_topCharacter": "ot-jeremiah",
-      "B_highRarityShare": 0.03,
-      "B_topCharacter": "ot-jeremiah"
+      "A_highRarityShare": 0.091,
+      "A_topCharacter": "ot-elijah",
+      "B_highRarityShare": 0.067,
+      "B_topCharacter": "ot-noah"
     },
     {
       "question": "Q02",
-      "A_highRarityShare": 0.029,
-      "A_topCharacter": "nt-luke",
+      "A_highRarityShare": 0.083,
+      "A_topCharacter": "ot-elijah",
       "B_highRarityShare": 0.075,
-      "B_topCharacter": "ot-jeremiah"
+      "B_topCharacter": "ot-noah"
     },
     {
       "question": "Q03",
-      "A_highRarityShare": 0.052,
-      "A_topCharacter": "nt-luke",
-      "B_highRarityShare": 0.052,
-      "B_topCharacter": "ot-asaph"
+      "A_highRarityShare": 0.044,
+      "A_topCharacter": "nt-mary-bethany",
+      "B_highRarityShare": 0.114,
+      "B_topCharacter": "ot-noah"
     },
     {
       "question": "Q04",
-      "A_highRarityShare": 0.051,
-      "A_topCharacter": "nt-luke",
-      "B_highRarityShare": 0.053,
-      "B_topCharacter": "ot-samuel"
+      "A_highRarityShare": 0.103,
+      "A_topCharacter": "nt-mary-bethany",
+      "B_highRarityShare": 0.056,
+      "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q05",
-      "A_highRarityShare": 0.042,
-      "A_topCharacter": "ot-jeremiah",
-      "B_highRarityShare": 0.062,
-      "B_topCharacter": "ot-daniel"
+      "A_highRarityShare": 0.043,
+      "A_topCharacter": "ot-elijah",
+      "B_highRarityShare": 0.116,
+      "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q06",
-      "A_highRarityShare": 0.064,
-      "A_topCharacter": "ot-jeremiah",
-      "B_highRarityShare": 0.039,
-      "B_topCharacter": "ot-daniel"
+      "A_highRarityShare": 0.116,
+      "A_topCharacter": "nt-mary-bethany",
+      "B_highRarityShare": 0.042,
+      "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q07",
-      "A_highRarityShare": 0.03,
-      "A_topCharacter": "ot-jeremiah",
-      "B_highRarityShare": 0.073,
-      "B_topCharacter": "nt-elizabeth"
+      "A_highRarityShare": 0.084,
+      "A_topCharacter": "ot-elijah",
+      "B_highRarityShare": 0.074,
+      "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q08",
-      "A_highRarityShare": 0.069,
-      "A_topCharacter": "ot-jeremiah",
-      "B_highRarityShare": 0.035,
-      "B_topCharacter": "ot-jeremiah"
+      "A_highRarityShare": 0.073,
+      "A_topCharacter": "nt-mary-bethany",
+      "B_highRarityShare": 0.085,
+      "B_topCharacter": "nt-peter"
     },
     {
       "question": "Q09",
-      "A_highRarityShare": 0.06,
-      "A_topCharacter": "ot-david",
-      "B_highRarityShare": 0.043,
-      "B_topCharacter": "ot-jeremiah"
+      "A_highRarityShare": 0.077,
+      "A_topCharacter": "ot-elijah",
+      "B_highRarityShare": 0.082,
+      "B_topCharacter": "nt-mary-bethany"
     },
     {
       "question": "Q10",
-      "A_highRarityShare": 0.063,
-      "A_topCharacter": "ot-samuel",
-      "B_highRarityShare": 0.041,
-      "B_topCharacter": "nt-elizabeth"
+      "A_highRarityShare": 0.104,
+      "A_topCharacter": "nt-mary-bethany",
+      "B_highRarityShare": 0.054,
+      "B_topCharacter": "ot-elijah"
     },
     {
       "question": "Q11",
-      "A_highRarityShare": 0.068,
-      "A_topCharacter": "ot-jeremiah",
-      "B_highRarityShare": 0.035,
-      "B_topCharacter": "ot-jeremiah"
+      "A_highRarityShare": 0.099,
+      "A_topCharacter": "nt-titus",
+      "B_highRarityShare": 0.06,
+      "B_topCharacter": "nt-cornelius"
     },
     {
       "question": "Q12",
-      "A_highRarityShare": 0.041,
-      "A_topCharacter": "ot-jeremiah",
-      "B_highRarityShare": 0.063,
-      "B_topCharacter": "ot-jeremiah"
+      "A_highRarityShare": 0.042,
+      "A_topCharacter": "nt-james-brother",
+      "B_highRarityShare": 0.116,
+      "B_topCharacter": "ot-elijah"
     }
   ],
   "unexposed": [
-    {
-      "id": "ot-abraham",
-      "name": "아브라함",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 25
-    },
     {
       "id": "ot-enoch",
       "name": "에녹",
@@ -147,77 +140,21 @@
       "name": "욥",
       "eligibleForPrimary": true,
       "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 169
-    },
-    {
-      "id": "ot-moses",
-      "name": "모세",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "ot-gideon",
-      "name": "기드온",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "ot-hannah",
-      "name": "한나",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 245
-    },
-    {
-      "id": "ot-elisha",
-      "name": "엘리사",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 9
+      "top3Appearances": 146
     },
     {
       "id": "ot-miriam",
       "name": "미리암",
       "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "ot-solomon",
-      "name": "솔로몬",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 3): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 1
-    },
-    {
-      "id": "ot-nehemiah",
-      "name": "느헤미야",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 3): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 9
-    },
-    {
-      "id": "ot-ruth",
-      "name": "룻",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "ot-caleb",
-      "name": "갈렙",
-      "eligibleForPrimary": true,
       "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 3
+      "top3Appearances": 19
     },
     {
-      "id": "ot-rahab",
-      "name": "라합",
+      "id": "ot-deborah",
+      "name": "드보라",
       "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
+      "reason": "outscored (appears in TOP3 at best rank 3): its primary events share common signals with higher-coverage events",
+      "top3Appearances": 4
     },
     {
       "id": "ot-adam",
@@ -234,13 +171,6 @@
       "top3Appearances": 0
     },
     {
-      "id": "ot-jonah",
-      "name": "요나",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 92
-    },
-    {
       "id": "ot-saul",
       "name": "사울왕",
       "eligibleForPrimary": false,
@@ -252,7 +182,7 @@
       "name": "삼손",
       "eligibleForPrimary": false,
       "reason": "no primary-eligible event (record limited / reflection·library only)",
-      "top3Appearances": 10
+      "top3Appearances": 0
     },
     {
       "id": "ot-lot",
@@ -279,15 +209,15 @@
       "id": "ot-aaron",
       "name": "아론",
       "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
+      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
+      "top3Appearances": 39
     },
     {
       "id": "ot-leah",
       "name": "레아",
       "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
+      "reason": "outscored (appears in TOP3 at best rank 3): its primary events share common signals with higher-coverage events",
+      "top3Appearances": 1
     },
     {
       "id": "ot-rachel",
@@ -297,38 +227,10 @@
       "top3Appearances": 0
     },
     {
-      "id": "ot-rebekah",
-      "name": "리브가",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "ot-hagar",
-      "name": "하갈",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 130
-    },
-    {
-      "id": "ot-jehoiada",
-      "name": "여호야다",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
       "id": "ot-uzziah",
       "name": "웃시야",
       "eligibleForPrimary": false,
       "reason": "no primary-eligible event (record limited / reflection·library only)",
-      "top3Appearances": 48
-    },
-    {
-      "id": "ot-asa",
-      "name": "아사",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
       "top3Appearances": 0
     },
     {
@@ -346,13 +248,6 @@
       "top3Appearances": 0
     },
     {
-      "id": "nt-john",
-      "name": "요한",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
       "id": "nt-james-zebedee",
       "name": "야고보",
       "eligibleForPrimary": true,
@@ -363,36 +258,29 @@
       "id": "nt-andrew",
       "name": "안드레",
       "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
+      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
+      "top3Appearances": 12
     },
     {
-      "id": "nt-samaritan-woman",
-      "name": "사마리아 여인",
+      "id": "nt-philip-apostle",
+      "name": "빌립",
       "eligibleForPrimary": true,
       "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 50
-    },
-    {
-      "id": "nt-paul",
-      "name": "바울",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
+      "top3Appearances": 7
     },
     {
       "id": "nt-timothy",
       "name": "디모데",
       "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
+      "reason": "outscored (appears in TOP3 at best rank 3): its primary events share common signals with higher-coverage events",
+      "top3Appearances": 8
     },
     {
       "id": "nt-mark",
       "name": "마가",
       "eligibleForPrimary": true,
       "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 141
+      "top3Appearances": 12
     },
     {
       "id": "nt-matthew",
@@ -402,74 +290,11 @@
       "top3Appearances": 0
     },
     {
-      "id": "nt-simeon",
-      "name": "시므온",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-martha",
-      "name": "마르다",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-tabitha",
-      "name": "다비다",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 3): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 1
-    },
-    {
-      "id": "nt-stephen",
-      "name": "스데반",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-silas",
-      "name": "실라",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-john-baptist",
-      "name": "세례 요한",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-philip-deacon",
-      "name": "빌립",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 22
-    },
-    {
-      "id": "nt-barnabas",
-      "name": "바나바",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 84
-    },
-    {
-      "id": "nt-priscilla",
-      "name": "브리스길라",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 2): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 63
-    },
-    {
-      "id": "nt-titus",
-      "name": "디도",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
+      "id": "nt-aquila",
+      "name": "아굴라",
+      "eligibleForPrimary": false,
+      "reason": "no primary-eligible event (record limited / reflection·library only)",
+      "top3Appearances": 26
     },
     {
       "id": "nt-epaphroditus",
@@ -521,38 +346,10 @@
       "top3Appearances": 0
     },
     {
-      "id": "nt-centurion-capernaum",
-      "name": "가버나움의 백부장",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-syrophoenician-woman",
-      "name": "수로보니게 여인",
-      "eligibleForPrimary": true,
-      "reason": "outscored (appears in TOP3 at best rank 3): its primary events share common signals with higher-coverage events",
-      "top3Appearances": 7
-    },
-    {
       "id": "nt-lazarus",
       "name": "나사로",
       "eligibleForPrimary": false,
       "reason": "no primary-eligible event (record limited / reflection·library only)",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-joseph-arimathea",
-      "name": "아리마대 요셉",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
-      "top3Appearances": 0
-    },
-    {
-      "id": "nt-philemon",
-      "name": "빌레몬",
-      "eligibleForPrimary": true,
-      "reason": "algorithm: never reaches TOP3 — signals overlap with events that have more matched questions",
       "top3Appearances": 0
     },
     {
