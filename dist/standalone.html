@@ -214,6 +214,10 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block
 .dialog { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: grid; place-items: center; z-index: 40; padding: 16px; }
 .dialog .panel { max-width: 420px; }
 
+.share-panel { width: min(440px, 100%); max-height: calc(100vh - 32px); overflow-y: auto; }
+.share-panel .sp-card { display: block; width: 160px; aspect-ratio: 4 / 5; border-radius: 12px; margin: 0 auto 14px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+.share-panel textarea { width: 100%; margin-top: 6px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); color: var(--ivory); padding: 10px 12px; font: inherit; font-size: 14px; resize: none; }
+
 </style>
 <header class="top">
   <div class="wrap">
@@ -1653,36 +1657,96 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
   }
 
   // ── share (public, non-personal only)
+  // Inside the Claude artifact frame the page cannot see its own public address, so links point at the
+  // artifact URL (the viewer must have access to the artifact). Set PUBLIC_BASE_URL after a real deployment.
+  const ARTIFACT_URL = 'https://claude.ai/artifact/1rWeoJg4p6YchzgV62eJ4G';
+  const framed = (() => { try { return window.top !== window; } catch (e) { return true; } })();
   function publicURL(hash) {
-    const base = PUBLIC_BASE_URL || (/^https?:$/.test(location.protocol) && window.top === window ? location.origin + location.pathname : '');
-    return base ? base + hash : '';
+    const base = PUBLIC_BASE_URL || (!framed && /^https?:$/.test(location.protocol) ? location.origin + location.pathname : ARTIFACT_URL);
+    return base + hash;
   }
+  const shareHash = r => (r.primary ? ENG.sharePath(r.primary.characterId, r.primary.eventId) : '');
   function shareText(r) {
     if (!r.primary) return '나의 믿음은 누구를 닮았을까? 12개의 질문으로 지금의 나를 돌아보세요.';
     const ch = D.CHAR_BY_ID[r.primary.characterId], ev = D.EVENT_BY_ID[r.primary.eventId];
     return `[나의 믿음은 누구를 닮았을까?] ${charName(ch)} — ${ev.title} (${ev.scriptureRefs}) · 나도 테스트하기`;
   }
-  async function copy(text) {
-    try { await navigator.clipboard.writeText(text); toast('복사했어요.'); return true; }
-    catch (e) { const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (x) { } ta.remove(); toast(ok ? '복사했어요.' : '복사가 막혀 있어요. 텍스트를 직접 선택해 주세요.'); return ok; }
+  const shareMessage = r => shareText(r) + '\n' + publicURL(shareHash(r));
+  async function copy(text, quiet) {
+    try { await navigator.clipboard.writeText(text); if (!quiet) toast('복사했어요. 원하는 곳에 붙여넣기 하세요.'); return true; }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand('copy'); } catch (x) { } ta.remove();
+      if (!quiet) toast(ok ? '복사했어요. 원하는 곳에 붙여넣기 하세요.' : '복사가 막혀 있어요. 아래 문구를 길게 눌러 직접 복사해 주세요.');
+      return ok;
+    }
   }
+
+  // In-page share panel: works everywhere (artifact frame, desktop, mobile) without any external SDK.
+  async function sharePanel(r, mode) {
+    const title = { native: '공유하기', kakao: '카카오톡으로 보내기', link: '소개 링크 복사' }[mode];
+    const steps = mode === 'kakao'
+      ? '<ol class="small" style="margin:0 0 12px;padding-left:18px"><li>‘문구·링크 복사’를 누르고 카카오톡 대화방에 붙여넣어요.</li><li>카드 이미지도 보내려면 ‘카드 이미지 저장’ 후 사진으로 첨부해요.</li></ol>'
+      : mode === 'native' ? '<p class="small muted" style="margin:0 0 12px">이 화면에서는 기기 공유 창을 열 수 없어요. 문구를 복사하거나 카드 이미지를 저장해 원하는 앱에 올려 주세요.</p>' : '';
+    const d = document.createElement('div'); d.className = 'dialog'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'sp-title');
+    d.innerHTML = `<div class="panel share-panel">
+      <div class="sectitle"><h2 id="sp-title" style="font-size:20px">${esc(title)}</h2><button class="btn ghost sm" data-close aria-label="닫기">✕</button></div>
+      ${r.primary ? '<img class="sp-card" alt="공유할 카드 미리보기" data-sp-card>' : ''}
+      ${steps}
+      <label class="small muted" for="sp-text">보낼 문구 (나의 응답·점수는 담기지 않아요)</label>
+      <textarea id="sp-text" readonly rows="3">${esc(shareMessage(r))}</textarea>
+      <div class="row" style="margin-top:12px"><button class="btn gold sm" data-copy>문구·링크 복사</button>${r.primary ? '<button class="btn sm" data-save>카드 이미지 저장</button>' : ''}</div>
+      ${framed && !PUBLIC_BASE_URL ? '<p class="small muted" style="margin:10px 0 0">링크는 이 아티팩트 주소예요. 받는 사람이 열려면 아티팩트가 공유되어 있어야 해요.</p>' : ''}
+    </div>`;
+    document.body.appendChild(d);
+    const close = () => { d.remove(); };
+    d.addEventListener('click', e => { if (e.target === d) close(); });
+    d.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    d.querySelector('[data-close]').onclick = close;
+    const ta = d.querySelector('#sp-text');
+    ta.addEventListener('focus', () => ta.select());
+    d.querySelector('[data-copy]').onclick = async () => { const ok = await copy(ta.value, true); if (ok) toast('복사했어요. 원하는 곳에 붙여넣기 하세요.'); else { ta.focus(); ta.select(); toast('자동 복사가 막혀 있어요. 선택된 문구를 직접 복사해 주세요.'); } };
+    const sv = d.querySelector('[data-save]'); if (sv) sv.onclick = () => saveCard('feed');
+    d.querySelector('[data-copy]').focus();
+    const img = d.querySelector('[data-sp-card]'); if (img) img.src = await cardURL(cardOf(r), 'thumb');
+  }
+
   async function shareLink(r) {
-    const hash = r.primary ? ENG.sharePath(r.primary.characterId, r.primary.eventId) : '#';
-    const url = publicURL(hash);
-    await copy(url ? shareText(r) + '\n' + url : shareText(r));
-    if (!url) toast('공개 URL이 아직 없어 소개 문구만 복사했어요.');
+    const ok = await copy(shareMessage(r), true);
+    if (ok) toast('소개 문구와 링크를 복사했어요.'); else sharePanel(r, 'link');
   }
-  async function shareNative(r) {
+  // Pre-rendered share image so navigator.share runs inside the click (user activation is kept).
+  let shareFile = null;
+  async function prepareShareFile(r) {
+    shareFile = null;
+    if (!r.primary || !navigator.share) return;
+    try { const blob = await slideBlob(r, 1, 'feed'); shareFile = new File([blob], `my-faith-story-${slug(r)}-card.png`, { type: 'image/png' }); } catch (e) { }
+  }
+  function shareNative(r) {
+    if (!navigator.share) { sharePanel(r, 'native'); return; }
+    const data = { title: '나의 믿음은 누구를 닮았을까?', text: shareText(r), url: publicURL(shareHash(r)) };
+    const withFile = shareFile && navigator.canShare && navigator.canShare({ files: [shareFile] });
+    navigator.share(withFile ? { files: [shareFile], text: data.text + '\n' + data.url } : data)
+      .catch(e => { if (e && e.name === 'AbortError') return; sharePanel(r, 'native'); });
+  }
+  // Kakao: official JS SDK when a key + registered public domain exist (not in the artifact frame,
+  // whose CSP blocks the SDK). Otherwise the share panel with copy + image save.
+  const KAKAO_SDK = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
+  let kakaoReady = null;
+  function loadKakao() {
+    if (kakaoReady) return kakaoReady;
+    kakaoReady = new Promise((res, rej) => { const s = document.createElement('script'); s.src = KAKAO_SDK; s.onload = () => { try { if (!window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY); res(window.Kakao); } catch (e) { rej(e); } }; s.onerror = () => { kakaoReady = null; rej(new Error('kakao sdk')); }; document.head.appendChild(s); });
+    return kakaoReady;
+  }
+  async function shareKakao(r) {
+    if (!KAKAO_JS_KEY || framed || !PUBLIC_BASE_URL) { sharePanel(r, 'kakao'); return; }
     try {
-      const blob = await slideBlob(r, 1, 'feed');
-      const file = new File([blob], `my-faith-story-${slug(r)}-01-feed.png`, { type: 'image/png' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text: shareText(r) }); return; }
-      if (navigator.share) { const url = publicURL(r.primary ? ENG.sharePath(r.primary.characterId, r.primary.eventId) : '#'); await navigator.share({ text: shareText(r), url: url || undefined }); return; }
-      toast('이 환경에서는 기기 공유를 지원하지 않아요. 이미지를 저장하거나 링크를 복사해 주세요.');
-    } catch (e) { if (e && e.name === 'AbortError') return; toast('공유가 열리지 않았어요. 이미지 저장 또는 링크 복사를 이용해 주세요.'); }
-  }
-  function shareKakao(r) {
-    if (!KAKAO_JS_KEY) { toast('카카오톡 공유는 아직 설정 전이에요. 대신 소개 문구를 복사했어요.'); shareLink(r); return; }
+      const K = await loadKakao();
+      const url = publicURL(shareHash(r));
+      const ch = r.primary && D.CHAR_BY_ID[r.primary.characterId];
+      const imageUrl = ch && RENDER.hasPortrait(ch.id) ? PUBLIC_BASE_URL.replace(/[^/]*$/, '') + RENDER.portraitSrc(ch.id) : undefined;
+      K.Share.sendDefault({ objectType: 'feed', content: { title: '나의 믿음은 누구를 닮았을까?', description: shareText(r), imageUrl, link: { mobileWebUrl: url, webUrl: url } }, buttons: [{ title: '나도 테스트하기', link: { mobileWebUrl: url, webUrl: url } }] });
+    } catch (e) { sharePanel(r, 'kakao'); }
   }
 
   // ── routing
@@ -1945,6 +2009,7 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
     }
     $app.querySelectorAll('img[data-portrait]').forEach(img => { img.src = RENDER.portraitURL(img.dataset.portrait); });
     document.getElementById('restart').onclick = restart;
+    prepareShareFile(r);
     document.getElementById('sh-native').onclick = () => shareNative(r);
     document.getElementById('sh-kakao').onclick = () => shareKakao(r);
     document.getElementById('sh-copy').onclick = () => shareLink(r);
@@ -2041,6 +2106,7 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
       await saveBlob(blob, `my-faith-story-${slug(r)}-cardnews-${cnFormat}.zip`);
       status(`${list.length}장을 ZIP으로 저장 요청했어요.`);
     }
+    prepareShareFile(r);
     document.getElementById('cn-native').onclick = () => shareNative(r);
     document.getElementById('cn-kakao').onclick = () => shareKakao(r);
     document.getElementById('cn-copy').onclick = () => shareLink(r);

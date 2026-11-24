@@ -110,13 +110,36 @@ async function download(page, clickSel) {
   check('refresh restores same card (no re-roll)', alt1 === await page.locator('#tc').getAttribute('alt'));
 
   // share fallbacks
+  const scores = expected.top.map(t => t.score.toFixed(1));
+  const safeShare = c => !!c && !c.includes(ANSWERS) && !scores.some(s => c.includes(s)) && /https?:\S+#share-[a-z0-9-]+-e\d+$/.test(c.trim());
+  // Kakao (no key) → share panel with copy + image save
   await page.click('#sh-kakao');
-  check('kakao without key → guidance + copy fallback', /카카오톡 공유는 아직 설정 전|복사/.test(await page.locator('.toast').textContent()));
+  await page.waitForSelector('.share-panel');
+  check('kakao button opens share panel', (await page.locator('#sp-title').textContent()).includes('카카오톡'));
+  await page.waitForFunction(() => { const i = document.querySelector('[data-sp-card]'); return i && i.naturalWidth > 0; });
+  await page.click('.share-panel [data-copy]'); await page.waitForTimeout(300);
+  const clipK = await page.evaluate(() => navigator.clipboard.readText()).catch(() => '');
+  check('panel copy puts text + public share link on clipboard (no answers/scores)', safeShare(clipK), JSON.stringify(clipK));
+  const sp = await download(page, '.share-panel [data-save]'); const sps = pngSize(sp.buf);
+  check('panel saves card PNG 1080×1350', sps.w === 1080 && sps.h === 1350, sp.name);
+  await page.keyboard.press('Escape');
+  check('panel closes with Escape', !(await page.locator('.share-panel').count()));
+  // device share: Web Share if available, otherwise the same panel
+  const hasShare = await page.evaluate(() => !!navigator.share);
+  if (!hasShare) {
+    await page.click('#sh-native'); await page.waitForSelector('.share-panel');
+    check('device share without Web Share API → panel', (await page.locator('#sp-title').textContent()) === '공유하기');
+    await page.click('.share-panel [data-close]');
+  } else check('device share uses Web Share API', true, 'navigator.share present');
+  // copy link
+  await page.evaluate(() => navigator.clipboard.writeText(''));
   await page.click('#sh-copy'); await page.waitForTimeout(300);
   const clip = await page.evaluate(() => navigator.clipboard.readText()).catch(() => '');
-  const scores = expected.top.map(t => t.score.toFixed(1));
-  const link = (clip.match(/https?:\S+/) || [''])[0];
-  check('copied share text has no answers/scores; link is public #share-<id>-e<n> only', clip && !clip.includes(ANSWERS) && !scores.some(s => clip.includes(s)) && (!link || /#share-[a-z0-9-]+-e\d+$/.test(link)), JSON.stringify(clip));
+  check('copy-link button copies text + public #share-<id>-e<n> link only', safeShare(clip), JSON.stringify(clip));
+  // the copied link opens the public share page
+  await page.goto(clip.trim().split('\n').pop()); await page.waitForSelector('h1');
+  check('copied link opens public character/event page', (await page.locator('h1').textContent()).includes(D.CHAR_BY_ID[expected.primary.characterId].displayName));
+  await page.goto(URL + '#result'); await page.waitForSelector('#tc');
 
   // card news
   await page.goto(URL + '#cards');
