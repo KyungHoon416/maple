@@ -124,11 +124,12 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; li
 
 /* reveal */
 .reveal { min-height: 72vh; display: grid; place-items: center; text-align: center; padding-block: 32px; }
-.flip { width: min(340px, 82vw); aspect-ratio: 4 / 5; perspective: 1400px; margin: 22px auto; cursor: pointer; border: 0; background: none; padding: 0; }
-.flip .inner { position: relative; width: 100%; height: 100%; transition: transform .9s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
+.flip { display: block; width: min(340px, 82vw); aspect-ratio: 4 / 5; perspective: 1400px; margin: 22px auto; cursor: pointer; border: 0; background: none; padding: 0; }
+.flip .inner { display: block; position: relative; width: 100%; height: 100%; -webkit-transform-style: preserve-3d; transition: transform .9s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
 .flip.open .inner { transform: rotateY(180deg); }
-.flip .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.45); }
+.flip .face { display: block; position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.45); }
 .flip .face img { width: 100%; height: 100%; display: block; }
+.flip .back { transform: rotateY(0deg); }
 .flip .front { transform: rotateY(180deg); }
 .flip:not(.open) .back { animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 50% { box-shadow: 0 30px 70px rgba(220,196,138,.28); } }
@@ -1839,9 +1840,9 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
     $app.innerHTML = `<section class="wrap reveal"><div>
       <p class="eyebrow">Card Reveal</p>
       <h1 style="font-size:clamp(24px,4vw,34px);margin-top:8px">나의 성경 인물 카드가 준비되었어요</h1>
-      <button class="flip ${open ? 'open' : ''}" id="flip" aria-label="${open ? '공개된 카드' : '카드 뒤집기'}">
-        <span class="inner"><span class="face back"><img id="back" alt="카드 뒷면"></span><span class="face front"><img id="front" alt=""></span></span>
-      </button>
+      <div class="flip ${open ? 'open' : ''}" id="flip" role="button" tabindex="0" aria-label="${open ? '공개된 카드' : '카드 뒤집기'}">
+        <div class="inner"><div class="face back"><img id="back" alt="카드 뒷면"></div><div class="face front"><img id="front" alt=""></div></div>
+      </div>
       <p id="revealmsg" aria-live="polite" class="muted">${open ? '' : '카드를 탭하거나 Enter 키를 눌러 뒤집어 보세요.'}</p>
       <div class="row" style="justify-content:center">
         <button class="btn gold" id="flipbtn" ${open ? 'hidden' : ''}>카드 뒤집기</button>
@@ -1862,7 +1863,10 @@ window.MFS_PORTRAITS=["nt-peter","ot-abraham","ot-asaph","ot-daniel","ot-david",
       document.getElementById('flipbtn').hidden = true; document.getElementById('savecard').hidden = false;
       const t = document.getElementById('toresult'); t.textContent = '결과 자세히 보기 ›'; t.className = 'btn gold';
     };
-    document.getElementById('flip').onclick = doFlip; document.getElementById('flipbtn').onclick = doFlip;
+    // A div (not <button>): Safari does not render 3D transforms / backface-visibility inside <button>.
+    const flipEl = document.getElementById('flip');
+    flipEl.onclick = doFlip; document.getElementById('flipbtn').onclick = doFlip;
+    flipEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doFlip(); } });
     document.getElementById('toresult').onclick = () => { S.revealed = true; save(); };
     document.getElementById('savecard').onclick = () => saveCard('feed');
   }

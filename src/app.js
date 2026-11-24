@@ -328,9 +328,9 @@
     $app.innerHTML = `<section class="wrap reveal"><div>
       <p class="eyebrow">Card Reveal</p>
       <h1 style="font-size:clamp(24px,4vw,34px);margin-top:8px">나의 성경 인물 카드가 준비되었어요</h1>
-      <button class="flip ${open ? 'open' : ''}" id="flip" aria-label="${open ? '공개된 카드' : '카드 뒤집기'}">
-        <span class="inner"><span class="face back"><img id="back" alt="카드 뒷면"></span><span class="face front"><img id="front" alt=""></span></span>
-      </button>
+      <div class="flip ${open ? 'open' : ''}" id="flip" role="button" tabindex="0" aria-label="${open ? '공개된 카드' : '카드 뒤집기'}">
+        <div class="inner"><div class="face back"><img id="back" alt="카드 뒷면"></div><div class="face front"><img id="front" alt=""></div></div>
+      </div>
       <p id="revealmsg" aria-live="polite" class="muted">${open ? '' : '카드를 탭하거나 Enter 키를 눌러 뒤집어 보세요.'}</p>
       <div class="row" style="justify-content:center">
         <button class="btn gold" id="flipbtn" ${open ? 'hidden' : ''}>카드 뒤집기</button>
@@ -351,7 +351,10 @@
       document.getElementById('flipbtn').hidden = true; document.getElementById('savecard').hidden = false;
       const t = document.getElementById('toresult'); t.textContent = '결과 자세히 보기 ›'; t.className = 'btn gold';
     };
-    document.getElementById('flip').onclick = doFlip; document.getElementById('flipbtn').onclick = doFlip;
+    // A div (not <button>): Safari does not render 3D transforms / backface-visibility inside <button>.
+    const flipEl = document.getElementById('flip');
+    flipEl.onclick = doFlip; document.getElementById('flipbtn').onclick = doFlip;
+    flipEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doFlip(); } });
     document.getElementById('toresult').onclick = () => { S.revealed = true; save(); };
     document.getElementById('savecard').onclick = () => saveCard('feed');
   }
