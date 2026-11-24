@@ -1,7 +1,7 @@
 {
-  "ranAt": "2026-11-24T12:08:35.943Z",
+  "ranAt": "2026-11-24T12:36:45.537Z",
   "browser": "Playwright Chromium (headless)",
-  "passed": 65,
+  "passed": 67,
   "failed": 0,
   "results": [
     {
@@ -20,6 +20,11 @@
       "detail": "loaded"
     },
     {
+      "name": "option click auto-advances to next question",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "previous answer kept after going back",
       "ok": true,
       "detail": ""
@@ -27,12 +32,12 @@
     {
       "name": "reveal shows rarity + character + skill",
       "ok": true,
-      "detail": "N · 고넬료 · 꾸준한 기도의 무릎"
+      "detail": "N · 예레미야 · 탄식을 드리는 정직함"
     },
     {
       "name": "browser result equals Node engine result",
       "ok": true,
-      "detail": "고넬료 N"
+      "detail": "예레미야 N"
     },
     {
       "name": "result shows rarity disclaimer",
@@ -57,12 +62,12 @@
     {
       "name": "card PNG feed 1080×1350",
       "ok": true,
-      "detail": "my-faith-story-cornelius-card-feed.png"
+      "detail": "my-faith-story-jeremiah-card-feed.png"
     },
     {
       "name": "card PNG story 1080×1920",
       "ok": true,
-      "detail": "my-faith-story-cornelius-card-story.png"
+      "detail": "my-faith-story-jeremiah-card-story.png"
     },
     {
       "name": "refresh restores same card (no re-roll)",
@@ -75,9 +80,9 @@
       "detail": ""
     },
     {
-      "name": "copied share text has no answers/scores",
+      "name": "copied share text has no answers/scores; link is public #share-<id>-e<n> only",
       "ok": true,
-      "detail": "\"[나의 믿음은 누구를 닮았을까?] 고넬료 — 항상 기도하고 구제하다 (행 10:1-4) · 나도 테스트하기\""
+      "detail": "\"[나의 믿음은 누구를 닮았을까?] 예레미야 — 뼛속의 불 (렘 20:7-18) · 나도 테스트하기\\nhttp://127.0.0.1:38007/standalone.html#share-ot-jeremiah-e2\""
     },
     {
       "name": "keyboard ArrowRight moves to card 2",
@@ -87,12 +92,12 @@
     {
       "name": "card-news current PNG 1080×1350",
       "ok": true,
-      "detail": "my-faith-story-cornelius-02-feed.png"
+      "detail": "my-faith-story-jeremiah-02-feed.png"
     },
     {
       "name": "ZIP contains 7 PNG files at 1080×1350",
       "ok": true,
-      "detail": "my-faith-story-cornelius-01-feed.png, my-faith-story-cornelius-02-feed.png, my-faith-story-cornelius-03-feed.png, my-faith-story-cornelius-04-feed.png, my-faith-story-cornelius-05-feed.png, my-faith-story-cornelius-06-feed.png, my-faith-story-cornelius-07-feed.png"
+      "detail": "my-faith-story-jeremiah-01-feed.png, my-faith-story-jeremiah-02-feed.png, my-faith-story-jeremiah-03-feed.png, my-faith-story-jeremiah-04-feed.png, my-faith-story-jeremiah-05-feed.png, my-faith-story-jeremiah-06-feed.png, my-faith-story-jeremiah-07-feed.png"
     },
     {
       "name": "story ZIP 7 × 1080×1920",
@@ -106,6 +111,11 @@
     },
     {
       "name": "dictionary search 다윗 → 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "generated portrait loads on character page (베드로)",
       "ok": true,
       "detail": ""
     },
@@ -127,7 +137,7 @@
     {
       "name": "no requests outside fonts/cdnjs, none carry answers",
       "ok": true,
-      "detail": "67 external requests, bad=0"
+      "detail": "128 external requests, bad=0"
     },
     {
       "name": "no page errors",

@@ -126,19 +126,38 @@
     ctx.fillStyle = 'rgba(60,35,20,.18)'; ctx.beginPath(); ctx.ellipse(cx + w * 0.04, top + h * 0.14, w * 0.05, h * 0.08, 0, 0, Math.PI * 2); ctx.fill();
     paper(ctx, w, h, r);
   }
+  // Real generated portraits (served as files next to the page); others fall back to the procedural placeholder.
+  const REAL = new Set(root.MFS_PORTRAITS || []);
+  const PORTRAIT_BASE = 'assets/characters/';
+  const imgs = new Map();
+  function hasPortrait(id) { return REAL.has(id); }
+  function portraitSrc(id) { return PORTRAIT_BASE + id + '.webp'; }
+  function loadPortrait(id) {
+    if (!REAL.has(id)) return Promise.resolve(null);
+    if (imgs.has(id)) return imgs.get(id).p;
+    const im = new Image(); const rec = { im, ok: false };
+    rec.p = new Promise(res => { im.onload = () => { rec.ok = true; res(im); }; im.onerror = () => res(null); });
+    im.src = portraitSrc(id); imgs.set(id, rec); return rec.p;
+  }
+  function preload(ids) { return Promise.all([...new Set(ids)].map(loadPortrait)); }
   const portraitCache = new Map();
   function portraitCanvas(charId, w, h) {
-    const key = charId + w + 'x' + h;
+    const rec = imgs.get(charId); const real = rec && rec.ok;
+    const key = charId + w + 'x' + h + (real ? 'r' : 'p');
     if (portraitCache.has(key)) return portraitCache.get(key);
     const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
     const ctx = cv.getContext('2d');
-    scene(ctx, w, h, charId); figure(ctx, w, h, charId);
+    if (real) { // cover-fit, focal point slightly above centre
+      const im = rec.im, sc = Math.max(w / im.naturalWidth, h / im.naturalHeight);
+      const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
+      ctx.drawImage(im, (w - dw) / 2, (h - dh) * 0.4, dw, dh);
+    } else { scene(ctx, w, h, charId); figure(ctx, w, h, charId); }
     const v = ctx.createLinearGradient(0, h * 0.6, 0, h); v.addColorStop(0, 'rgba(20,27,23,0)'); v.addColorStop(1, 'rgba(20,27,23,.55)');
     ctx.fillStyle = v; ctx.fillRect(0, 0, w, h);
     portraitCache.set(key, cv);
     return cv;
   }
-  function portraitURL(charId) { return portraitCanvas(charId, 288, 360).toDataURL('image/jpeg', 0.85); }
+  function portraitURL(charId) { return REAL.has(charId) ? portraitSrc(charId) : portraitCanvas(charId, 288, 360).toDataURL('image/jpeg', 0.85); }
   function sceneURL(seed, w, h) { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; scene(cv.getContext('2d'), w, h, seed); return cv.toDataURL('image/jpeg', 0.82); }
 
   // ── Trading card
@@ -207,8 +226,8 @@
     if (card.rarity === 'SR' || card.rarity === 'SSR') sparkles(ctx, px, py, pw, ph * 0.6, ch.id, card.rarity === 'SSR' ? 22 : 12);
     ctx.restore();
     ctx.strokeStyle = frameGrad(ctx, px, py, pw, ph, card.rarity); ctx.lineWidth = 6; rr(ctx, px, py, pw, ph, 24); ctx.stroke();
-    ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, px + 16, py + 16, 150, 40, 20); ctx.fill();
-    ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('임시 일러스트', px + 91, py + 43);
+    if (!REAL.has(ch.id)) { ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, px + 16, py + 16, 150, 40, 20); ctx.fill();
+      ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('임시 일러스트', px + 91, py + 43); }
     // name plate
     let y = py + ph - 40;
     rr(ctx, px + 60, y, pw - 120, 112, 56); ctx.fillStyle = f.plate; ctx.fill();
@@ -386,5 +405,5 @@
   function toBlob(canvas) { return new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png')); }
   function render(fn, W, H) { const cv = document.createElement('canvas'); cv.width = W; cv.height = H; fn(cv.getContext('2d'), W, H); return cv; }
 
-  root.MFS_RENDER = { drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
+  root.MFS_RENDER = { hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
 })(window);

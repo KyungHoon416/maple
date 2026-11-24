@@ -8,5 +8,6 @@
 - Matching engine is a pure, deterministic function (src/engine.js). No per-option character mapping, no randomness, no LLM.
 - Rarity N/R/SR/SSR = design rarity of signatureKey (skill | secondary family | event context) over the 4,096 equal-weight combos. Not faith level, not probability. Never hand out rarity by "good" answers. Regenerate with `npm run generate:rarity` after any data change.
 - Never hardcode mock scores (베드로 88 / 다윗 81 / 모세 74).
-- Do not claim generated illustrations, human content review, deployment or tests that did not happen. Current art = procedural placeholders (marked 임시).
+- Do not claim generated illustrations, human content review, deployment or tests that did not happen. Portraits: 25 generated (public/assets/characters/*.webp, list baked by build), the rest are procedural placeholders marked 임시. Add new portraits via scripts/fetch-portraits.sh + WebP conversion, then `npm run build`.
+- Quiz: tapping an option auto-advances (user request, overrides spec §3).
 - Workflow: `npm run generate:rarity && npm run validate:data && npm test && npm run test:exhaustive && npm run build && npm run test:e2e` (= `npm run qa`).

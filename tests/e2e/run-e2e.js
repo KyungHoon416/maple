@@ -6,14 +6,21 @@ const fs = require('fs'), path = require('path');
 const { chromium, devices } = require('playwright');
 const JSZip = require('jszip');
 const root = path.join(__dirname, '..', '..');
-const URL = 'file://' + path.join(root, 'dist/standalone.html');
+// Served over HTTP (not file://) so same-origin portrait images can be drawn to canvas without tainting it.
+const http = require('http');
+const MIME = { '.html': 'text/html; charset=utf-8', '.webp': 'image/webp', '.js': 'application/javascript' };
+const server = http.createServer((req, res) => {
+  const p = path.join(root, 'dist', decodeURIComponent(req.url.split('?')[0]).replace(/\.\.+/g, ''));
+  fs.readFile(p, (err, buf) => { if (err) { res.writeHead(404); res.end(); return; } res.writeHead(200, { 'Content-Type': MIME[path.extname(p)] || 'application/octet-stream' }); res.end(buf); });
+}).listen(0);
+const URL = 'http://127.0.0.1:' + server.address().port + '/standalone.html';
 const SHOTS = path.join(root, 'docs/screenshots'), SAMPLES = path.join(root, 'docs/samples');
 fs.mkdirSync(SHOTS, { recursive: true }); fs.mkdirSync(SAMPLES, { recursive: true });
-const ANSWERS = 'ABBABBABAABA';
+const ANSWERS = 'AAABAAAABAAB';
 const results = []; let failed = 0;
 const check = (name, ok, detail) => { results.push({ name, ok: !!ok, detail: detail || '' }); if (!ok) failed++; console.log((ok ? 'PASS ' : 'FAIL ') + name + (detail ? ' — ' + detail : '')); };
 const pngSize = buf => ({ w: buf.readUInt32BE(16), h: buf.readUInt32BE(20), sig: buf.slice(1, 4).toString() });
-const ALLOWED_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'cdnjs.cloudflare.com'];
+const ALLOWED_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'cdnjs.cloudflare.com', '127.0.0.1:' + server.address().port];
 
 async function newCtx(browser, opts) {
   const proxy = process.env.HTTPS_PROXY || process.env.https_proxy;
@@ -29,7 +36,7 @@ async function answerAll(page, answers) {
     await page.waitForSelector('#qtitle');
     if (i === 0 && !(await page.locator('input[name=q]:checked').count())) check('next disabled before answering', await page.locator('#next').isDisabled());
     await page.locator(`label[for="opt-${i + 1}${answers[i]}"]`).click();
-    await page.locator('#next').click();
+    if (i < 11) await page.waitForFunction(n => document.querySelector('.progress span:last-child').textContent.trim() === n + ' / 12', i + 2);
   }
   await page.waitForSelector('#flip');
 }
@@ -42,7 +49,7 @@ async function download(page, clickSel) {
 (async () => {
   const launchOpts = {};
   const proxy = process.env.HTTPS_PROXY || process.env.https_proxy;
-  if (proxy) launchOpts.proxy = { server: proxy };
+  if (proxy) launchOpts.proxy = { server: proxy, bypass: '127.0.0.1,localhost' };
   const browser = await chromium.launch(launchOpts);
 
   // ── Desktop full flow
@@ -59,7 +66,8 @@ async function download(page, clickSel) {
 
   await page.goto(URL + '#test');
   await page.locator('label[for="opt-1A"]').click();
-  await page.locator('#next').click();
+  await page.waitForFunction(() => document.querySelector('.progress span:last-child').textContent.trim() === '2 / 12');
+  check('option click auto-advances to next question', true);
   await page.locator('#prev').click();
   check('previous answer kept after going back', await page.locator('#opt-1A').isChecked());
   await page.screenshot({ path: path.join(SHOTS, 'pc-02-question.png') });
@@ -102,7 +110,9 @@ async function download(page, clickSel) {
   check('kakao without key → guidance + copy fallback', /카카오톡 공유는 아직 설정 전|복사/.test(await page.locator('.toast').textContent()));
   await page.click('#sh-copy'); await page.waitForTimeout(300);
   const clip = await page.evaluate(() => navigator.clipboard.readText()).catch(() => '');
-  check('copied share text has no answers/scores', clip && !clip.includes(ANSWERS) && !/\d+\.\d{1,2}/.test(clip), JSON.stringify(clip));
+  const scores = expected.top.map(t => t.score.toFixed(1));
+  const link = (clip.match(/https?:\S+/) || [''])[0];
+  check('copied share text has no answers/scores; link is public #share-<id>-e<n> only', clip && !clip.includes(ANSWERS) && !scores.some(s => clip.includes(s)) && (!link || /#share-[a-z0-9-]+-e\d+$/.test(link)), JSON.stringify(clip));
 
   // card news
   await page.goto(URL + '#cards');
@@ -132,6 +142,10 @@ async function download(page, clickSel) {
   check('dictionary search 다윗 → 1', (await page.locator('.dict li a').count()) === 1);
   await page.fill('#dq', ''); await page.waitForTimeout(500);
   await page.screenshot({ path: path.join(SHOTS, 'pc-09-characters.png'), fullPage: true });
+  await page.goto(URL + '#character-nt-peter');
+  const realOk = await page.waitForFunction(() => { const i = document.querySelector('img.portrait'); return i && i.complete && i.naturalWidth >= 700 && i.src.endsWith('.webp'); }, null, { timeout: 10000 }).then(() => true, () => false);
+  check('generated portrait loads on character page (베드로)', realOk);
+  await page.screenshot({ path: path.join(SHOTS, 'pc-10b-character-peter.png') });
   await page.goto(URL + '#character-nt-barnabas'); await page.waitForTimeout(200);
   await page.screenshot({ path: path.join(SHOTS, 'pc-10-character-detail.png'), fullPage: true });
   await page.goto(URL + '#share-nt-peter-e2'); await page.waitForTimeout(200);
@@ -212,7 +226,7 @@ async function download(page, clickSel) {
     check(`${tag}: touch targets ≥ 44px`, minTarget >= 43.5, 'min ' + minTarget.toFixed(1));
     await c.close();
   }
-  await browser.close();
+  await browser.close(); server.close();
   fs.writeFileSync(path.join(root, 'docs/e2e-results.json'), JSON.stringify({ ranAt: new Date().toISOString(), browser: 'Playwright Chromium (headless)', passed: results.filter(r => r.ok).length, failed, results }, null, 2));
   console.log(`\n${results.length - failed}/${results.length} passed`);
   process.exit(failed ? 1 : 0);

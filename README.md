@@ -9,7 +9,7 @@ npm run qa          # rarity 생성 → 데이터 검증 → 단위 → 4,096 �
 ```
 빌드 산출물:
 - `dist/index.html` — Claude Artifact용 단일 파일 (문서 래퍼 없음)
-- `dist/standalone.html` — 일반 정적 호스팅용 단일 HTML (`index.html`로 이름을 바꿔 업로드)
+- `dist/standalone.html` — 일반 정적 호스팅용 단일 HTML (`index.html`로 이름을 바꿔 업로드) + `dist/assets/characters/*.webp` 초상 25장 (같이 업로드)
 
 로컬 확인: `npx serve dist` 후 `/standalone.html` 열기 (또는 파일을 브라우저로 직접 열기).
 

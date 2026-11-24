@@ -6,11 +6,18 @@
 const fs = require('fs'), path = require('path');
 const root = path.join(__dirname, '..');
 const read = f => fs.readFileSync(path.join(root, f), 'utf8');
-const js = ['src/data.js', 'src/rarity-index.js', 'src/engine.js', 'src/render.js', 'src/app.js'].map(read).join('\n;\n');
+const portraitDir = path.join(root, 'public/assets/characters');
+const portraits = fs.existsSync(portraitDir) ? fs.readdirSync(portraitDir).filter(f => f.endsWith('.webp')).map(f => f.slice(0, -5)).sort() : [];
+const manifestJs = 'window.MFS_PORTRAITS=' + JSON.stringify(portraits) + ';';
+const js = [manifestJs].concat(['src/data.js', 'src/rarity-index.js', 'src/engine.js', 'src/render.js', 'src/app.js'].map(read)).join('\n;\n');
 if (/<\/script/i.test(js)) { console.error('script contains </script>'); process.exit(1); }
 const page = read('src/index.template.html').replace('/*__CSS__*/', () => read('src/style.css')).replace('/*__JS__*/', () => js);
 fs.mkdirSync(path.join(root, 'dist'), { recursive: true });
 fs.writeFileSync(path.join(root, 'dist/index.html'), page);
 const standalone = '<!doctype html>\n<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>\n' + page + '\n</body></html>\n';
 fs.writeFileSync(path.join(root, 'dist/standalone.html'), standalone);
+fs.rmSync(path.join(root, 'dist/assets'), { recursive: true, force: true });
+fs.mkdirSync(path.join(root, 'dist/assets/characters'), { recursive: true });
+portraits.forEach(id => fs.copyFileSync(path.join(portraitDir, id + '.webp'), path.join(root, 'dist/assets/characters', id + '.webp')));
+console.log('portraits:', portraits.length);
 console.log('built dist/index.html', (Buffer.byteLength(page) / 1024).toFixed(1) + ' KB', '+ dist/standalone.html');

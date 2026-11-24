@@ -96,7 +96,7 @@
   async function cardURL(card, format) {
     const key = JSON.stringify(card) + format;
     if (imgCache.has(key)) return imgCache.get(key);
-    await ensureFonts();
+    await ensureFonts(); await RENDER.preload([card.characterId]);
     const [W, H] = format === 'story' ? [1080, 1920] : format === 'thumb' ? [432, 540] : [1080, 1350];
     const url = RENDER.render((c, w, h) => RENDER.drawCard(c, w, h, card), W, H).toDataURL(format === 'thumb' ? 'image/jpeg' : 'image/png', 0.9);
     imgCache.set(key, url); return url;
@@ -121,14 +121,15 @@
   async function saveCard(format) {
     const r = result(); if (!r || !r.primary) return;
     try {
-      await ensureFonts();
+      await ensureFonts(); await RENDER.preload([r.primary.characterId]);
       const [W, H] = format === 'story' ? [1080, 1920] : [1080, 1350];
       const blob = await RENDER.toBlob(RENDER.render((c, w, h) => RENDER.drawCard(c, w, h, cardOf(r)), W, H));
       await saveBlob(blob, `my-faith-story-${slug(r)}-card-${format}.png`);
     } catch (e) { toast('이미지를 만들지 못했어요. 다시 시도해 주세요.'); }
   }
+  const resultIds = r => r.top.map(t => t.characterId).concat(r.primary ? [r.primary.characterId] : []);
   async function slideBlob(r, i, format) {
-    await ensureFonts();
+    await ensureFonts(); await RENDER.preload(resultIds(r));
     const [W, H] = format === 'story' ? [1080, 1920] : [1080, 1350];
     return RENDER.toBlob(RENDER.render((c, w, h) => RENDER.drawSlide(c, w, h, i, view(r)), W, H));
   }
@@ -273,7 +274,7 @@
               <span class="dot" aria-hidden="true"></span>
             </label>`).join('')}
         </fieldset>
-        <div class="hint"><span aria-hidden="true">${icon('star')}</span><span><b>정답은 없어요!</b> 실제 경험이 없다면 평소의 반응과 더 가까운 쪽을 골라 주세요.</span></div>
+        <div class="hint"><span aria-hidden="true">${icon('star')}</span><span><b>정답은 없어요!</b> 고르면 바로 다음 문항으로 넘어가요. 이전 버튼으로 언제든 고칠 수 있어요.</span></div>
         <p class="sr-only" id="needmsg" aria-live="polite"></p>
         <div class="qnav">
           <button class="btn" id="prev" ${i === 0 ? 'disabled' : ''}>‹ 이전</button>
@@ -284,22 +285,33 @@
     $app.querySelectorAll('img[data-art]').forEach(img => {
       const k = img.dataset.art; if (!optArt.has(k)) optArt.set(k, RENDER.sceneURL('opt-' + k, 224, 192)); img.src = optArt.get(k);
     });
-    $app.querySelectorAll('input[name=q]').forEach(inp => inp.addEventListener('change', () => {
-      S.answers[i] = inp.value; RESULT = null; S.revealed = false; save();
-      const nx = document.getElementById('next'); nx.disabled = false;
-      const bar = $app.querySelector('.bar'); const n = S.answers.filter(Boolean).length;
-      bar.setAttribute('aria-valuenow', n); bar.setAttribute('aria-label', `응답한 문항 ${n}개 / 12개`); bar.querySelector('i').style.width = Math.max(4, n / 12 * 100) + '%';
-    }));
-    document.getElementById('prev').onclick = () => { S.idx = i - 1; save(); render(); };
-    let submitting = false;
-    document.getElementById('next').onclick = (e) => {
+    let submitting = false, advanceTimer = null;
+    const advance = () => {
       if (!S.answers[i]) { document.getElementById('needmsg').textContent = '선택지를 하나 골라 주세요.'; return; }
       if (i < 11) { S.idx = i + 1; save(); render(); return; }
-      if (submitting) return; submitting = true; e.currentTarget.disabled = true;
+      if (submitting) return; submitting = true; document.getElementById('next').disabled = true;
       const missing = S.answers.findIndex(a => !a);
-      if (missing >= 0) { S.idx = missing; save(); toast(`${missing + 1}번 문항에 아직 답하지 않았어요.`); render(); return; }
+      if (missing >= 0) { submitting = false; S.idx = missing; save(); toast(`${missing + 1}번 문항에 아직 답하지 않았어요.`); render(); return; }
       S.revealed = false; save(); go('reveal');
     };
+    const pick = (val) => {
+      S.answers[i] = val; RESULT = null; S.revealed = false; save();
+      document.getElementById('next').disabled = false;
+      const bar = $app.querySelector('.bar'); const n = S.answers.filter(Boolean).length;
+      bar.setAttribute('aria-valuenow', n); bar.setAttribute('aria-label', `응답한 문항 ${n}개 / 12개`); bar.querySelector('i').style.width = Math.max(4, n / 12 * 100) + '%';
+    };
+    // Tap/click on an option selects it and moves straight to the next question (user request).
+    // Keyboard: arrow keys only select; Enter selects and moves on; the 다음 button still works.
+    $app.querySelectorAll('input[name=q]').forEach(inp => {
+      inp.addEventListener('change', () => pick(inp.value));
+      inp.addEventListener('click', e => {
+        if (e.detail === 0) return; // keyboard-generated click (arrows/space): no auto-advance
+        pick(inp.value); clearTimeout(advanceTimer); advanceTimer = setTimeout(advance, reduceMotion ? 0 : 220);
+      });
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); inp.checked = true; pick(inp.value); advance(); } });
+    });
+    document.getElementById('prev').onclick = () => { clearTimeout(advanceTimer); S.idx = i - 1; save(); render(); };
+    document.getElementById('next').onclick = () => { clearTimeout(advanceTimer); advance(); };
   }
 
   function reveal() {
@@ -471,7 +483,7 @@
       [V.prayer],
     ][i - 1];
     const show = async () => {
-      await ensureFonts();
+      await ensureFonts(); await RENDER.preload(resultIds(r));
       const sl = document.getElementById('slide'); if (!sl) return;
       sl.innerHTML = `<img draggable="false" alt="${cnIndex}번 카드: ${SLIDE_TITLES[cnIndex - 1]}" src="${draw(cnIndex)}">`;
       document.getElementById('cntext').innerHTML = '<p>' + textFor(cnIndex).map(esc).join('</p><p>') + '</p>';
@@ -523,7 +535,7 @@
     const slice = list.slice((dictState.page - 1) * per, dictState.page * per);
     $app.innerHTML = `<section class="wrap" style="padding-block:28px">
       <p class="eyebrow">Bible Characters</p><h1 style="font-size:clamp(26px,4vw,36px);margin-top:6px">성경 인물 사전</h1>
-      <p class="muted">구약 50명 · 신약 50명. 사전 등록과 대표 결과 가능 여부는 달라요. 일러스트는 모두 <b>임시 이미지</b>예요.</p>
+      <p class="muted">구약 50명 · 신약 50명. 사전 등록과 대표 결과 가능 여부는 달라요. 수채화 일러스트 ${(window.MFS_PORTRAITS || []).length}명, 나머지는 <b>임시 이미지</b>예요.</p>
       <div class="dict-tools">
         <div class="seg" role="group" aria-label="구약/신약 필터">${[['all', '전체'], ['OT', '구약'], ['NT', '신약']].map(([v, l]) => `<button data-t="${v}" aria-pressed="${dictState.t === v}">${l}</button>`).join('')}</div>
         <label class="sr-only" for="dq">이름 검색</label><input id="dq" type="search" placeholder="이름으로 검색 (예: 다윗)" value="${esc(dictState.q)}">
@@ -546,7 +558,7 @@
     const c = D.CHAR_BY_ID[id];
     if (!c) { $app.innerHTML = `<section class="wrap prose"><h1>인물을 찾을 수 없어요</h1><a class="btn" href="#characters">성경 인물 사전</a></section>`; return; }
     $app.innerHTML = `<section class="wrap detail">
-      <div><img class="portrait" alt="${esc(c.displayName)} 임시 일러스트" data-portrait="${c.id}"><p class="small muted">임시 일러스트 · 실제 일러스트 교체 예정</p></div>
+      <div><img class="portrait" alt="${esc(c.displayName)} ${RENDER.hasPortrait(c.id) ? '수채화 일러스트' : '임시 일러스트'}" data-portrait="${c.id}"><p class="small muted">${RENDER.hasPortrait(c.id) ? 'AI 이미지 생성 도구로 만든 창작 일러스트예요. 실제 인물의 모습을 재현한 것이 아니에요.' : '임시 일러스트 · 실제 일러스트 교체 예정'}</p></div>
       <div>
         <p class="eyebrow">${c.cardCode} · ${c.testament === 'OT' ? '구약' : '신약'}</p>
         <h1 style="font-size:clamp(28px,4vw,40px);margin:6px 0">${esc(c.displayName)}${c.distinguishingLabel ? ` <span class="muted" style="font-size:.55em">${esc(c.distinguishingLabel)}</span>` : ''}</h1>
@@ -558,7 +570,7 @@
         <p class="small muted">장절과 요약은 서비스의 자체 요약이며 성경 번역 본문을 옮기지 않았어요. 성경을 직접 펼쳐 읽어 보세요.</p>
         <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#characters">‹ 사전으로</a></div>
       </div></section>`;
-    $app.querySelector('img[data-portrait]').src = RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
+    $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
   }
 
   function sharePage(arg) {
@@ -571,7 +583,7 @@
         <p class="chip gold">${esc(e.scriptureRefs)}</p><p>${esc(e.factualSummary)}</p>
         <p class="small muted">이 페이지는 공개 인물·사건 소개예요. 공유한 사람의 응답이나 결과는 담겨 있지 않아요.</p>
         <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#character-${c.id}">인물 더 보기</a></div></div></section>`;
-    $app.querySelector('img[data-portrait]').src = RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
+    $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
   }
 
   function about() {
@@ -586,7 +598,7 @@
         <tr><td>N</td><td>${T.N} 이상</td><td>${kc.N || 0}</td></tr><tr><td>R</td><td>${T.R}~${T.N - 1}</td><td>${kc.R || 0}</td></tr><tr><td>SR</td><td>${T.SR}~${T.R - 1}</td><td>${kc.SR || 0}</td></tr><tr><td>SSR</td><td>${T.SSR}~${T.SR - 1}</td><td>${kc.SSR || 0}</td></tr></table></div>
       <h2>개인정보</h2><p>로그인·회원가입이 없고 이름, 이메일, 전화번호, 교회명을 묻지 않아요. 응답은 이 브라우저 탭의 메모리와 sessionStorage에만 있고, 서버·외부 AI·분석 도구로 보내지 않아요. ‘다시 검사하기’를 누르거나 탭을 닫으면 지워져요. 공유 링크에는 인물·사건 소개만 담겨요.</p>
       <h2>성경 인용과 저작권</h2><p>성경 번역 본문을 옮기지 않고, 장절 표기와 서비스의 자체 요약만 사용해요. 모든 인물·사건 데이터는 <b>콘텐츠 검수 전 초안</b>이며 전문가 검수가 필요해요.</p>
-      <h2>일러스트</h2><p>현재 인물·사건 그림은 모두 코드로 그린 <b>임시 이미지</b>예요. 인물별 수채화 일러스트는 제작 큐에 등록되어 있고 아직 생성되지 않았어요.</p>
+      <h2>일러스트</h2><p>인물 ${(window.MFS_PORTRAITS || []).length}명은 AI 이미지 생성 도구로 만든 창작 수채화 일러스트예요(실제 모습을 재현한 것이 아니며 콘텐츠 검수 전). 나머지 인물과 사건 장면은 코드로 그린 <b>임시 이미지</b>이고, 생성 큐에 남아 있어요.</p>
       <h2>한계</h2><ul><li>12개 문항으로 볼 수 있는 행동은 일부예요. 결과는 성경 속 사건의 한 장면과 비교한 묵상 자료일 뿐이에요.</li><li>100명이 사전에 등록되어 있지만 대표 결과로 나올 수 있는 인물은 근거가 충분한 ${D.CHARACTERS.filter(c => c.eligibleForPrimary).length}명이고, 실제로 4,096 조합에서 대표로 나오는 인물은 그보다 적어요.</li><li>유사도 임계값과 가중치는 경험적 설정이며 검증된 심리 척도가 아니에요.</li></ul>
       <p class="small muted">데이터 버전 ${esc(D.DATA_VERSION)} · 희귀도 규칙 ${esc(D.CONFIG.rarityRuleVersion)}</p>
     </section>`;

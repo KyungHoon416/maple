@@ -7,15 +7,21 @@ const root = path.join(__dirname, '..');
 const csv = rows => '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n') + '\n';
 const setting = c => c.testament === 'OT' ? 'historically informed ancient Near Eastern setting' : 'historically informed first-century Mediterranean setting';
 const tpl = (subject, ratio) => `Original editorial watercolor illustration, ${subject}, ${ratio.setting}, natural expression, textured handmade paper, cinematic warm diffuse light, muted sage and warm earth palette, intentional negative space for typography, no letters, no logos, no modern artifacts, no watermark, ${ratio.r}.`;
+const P = require('./portrait-prompts.js');
+const urls = {}; try { fs.readFileSync(path.join(root, 'assets-src/portrait-urls.txt'), 'utf8').trim().split('\n').forEach(l => { const [id, , at] = l.split(' '); urls[id] = at; }); } catch (e) { }
+const realSet = new Set(fs.existsSync(path.join(root, 'public/assets/characters')) ? fs.readdirSync(path.join(root, 'public/assets/characters')).map(f => f.replace('.webp', '')) : []);
+const portraitPrompt = c => P.STYLE.replace('{subject}', P.S[c.id] || '').replace('{setting}', c.testament === 'OT' ? 'ancient Near Eastern' : 'first-century Mediterranean');
 const q = [['assetId', 'type', 'path', 'characterId', 'eventId', 'ratio', 'targetSize', 'priority', 'status', 'prompt', 'reviewNote']];
 const m = [['assetId', 'path', 'alt', 'focalPoint', 'ratio', 'source', 'license', 'status', 'generatedAt', 'characterId', 'eventId']];
 D.CHARACTERS.forEach(c => {
   const main = D.EVENT_BY_ID[c.eventIds[0]];
   const label = c.displayName + (c.distinguishingLabel ? ` (${c.distinguishingLabel})` : '');
-  q.push([c.portraitAssetId, 'portrait', `public/assets/characters/${c.id}.webp`, c.id, '', '4:5', '1080x1350', c.eligibleForPrimary ? 'P1' : 'P2', 'queued-not-generated',
-    tpl(`biblical figure ${label} (${c.references}), shown in the context of "${main.title}" (${main.scriptureRefs})`, { setting: setting(c), r: 'portrait 4:5' }),
+  const real = realSet.has(c.id);
+  q.push([c.portraitAssetId, 'portrait', `public/assets/characters/${c.id}.webp`, c.id, '', '4:5', '720x900 webp (source 928x1152)', c.eligibleForPrimary ? 'P1' : 'P2', real ? 'generated' : 'queued-not-generated',
+    P.S[c.id] ? portraitPrompt(c) : tpl(`biblical figure ${label} (${c.references}), shown in the context of "${main.title}" (${main.scriptureRefs})`, { setting: setting(c), r: 'portrait 4:5' }),
     'Gender/age/era/symbols must be checked against the passage; do not fix historical appearance; consistent motif per character']);
-  m.push([c.portraitAssetId, '(runtime canvas)', `${c.displayName} 임시 일러스트`, '0.5,0.35', '4:5', 'procedural placeholder (src/render.js)', 'own code', 'placeholder', '', c.id, '']);
+  m.push(real ? [c.portraitAssetId, `public/assets/characters/${c.id}.webp`, `${c.displayName} 수채화 일러스트`, '0.5,0.4', '4:5', 'Figma generate_image (model gemini-3.1-flash-lite-image); original JPEG in assets-src/characters', 'AI-generated via user\'s Figma plan — confirm Figma AI terms before commercial use', 'generated-needs-content-review', urls[c.id] || '', c.id, '']
+    : [c.portraitAssetId, '(runtime canvas)', `${c.displayName} 임시 일러스트`, '0.5,0.35', '4:5', 'procedural placeholder (src/render.js)', 'own code', 'placeholder', '', c.id, '']);
 });
 D.EVENTS.filter(e => e.eligibility === 'primary').forEach(e => {
   const c = D.CHAR_BY_ID[e.characterId];
@@ -37,4 +43,4 @@ md += `## 스키마\n- Character: id, displayName, testament, number, cardCode, 
 md += `## 인물 목록\n\n| 코드 | 인물 | 대표 후보 | 사건 (자격 · 장절 · 신호) | 비고 |\n|---|---|---|---|---|\n`;
 D.CHARACTERS.forEach(c => { md += `| ${c.cardCode} | ${c.displayName}${c.distinguishingLabel ? ' (' + c.distinguishingLabel + ')' : ''} | ${c.eligibleForPrimary ? '예' : '아니오'} | ${c.eventIds.map(id => { const e = D.EVENT_BY_ID[id]; return `${e.title} (${E[e.eligibility]} · ${e.scriptureRefs} · ${e.signals.join(' ') || '—'})`; }).join('<br>')} | ${c.notes || ''} |\n`; });
 fs.writeFileSync(path.join(root, 'docs/DATA_DICTIONARY.md'), md);
-console.log('docs generated:', q.length - 1, 'queued assets,', m.length - 1, 'placeholder manifest rows');
+console.log('portraits generated:', realSet.size); console.log('docs generated:', q.length - 1, 'queued assets,', m.length - 1, 'placeholder manifest rows');

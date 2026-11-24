@@ -7,7 +7,7 @@
 | `npm test` | 10/10 통과 |
 | `npm run test:exhaustive` | 실패 0 |
 | `npm run build` | OK, 184.8 KB |
-| `npm run test:e2e` | 65/65 통과 (Playwright Chromium headless, `e2e-results.json`) |
+| `npm run test:e2e` | 67/67 통과 (로컬 HTTP 서버로 제공 — 초상 이미지를 캔버스에 그리기 위해) (Playwright Chromium headless, `e2e-results.json`) |
 | `npm audit` | 취약점 0 (devDependency jszip만) |
 
 ## 4,096 전수 결과 (동일 가중치 QA 공간)
@@ -27,4 +27,4 @@
 인트로→12문항(이전/다음·미응답)→카드 공개→결과→카드 PNG(1080×1350, 1080×1920 픽셀 확인)→카드뉴스 키보드/스와이프→현재 PNG→ZIP 7장(피드·스토리 각 픽셀 확인)→카카오 미설정 fallback→링크 복사(응답·점수 미포함)→사전 필터/검색→공유 페이지→재검사 확인→세션 삭제, 직접 접근 안내, 구버전 세션 초기화, 키보드 선택, reduced-motion, 360/390/430/768/1280/1440 가로 스크롤 없음, 터치 영역 ≥44px, 외부 요청은 폰트·cdnjs만이며 응답 미포함, 페이지 오류 0.
 
 캡처: `docs/screenshots/` (pc-*, m390-*, t768-*, fixture-rarity-frames.png), 샘플: `docs/samples/`.
-시안 비교: 다크 그린/세이지/골드/아이보리, 세리프 제목, 카드 팬 히어로, 1문항 2선택 카드 구조를 따름. 수채화 인물 일러스트는 미제작이라 시안과 가장 큰 차이.
+시안 비교: 다크 그린/세이지/골드/아이보리, 세리프 제목, 카드 팬 히어로, 1문항 2선택 카드 구조를 따름. 수채화 인물 일러스트는 25명만 적용되어 나머지 75명은 시안과 차이가 남.
