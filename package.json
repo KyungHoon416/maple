@@ -1,0 +1,19 @@
+{
+  "name": "my-faith-story",
+  "version": "6.0.0",
+  "private": true,
+  "description": "나의 믿음은 누구를 닮았을까? — MY FAITH STORY (static, no login, no server)",
+  "scripts": {
+    "generate:rarity": "node scripts/generate-rarity.js",
+    "validate:data": "node scripts/validate-data.js",
+    "test": "node --test tests/unit/*.test.js",
+    "test:exhaustive": "node scripts/exhaustive-test.js",
+    "build": "node scripts/build.js",
+    "generate:docs": "node scripts/generate-docs.js",
+    "test:e2e": "node tests/e2e/run-e2e.js",
+    "qa": "npm run generate:rarity && npm run validate:data && npm test && npm run test:exhaustive && npm run build && npm run test:e2e"
+  },
+  "devDependencies": {
+    "jszip": "^3.10.1"
+  }
+}

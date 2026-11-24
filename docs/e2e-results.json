@@ -1,0 +1,333 @@
+{
+  "ranAt": "2026-11-24T12:08:35.943Z",
+  "browser": "Playwright Chromium (headless)",
+  "passed": 65,
+  "failed": 0,
+  "results": [
+    {
+      "name": "intro shows no-login copy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no auth UI on intro",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "web fonts loaded (Noto Serif KR)",
+      "ok": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "previous answer kept after going back",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reveal shows rarity + character + skill",
+      "ok": true,
+      "detail": "N · 고넬료 · 꾸준한 기도의 무릎"
+    },
+    {
+      "name": "browser result equals Node engine result",
+      "ok": true,
+      "detail": "고넬료 N"
+    },
+    {
+      "name": "result shows rarity disclaimer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "TOP3 has 3 distinct entries",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "radar svg rendered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no example score hardcoding (88/81/74)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "card PNG feed 1080×1350",
+      "ok": true,
+      "detail": "my-faith-story-cornelius-card-feed.png"
+    },
+    {
+      "name": "card PNG story 1080×1920",
+      "ok": true,
+      "detail": "my-faith-story-cornelius-card-story.png"
+    },
+    {
+      "name": "refresh restores same card (no re-roll)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "kakao without key → guidance + copy fallback",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "copied share text has no answers/scores",
+      "ok": true,
+      "detail": "\"[나의 믿음은 누구를 닮았을까?] 고넬료 — 항상 기도하고 구제하다 (행 10:1-4) · 나도 테스트하기\""
+    },
+    {
+      "name": "keyboard ArrowRight moves to card 2",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "card-news current PNG 1080×1350",
+      "ok": true,
+      "detail": "my-faith-story-cornelius-02-feed.png"
+    },
+    {
+      "name": "ZIP contains 7 PNG files at 1080×1350",
+      "ok": true,
+      "detail": "my-faith-story-cornelius-01-feed.png, my-faith-story-cornelius-02-feed.png, my-faith-story-cornelius-03-feed.png, my-faith-story-cornelius-04-feed.png, my-faith-story-cornelius-05-feed.png, my-faith-story-cornelius-06-feed.png, my-faith-story-cornelius-07-feed.png"
+    },
+    {
+      "name": "story ZIP 7 × 1080×1920",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dictionary NT filter shows 50",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dictionary search 다윗 → 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "public share page shows character, no personal result",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "restart → Q1 with cleared answers",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "session storage cleared on restart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no requests outside fonts/cdnjs, none carry answers",
+      "ok": true,
+      "detail": "67 external requests, bad=0"
+    },
+    {
+      "name": "no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "#reveal without session → guidance",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "#result without session → guidance",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "#cards without session → guidance",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "old 10-question session reset with notice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "keyboard selects option and enables next",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "N/R/SR/SSR frame fixture rendered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "next disabled before answering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reduced-motion: card already open",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m360: intro no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m360: question no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "next disabled before answering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m360: result no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m360: card news no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m360: touch targets ≥ 44px",
+      "ok": true,
+      "detail": "min 44.0"
+    },
+    {
+      "name": "m390: intro no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m390: question no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "next disabled before answering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m390: result no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m390: card news no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m390: swipe moves to card 2",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m390: touch targets ≥ 44px",
+      "ok": true,
+      "detail": "min 44.0"
+    },
+    {
+      "name": "m430: intro no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m430: question no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "next disabled before answering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m430: result no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m430: card news no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m430: touch targets ≥ 44px",
+      "ok": true,
+      "detail": "min 44.0"
+    },
+    {
+      "name": "t768: intro no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "t768: question no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "next disabled before answering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "t768: result no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "t768: card news no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "t768: touch targets ≥ 44px",
+      "ok": true,
+      "detail": "min 44.0"
+    },
+    {
+      "name": "pc1280: intro no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pc1280: question no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "next disabled before answering",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pc1280: result no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pc1280: card news no horizontal scroll",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pc1280: touch targets ≥ 44px",
+      "ok": true,
+      "detail": "min 44.0"
+    }
+  ]
+}
