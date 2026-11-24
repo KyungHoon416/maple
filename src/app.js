@@ -316,6 +316,16 @@
   }
 
   const optArt = new Map();
+  // Illustration for each answer option, picked by mood (praying, resting, reading…). Decorative only:
+  // no name is shown and the matching engine never uses this table, so it is not an option→character mapping.
+  const OPTION_ART = {
+    'Q01-A': 'ot-daniel', 'Q01-B': 'ot-joshua', 'Q02-A': 'ot-solomon', 'Q02-B': 'ot-noah',
+    'Q03-A': 'ot-ezra', 'Q03-B': 'ot-nehemiah', 'Q04-A': 'ot-enoch', 'Q04-B': 'ot-jeremiah',
+    'Q05-A': 'ot-hannah', 'Q05-B': 'ot-hezekiah', 'Q06-A': 'ot-elijah', 'Q06-B': 'ot-job',
+    'Q07-A': 'ot-samuel', 'Q07-B': 'ot-miriam', 'Q08-A': 'ot-asaph', 'Q08-B': 'ot-gideon',
+    'Q09-A': 'nt-peter', 'Q09-B': 'ot-jacob', 'Q10-A': 'ot-jehoshaphat', 'Q10-B': 'ot-isaac',
+    'Q11-A': 'ot-elisha', 'Q11-B': 'ot-joseph', 'Q12-A': 'ot-moses', 'Q12-B': 'ot-abraham',
+  };
   function quiz() {
     if (complete() && S.idx >= 12) S.idx = 11;
     const i = Math.max(0, Math.min(11, S.idx || 0)); const q = D.QUESTIONS[i];
@@ -347,7 +357,9 @@
         <p class="small muted" style="text-align:center;margin-top:18px">검사를 중간에 나가도 이 브라우저 탭에서는 이어서 할 수 있어요. 탭을 닫으면 응답이 지워져요.</p>
       </div></section>`;
     $app.querySelectorAll('img[data-art]').forEach(img => {
-      const k = img.dataset.art; if (!optArt.has(k)) optArt.set(k, RENDER.sceneURL('opt-' + k, 224, 192)); img.src = optArt.get(k);
+      const k = img.dataset.art, pid = OPTION_ART[k];
+      if (pid && RENDER.hasPortrait(pid)) { img.src = RENDER.portraitSrc(pid); img.classList.add('art-photo'); return; }
+      if (!optArt.has(k)) optArt.set(k, RENDER.sceneURL('opt-' + k, 224, 192)); img.src = optArt.get(k);
     });
     let submitting = false, advanceTimer = null;
     const advance = () => {
