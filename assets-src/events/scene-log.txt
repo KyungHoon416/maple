@@ -25,3 +25,4 @@ ot-josiah-1 2026-11-25
 nt-zechariah-1 2026-11-25
 ot-esther-2 2026-11-25
 nt-syrophoenician-woman-1 2026-11-25
+ot-ruth-1 2026-11-25
