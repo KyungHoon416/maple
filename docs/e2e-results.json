@@ -1,7 +1,7 @@
 {
-  "ranAt": "2026-11-25T14:48:01.083Z",
+  "ranAt": "2026-11-25T15:47:12.999Z",
   "browser": "Playwright Chromium (headless)",
-  "passed": 84,
+  "passed": 85,
   "failed": 0,
   "results": [
     {
@@ -205,6 +205,11 @@
       "detail": ""
     },
     {
+      "name": "event scene illustration loads on character page (베다니 마리아)",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "public share page shows character, no personal result",
       "ok": true,
       "detail": ""
@@ -222,7 +227,7 @@
     {
       "name": "no requests outside fonts/cdnjs, none carry answers",
       "ok": true,
-      "detail": "198 external requests, bad=0"
+      "detail": "199 external requests, bad=0"
     },
     {
       "name": "no page errors",

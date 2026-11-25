@@ -208,6 +208,9 @@ async function download(page, clickSel) {
   const realOk = await page.waitForFunction(() => { const i = document.querySelector('img.portrait'); return i && i.complete && i.naturalWidth >= 700 && i.src.endsWith('.webp'); }, null, { timeout: 10000 }).then(() => true, () => false);
   check('generated portrait loads on character page (베드로)', realOk);
   await page.screenshot({ path: path.join(SHOTS, 'pc-10b-character-peter.png') });
+  await page.goto(URL + '#character-nt-mary-bethany');
+  const sceneOk = await page.waitForFunction(() => { const i = document.querySelector('figure.scene img'); return i && i.complete && i.naturalWidth >= 900; }, null, { timeout: 10000 }).then(() => true, () => false);
+  check('event scene illustration loads on character page (베다니 마리아)', sceneOk);
   await page.goto(URL + '#character-nt-barnabas'); await page.waitForTimeout(200);
   await page.screenshot({ path: path.join(SHOTS, 'pc-10-character-detail.png'), fullPage: true });
   await page.goto(URL + '#share-nt-peter-e2'); await page.waitForTimeout(200);
