@@ -140,7 +140,8 @@
       await saveBlob(blob, `my-faith-story-${slug(r)}-card-${format}.png`);
     } catch (e) { toast('이미지를 만들지 못했어요. 다시 시도해 주세요.'); }
   }
-  const resultIds = r => r.top.map(t => t.characterId).concat(r.primary ? [r.primary.characterId] : []);
+  const sceneImg = e => RENDER.hasScene(e.id) ? `<figure class="scene"><img src="${RENDER.sceneSrc(e.id)}" alt="${esc(e.title)} 장면 일러스트" loading="lazy" width="960" height="640" draggable="false"><figcaption>장면 일러스트 · 예술적 해석</figcaption></figure>` : '';
+  const resultIds = r => r.top.map(t => t.characterId).concat(r.primary ? [r.primary.characterId, r.primary.eventId] : []);
   async function slideBlob(r, i, format) {
     await ensureFonts(); await RENDER.preload(resultIds(r));
     const [W, H] = format === 'story' ? [1080, 1920] : [1080, 1350];
@@ -514,7 +515,7 @@
           </div>
           <div class="grid2">
             <div class="panel"><div class="sectitle"><h2>강점과 돌아볼 점</h2></div><p><b>${esc(V.skillLabel)}</b> — ${esc(V.strength)}</p><p class="muted" style="margin-bottom:0"><b style="color:var(--sage)">돌아볼 질문</b><br>${esc(V.reflection)}</p></div>
-            <div class="panel"><div class="sectitle"><h2>오늘의 말씀</h2>${ev ? `<span class="chip gold">${esc(ev.scriptureRefs)}</span>` : ''}</div>${ev ? `<p><b class="small" style="color:var(--sage)">본문 요약(자체 요약)</b><br>${esc(ev.factualSummary)}</p><p class="small muted" style="margin-bottom:0">서비스 해설 · 이 장면은 ${esc(p.matched.map(s => D.SIGNAL_TEXT[s]).join(', '))} 모습으로 오늘의 나를 비추어 보게 해요. 성경 본문을 직접 찾아 읽어 보세요.</p>` : ''}</div>
+            <div class="panel"><div class="sectitle"><h2>오늘의 말씀</h2>${ev ? `<span class="chip gold">${esc(ev.scriptureRefs)}</span>` : ''}</div>${ev ? `${sceneImg(ev)}<p><b class="small" style="color:var(--sage)">본문 요약(자체 요약)</b><br>${esc(ev.factualSummary)}</p><p class="small muted" style="margin-bottom:0">서비스 해설 · 이 장면은 ${esc(p.matched.map(s => D.SIGNAL_TEXT[s]).join(', '))} 모습으로 오늘의 나를 비추어 보게 해요. 성경 본문을 직접 찾아 읽어 보세요.</p>` : ''}</div>
           </div>
           <div class="grid2">
             <div class="panel"><div class="sectitle"><h2>오늘의 실천 3가지</h2></div><ol class="acts">${V.actions.map(a => `<li><span>${esc(a)}</span></li>`).join('')}</ol></div>
@@ -680,7 +681,7 @@
         <div class="row" style="margin-bottom:14px"><span class="chip">${esc(c.references)}</span><span class="chip ${c.eligibleForPrimary ? 'gold' : ''}">${c.eligibleForPrimary ? '대표 결과 가능' : '대표 결과 제외 · 사전 소개'}</span><span class="chip">콘텐츠 검수 전(초안)</span></div>
         ${c.notes ? `<p class="notice">${esc(c.notes)}</p>` : ''}
         <h2 style="font-size:20px;margin:18px 0 10px">기록된 사건</h2>
-        <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel"><div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
+        <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel">${sceneImg(e)}<div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
         <p class="small muted">장절과 요약은 서비스의 자체 요약이며 성경 번역 본문을 옮기지 않았어요. 성경을 직접 펼쳐 읽어 보세요.</p>
         <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a>${(() => { const e = c.eventIds.map(id => D.EVENT_BY_ID[id]).find(x => x.eligibility === 'primary' || x.eligibility === 'support'); return e ? `<a class="btn" href="#plan-${PLAN.slug(c.id, e.id)}">이 인물과 7일 묵상</a><a class="btn" href="#group-${GROUP.slug(c.id, e.id)}">소그룹 나눔 가이드</a>` : ''; })()}<a class="btn" href="#characters">‹ 사전으로</a></div>
       </div></section>`;

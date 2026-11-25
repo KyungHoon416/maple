@@ -170,7 +170,24 @@
     rec.p = new Promise(res => { im.onload = () => { rec.ok = true; res(im); }; im.onerror = () => res(null); });
     im.src = portraitSrc(id); imgs.set(id, rec); return rec.p;
   }
-  function preload(ids) { return Promise.all([...new Set(ids)].map(loadPortrait)); }
+  // Real event scene illustrations (story-art 'SA' edition); others use the procedural scene.
+  const SCENES = new Set(root.MFS_SCENES || []);
+  const sceneImgs = new Map();
+  function hasScene(eventId) { return SCENES.has(eventId); }
+  function sceneSrc(eventId) { return 'assets/events/' + eventId + '.webp'; }
+  function loadScene(eventId) {
+    if (!SCENES.has(eventId)) return Promise.resolve(null);
+    if (sceneImgs.has(eventId)) return sceneImgs.get(eventId).p;
+    const im = new Image(); const rec = { im, ok: false };
+    rec.p = new Promise(res => { im.onload = () => { rec.ok = true; res(im); }; im.onerror = () => res(null); });
+    im.src = sceneSrc(eventId); sceneImgs.set(eventId, rec); return rec.p;
+  }
+  // ids may mix character ids and event ids
+  function preload(ids) { return Promise.all([...new Set(ids)].map(id => SCENES.has(id) ? loadScene(id) : loadPortrait(id))); }
+  function drawCover(ctx, im, x, y, w, h) {
+    const s = Math.max(w / im.naturalWidth, h / im.naturalHeight), sw = w / s, sh = h / s;
+    ctx.drawImage(im, (im.naturalWidth - sw) / 2, (im.naturalHeight - sh) / 2, sw, sh, x, y, w, h);
+  }
   const portraitCache = new Map();
   function portraitCanvas(charId, w, h) {
     const rec = imgs.get(charId); const real = rec && rec.ok;
@@ -416,9 +433,12 @@
       y = slideFrame(ctx, w, h, 4, '성경 속 사건');
       if (R.hasCard) {
         const ih = story ? 620 : 420; ctx.save(); rr(ctx, L, y, MW, ih, 24); ctx.clip();
-        const sc = document.createElement('canvas'); sc.width = 900; sc.height = Math.round(900 * ih / MW); scene(sc.getContext('2d'), sc.width, sc.height, R.event.id);
-        ctx.drawImage(sc, L, y, MW, ih); ctx.restore();
-        ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, L + 16, y + 16, 150, 40, 20); ctx.fill(); ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('임시 일러스트', L + 91, y + 43);
+        const srec = sceneImgs.get(R.event.id), realScene = srec && srec.ok;
+        if (realScene) drawCover(ctx, srec.im, L, y, MW, ih);
+        else { const sc = document.createElement('canvas'); sc.width = 900; sc.height = Math.round(900 * ih / MW); scene(sc.getContext('2d'), sc.width, sc.height, R.event.id); ctx.drawImage(sc, L, y, MW, ih); }
+        ctx.restore();
+        const tag = realScene ? '장면 일러스트' : '임시 일러스트', tw = realScene ? 170 : 150;
+        ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, L + 16, y + 16, tw, 40, 20); ctx.fill(); ctx.fillStyle = realScene ? C.gold : C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText(tag, L + 16 + tw / 2, y + 43);
         y += ih + 70; ctx.textAlign = 'left';
         ctx.fillStyle = C.gold; ctx.font = `600 30px ${FONT.serif}`; ctx.fillText(R.event.refs, L, y);
         ctx.fillStyle = C.ivory; ctx.font = `700 46px ${FONT.serif}`; y = text(ctx, R.name + ' · ' + R.event.title, L, y + 66, MW, 58, 2);
@@ -532,5 +552,5 @@
   function toBlob(canvas) { return new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png')); }
   function render(fn, W, H) { const cv = document.createElement('canvas'); cv.width = W; cv.height = H; fn(cv.getContext('2d'), W, H); return cv; }
 
-  root.MFS_RENDER = { drawPlan, drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
+  root.MFS_RENDER = { hasScene, sceneSrc, loadScene, drawPlan, drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
 })(window);

@@ -256,3 +256,8 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block
   .top, .foot, .no-print, .toast { display: none !important; }
   .panel { background: #fff !important; border-color: #bbb; break-inside: avoid; }
 }
+
+/* event scene illustrations */
+figure.scene{margin:0 0 12px;position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/2;background:#1d2823}
+figure.scene img{display:block;width:100%;height:100%;object-fit:cover}
+figure.scene figcaption{position:absolute;left:10px;bottom:8px;font-size:11px;color:#e9dcc0;background:rgba(14,20,17,.6);padding:3px 8px;border-radius:10px}

@@ -264,6 +264,11 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block
   .panel { background: #fff !important; border-color: #bbb; break-inside: avoid; }
 }
 
+/* event scene illustrations */
+figure.scene{margin:0 0 12px;position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/2;background:#1d2823}
+figure.scene img{display:block;width:100%;height:100%;object-fit:cover}
+figure.scene figcaption{position:absolute;left:10px;bottom:8px;font-size:11px;color:#e9dcc0;background:rgba(14,20,17,.6);padding:3px 8px;border-radius:10px}
+
 </style>
 <header class="top">
   <div class="wrap">
@@ -286,7 +291,7 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block
   <p style="margin:0">결과는 응답 기반의 콘텐츠 비교이며 신앙 수준·구원·인격에 대한 평가가 아닙니다. 인물·사건 데이터는 검수 전 초안입니다. 인물 일러스트는 AI 생성 창작물이며, ‘임시’ 표시가 있는 그림은 교체 예정입니다.</p>
 </div></footer>
 <script>
-window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","nt-paul","nt-peter","nt-philip-apostle","nt-samaritan-woman","nt-thomas","nt-timothy","nt-zacchaeus","ot-aaron","ot-abigail","ot-abraham","ot-asa","ot-asaph","ot-caleb","ot-daniel","ot-david","ot-deborah","ot-elijah","ot-elisha","ot-enoch","ot-esther","ot-ezra","ot-gideon","ot-hagar","ot-hannah","ot-hezekiah","ot-isaac","ot-isaiah","ot-jacob","ot-jehoiada","ot-jehoshaphat","ot-jeremiah","ot-job","ot-jonah","ot-joseph","ot-joshua","ot-josiah","ot-leah","ot-miriam","ot-moses","ot-nehemiah","ot-noah","ot-rahab","ot-rebekah","ot-ruth","ot-samuel","ot-solomon"];window.MFS_OPTION_IMAGES=["Q01-A","Q01-B","Q02-A","Q02-B","Q03-A","Q03-B","Q04-A","Q04-B","Q05-A","Q05-B","Q06-A","Q06-B","Q07-A","Q07-B","Q08-A","Q08-B","Q09-A","Q09-B","Q10-A","Q10-B","Q11-A","Q11-B","Q12-A","Q12-B"];
+window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","nt-paul","nt-peter","nt-philip-apostle","nt-samaritan-woman","nt-thomas","nt-timothy","nt-zacchaeus","ot-aaron","ot-abigail","ot-abraham","ot-asa","ot-asaph","ot-caleb","ot-daniel","ot-david","ot-deborah","ot-elijah","ot-elisha","ot-enoch","ot-esther","ot-ezra","ot-gideon","ot-hagar","ot-hannah","ot-hezekiah","ot-isaac","ot-isaiah","ot-jacob","ot-jehoiada","ot-jehoshaphat","ot-jeremiah","ot-job","ot-jonah","ot-joseph","ot-joshua","ot-josiah","ot-leah","ot-miriam","ot-moses","ot-nehemiah","ot-noah","ot-rahab","ot-rebekah","ot-ruth","ot-samuel","ot-solomon"];window.MFS_OPTION_IMAGES=["Q01-A","Q01-B","Q02-A","Q02-B","Q03-A","Q03-B","Q04-A","Q04-B","Q05-A","Q05-B","Q06-A","Q06-B","Q07-A","Q07-B","Q08-A","Q08-B","Q09-A","Q09-B","Q10-A","Q10-B","Q11-A","Q11-B","Q12-A","Q12-B"];window.MFS_SCENES=[];
 ;
 /* MY FAITH STORY — content data (v6.0). Shared by the browser app and Node QA scripts.
  * All character/event entries are DRAFTS: scripture references and summaries are the
@@ -1542,7 +1547,24 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
     rec.p = new Promise(res => { im.onload = () => { rec.ok = true; res(im); }; im.onerror = () => res(null); });
     im.src = portraitSrc(id); imgs.set(id, rec); return rec.p;
   }
-  function preload(ids) { return Promise.all([...new Set(ids)].map(loadPortrait)); }
+  // Real event scene illustrations (story-art 'SA' edition); others use the procedural scene.
+  const SCENES = new Set(root.MFS_SCENES || []);
+  const sceneImgs = new Map();
+  function hasScene(eventId) { return SCENES.has(eventId); }
+  function sceneSrc(eventId) { return 'assets/events/' + eventId + '.webp'; }
+  function loadScene(eventId) {
+    if (!SCENES.has(eventId)) return Promise.resolve(null);
+    if (sceneImgs.has(eventId)) return sceneImgs.get(eventId).p;
+    const im = new Image(); const rec = { im, ok: false };
+    rec.p = new Promise(res => { im.onload = () => { rec.ok = true; res(im); }; im.onerror = () => res(null); });
+    im.src = sceneSrc(eventId); sceneImgs.set(eventId, rec); return rec.p;
+  }
+  // ids may mix character ids and event ids
+  function preload(ids) { return Promise.all([...new Set(ids)].map(id => SCENES.has(id) ? loadScene(id) : loadPortrait(id))); }
+  function drawCover(ctx, im, x, y, w, h) {
+    const s = Math.max(w / im.naturalWidth, h / im.naturalHeight), sw = w / s, sh = h / s;
+    ctx.drawImage(im, (im.naturalWidth - sw) / 2, (im.naturalHeight - sh) / 2, sw, sh, x, y, w, h);
+  }
   const portraitCache = new Map();
   function portraitCanvas(charId, w, h) {
     const rec = imgs.get(charId); const real = rec && rec.ok;
@@ -1788,9 +1810,12 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
       y = slideFrame(ctx, w, h, 4, '성경 속 사건');
       if (R.hasCard) {
         const ih = story ? 620 : 420; ctx.save(); rr(ctx, L, y, MW, ih, 24); ctx.clip();
-        const sc = document.createElement('canvas'); sc.width = 900; sc.height = Math.round(900 * ih / MW); scene(sc.getContext('2d'), sc.width, sc.height, R.event.id);
-        ctx.drawImage(sc, L, y, MW, ih); ctx.restore();
-        ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, L + 16, y + 16, 150, 40, 20); ctx.fill(); ctx.fillStyle = C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText('임시 일러스트', L + 91, y + 43);
+        const srec = sceneImgs.get(R.event.id), realScene = srec && srec.ok;
+        if (realScene) drawCover(ctx, srec.im, L, y, MW, ih);
+        else { const sc = document.createElement('canvas'); sc.width = 900; sc.height = Math.round(900 * ih / MW); scene(sc.getContext('2d'), sc.width, sc.height, R.event.id); ctx.drawImage(sc, L, y, MW, ih); }
+        ctx.restore();
+        const tag = realScene ? '장면 일러스트' : '임시 일러스트', tw = realScene ? 170 : 150;
+        ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, L + 16, y + 16, tw, 40, 20); ctx.fill(); ctx.fillStyle = realScene ? C.gold : C.muted; ctx.font = `500 20px ${FONT.sans}`; ctx.textAlign = 'center'; ctx.fillText(tag, L + 16 + tw / 2, y + 43);
         y += ih + 70; ctx.textAlign = 'left';
         ctx.fillStyle = C.gold; ctx.font = `600 30px ${FONT.serif}`; ctx.fillText(R.event.refs, L, y);
         ctx.fillStyle = C.ivory; ctx.font = `700 46px ${FONT.serif}`; y = text(ctx, R.name + ' · ' + R.event.title, L, y + 66, MW, 58, 2);
@@ -1904,7 +1929,7 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
   function toBlob(canvas) { return new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png')); }
   function render(fn, W, H) { const cv = document.createElement('canvas'); cv.width = W; cv.height = H; fn(cv.getContext('2d'), W, H); return cv; }
 
-  root.MFS_RENDER = { drawPlan, drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
+  root.MFS_RENDER = { hasScene, sceneSrc, loadScene, drawPlan, drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
 })(window);
 
 ;
@@ -2050,7 +2075,8 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
       await saveBlob(blob, `my-faith-story-${slug(r)}-card-${format}.png`);
     } catch (e) { toast('이미지를 만들지 못했어요. 다시 시도해 주세요.'); }
   }
-  const resultIds = r => r.top.map(t => t.characterId).concat(r.primary ? [r.primary.characterId] : []);
+  const sceneImg = e => RENDER.hasScene(e.id) ? `<figure class="scene"><img src="${RENDER.sceneSrc(e.id)}" alt="${esc(e.title)} 장면 일러스트" loading="lazy" width="960" height="640" draggable="false"><figcaption>장면 일러스트 · 예술적 해석</figcaption></figure>` : '';
+  const resultIds = r => r.top.map(t => t.characterId).concat(r.primary ? [r.primary.characterId, r.primary.eventId] : []);
   async function slideBlob(r, i, format) {
     await ensureFonts(); await RENDER.preload(resultIds(r));
     const [W, H] = format === 'story' ? [1080, 1920] : [1080, 1350];
@@ -2424,7 +2450,7 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
           </div>
           <div class="grid2">
             <div class="panel"><div class="sectitle"><h2>강점과 돌아볼 점</h2></div><p><b>${esc(V.skillLabel)}</b> — ${esc(V.strength)}</p><p class="muted" style="margin-bottom:0"><b style="color:var(--sage)">돌아볼 질문</b><br>${esc(V.reflection)}</p></div>
-            <div class="panel"><div class="sectitle"><h2>오늘의 말씀</h2>${ev ? `<span class="chip gold">${esc(ev.scriptureRefs)}</span>` : ''}</div>${ev ? `<p><b class="small" style="color:var(--sage)">본문 요약(자체 요약)</b><br>${esc(ev.factualSummary)}</p><p class="small muted" style="margin-bottom:0">서비스 해설 · 이 장면은 ${esc(p.matched.map(s => D.SIGNAL_TEXT[s]).join(', '))} 모습으로 오늘의 나를 비추어 보게 해요. 성경 본문을 직접 찾아 읽어 보세요.</p>` : ''}</div>
+            <div class="panel"><div class="sectitle"><h2>오늘의 말씀</h2>${ev ? `<span class="chip gold">${esc(ev.scriptureRefs)}</span>` : ''}</div>${ev ? `${sceneImg(ev)}<p><b class="small" style="color:var(--sage)">본문 요약(자체 요약)</b><br>${esc(ev.factualSummary)}</p><p class="small muted" style="margin-bottom:0">서비스 해설 · 이 장면은 ${esc(p.matched.map(s => D.SIGNAL_TEXT[s]).join(', '))} 모습으로 오늘의 나를 비추어 보게 해요. 성경 본문을 직접 찾아 읽어 보세요.</p>` : ''}</div>
           </div>
           <div class="grid2">
             <div class="panel"><div class="sectitle"><h2>오늘의 실천 3가지</h2></div><ol class="acts">${V.actions.map(a => `<li><span>${esc(a)}</span></li>`).join('')}</ol></div>
@@ -2590,7 +2616,7 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
         <div class="row" style="margin-bottom:14px"><span class="chip">${esc(c.references)}</span><span class="chip ${c.eligibleForPrimary ? 'gold' : ''}">${c.eligibleForPrimary ? '대표 결과 가능' : '대표 결과 제외 · 사전 소개'}</span><span class="chip">콘텐츠 검수 전(초안)</span></div>
         ${c.notes ? `<p class="notice">${esc(c.notes)}</p>` : ''}
         <h2 style="font-size:20px;margin:18px 0 10px">기록된 사건</h2>
-        <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel"><div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
+        <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel">${sceneImg(e)}<div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
         <p class="small muted">장절과 요약은 서비스의 자체 요약이며 성경 번역 본문을 옮기지 않았어요. 성경을 직접 펼쳐 읽어 보세요.</p>
         <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a>${(() => { const e = c.eventIds.map(id => D.EVENT_BY_ID[id]).find(x => x.eligibility === 'primary' || x.eligibility === 'support'); return e ? `<a class="btn" href="#plan-${PLAN.slug(c.id, e.id)}">이 인물과 7일 묵상</a><a class="btn" href="#group-${GROUP.slug(c.id, e.id)}">소그룹 나눔 가이드</a>` : ''; })()}<a class="btn" href="#characters">‹ 사전으로</a></div>
       </div></section>`;
