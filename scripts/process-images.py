@@ -6,7 +6,7 @@ assets-src/events/<eventId>.jpg -> public/assets/events/<eventId>.webp (960x640,
 import os, glob
 from PIL import Image, ImageOps
 # Per-image horizontal crop centre (0=left, 1=right) when the default centre would cut a key figure.
-CENTER_OVERRIDE = {"ot-hezekiah-2": 0.75}
+CENTER_OVERRIDE = {"ot-hezekiah-2": 0.75, "ot-josiah-1": 0.3}
 for src_dir, out_dir, size, centering in [("assets-src/characters", "public/assets/characters", (720, 900), (0.5, 0.4)),
                                           ("assets-src/options", "public/assets/options", (560, 420), (0.5, 0.45)),
                                           ("assets-src/events", "public/assets/events", (960, 640), (0.5, 0.5))]:
