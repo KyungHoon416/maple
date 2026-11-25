@@ -3,7 +3,7 @@
 module.exports = {
   // Event scene illustrations (story-art, 'SA' edition). Wide scene, small figures seen mostly from a distance.
   // Jesus and God are never depicted as figures: their presence is only implied (warm light, an empty space, the edge of a robe).
-  SCENE_STYLE: 'Original editorial watercolor scene illustration of a biblical story moment, {subject}, figures small to medium in a wide setting, faces soft and not detailed, textured handmade paper, cinematic warm diffuse light, muted sage green and warm earth palette, no text, no letters, no logos, no halos, no modern artifacts, no watermark, wide landscape 3:2 composition.',
+  SCENE_STYLE: 'Original editorial watercolor scene illustration of a biblical story moment, {subject}, figures small to medium in a wide setting, faces softly painted with natural expressions (never blank), textured handmade paper, cinematic warm diffuse light, muted sage green and warm earth palette, no text, no letters, no logos, no halos, no modern artifacts, no watermark, wide landscape 3:2 composition.',
   SCENES: {
     'nt-mary-bethany-1': 'a young woman sitting on the floor of a simple stone house, listening intently, warm lamplight and the hem of a teacher\'s robe at the edge of the frame, another woman busy with pots in the background kitchen',
     'nt-anna-1': 'a very old widow praying in a stone temple courtyard at dawn, a young couple carrying a swaddled baby passing by, she raises her hands in thanks',
@@ -17,7 +17,7 @@ module.exports = {
     'nt-james-brother-1': 'an elder standing among a council of seated elders in a stone hall in Jerusalem, holding an open scroll, calm decisive moment',
     'nt-nicodemus-1': 'an older religious teacher in fine robes on a flat rooftop at night, lamp in hand, asking a question, wind in the robes, stars above, the other speaker only implied by lamplight',
     'nt-simeon-1': 'an elderly man in a temple court holding a swaddled baby up in his arms, eyes lifted in praise, the young parents watching',
-    'nt-samaritan-woman-1': 'a woman with a clay water jar at an old stone well at noon, turning to speak with someone just out of frame, dry hills behind',
+    'nt-samaritan-woman-1': 'a Samaritan woman with a clay water jar at an old stone well at noon, gentle natural face with a curious thoughtful expression, turning toward someone just out of frame, dry hills behind',
     'nt-luke-1': 'a physician-writer at a wooden table carefully writing on a long scroll, many notes and scrolls around him, oil lamp, quiet study',
     'ot-jeremiah-2': 'a young prophet sitting alone against a stone wall in a city at dusk, head in hands, a faint inner glow like fire in his chest, mocking silhouettes far away',
     'ot-jehoshaphat-2': 'a king standing before a gathered nation in a temple court, all people standing with their little ones, eyes lifted upward, fasting and praying',

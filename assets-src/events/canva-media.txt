@@ -11,3 +11,4 @@ nt-james-brother-1 MAHb8Z-eNC4
 nt-nicodemus-1 MAHb8e7xJ-I
 nt-simeon-1 MAHb8UsfYiE
 nt-samaritan-woman-1 MAHb8XicI3k
+nt-samaritan-woman-1 REJECTED (blank face) MAHb8XicI3k
