@@ -8,7 +8,7 @@
 - UI 전 화면, PNG/ZIP 저장, 공유 fallback, 세션 복원/초기화, reduced-motion, 키보드/스와이프
 
 ## 미완료 / 차단
-- 인물 초상 **25/100장 생성·적용** (Figma generate_image, gemini-3.1-flash-lite-image, 928×1152 → 720×900 WebP). 원본 `assets-src/characters/`, 적용본 `public/assets/characters/`. 이후 Figma AI 크레딧 소진(2026-11-25 00:00 UTC 재충전) → 나머지 75명과 사건 장면은 임시 이미지. Canva는 이 환경에서 160×199 미리보기만 받을 수 있어 사용하지 않음
+- 인물 초상 **50/100장 생성·적용** (Figma generate_image, gemini-3.1-flash-lite-image, 928×1152 → 720×900 WebP). 11/24 25장, 11/25 25장. Figma AI 크레딧이 하루 약 25장이라 매일 09:10(KST) 자동 실행으로 이어서 생성 중
 - 선택지 전용 일러스트 24/24장 적용 (Canva generate-image → 단일 이미지 디자인 → JPG 내보내기 → `assets-src/options/`, 560×420 WebP). 이름 없는 평범한 사람으로 그려 결과를 암시하지 않음. 여러 장을 한 디자인에 넣으면 Canva가 장식·문구를 추가해서, 한 장씩 처리하고 모든 이미지를 눈으로 확인함 (Q07-B는 문구가 붙어 다시 생성)
 - 문항 선택 시 바로 다음 문항으로 이동 (사용자 요청으로 명세 §3 “선택 후 다음 버튼”을 변경)
 - 사건 프로필 268개 (목표 약 300 미달 — 근거 있는 사건만 추가)
