@@ -32,7 +32,7 @@ module.exports = {
     'ot-josiah-1': 'a young king tearing his royal robe as a scribe reads aloud from an ancient scroll in the palace',
     'nt-zechariah-1': 'an old priest holding a writing tablet, his mouth opened in praise, relatives around a newborn baby, surprised faces',
     'ot-esther-2': 'a queen in royal robes standing in the inner court of a Persian palace, the king on his throne extending a golden sceptre, tense calm',
-    'nt-syrophoenician-woman-1': 'a foreign mother kneeling in the doorway of a house pleading for her daughter, small dogs under a table eating crumbs',
+    'nt-syrophoenician-woman-1': 'a foreign mother kneeling alone in the doorway of a house, pleading toward someone outside the frame (no other adults visible), small dogs under a low table eating crumbs, warm light falling on her',
     'ot-ruth-1': 'a young widow clinging to her mother-in-law on a road leading away from Moab, another woman walking back in the distance',
     'ot-elisha-1': 'a younger prophet walking closely behind an old prophet along the Jordan river road, refusing to leave him',
   },
