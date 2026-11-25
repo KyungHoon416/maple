@@ -125,8 +125,18 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; wo
 .flip .back { transform: rotateY(0deg); }
 .flip .front { transform: rotateY(180deg); }
 .flip:not(.open) .back { animation: breathe 2.4s ease-in-out infinite; }
+/* waiting card trembles now and then; on tap it shakes hard, then flips */
+.flip:not(.open) { animation: card-tremble 2.6s ease-in-out infinite; transform-origin: 50% 90%; }
+.flip.shake-hard { animation: card-shake .65s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes card-tremble { 0%, 62%, 100% { transform: rotate(0) } 66% { transform: rotate(-2.2deg) } 70% { transform: rotate(2.2deg) } 74% { transform: rotate(-1.6deg) } 78% { transform: rotate(1.2deg) } 82% { transform: rotate(0) } }
+@keyframes card-shake {
+  0% { transform: translate(0,0) rotate(0) scale(1) } 10% { transform: translate(-6px,2px) rotate(-4deg) scale(1.02) } 20% { transform: translate(7px,-2px) rotate(4deg) scale(1.03) }
+  30% { transform: translate(-8px,3px) rotate(-5deg) scale(1.04) } 40% { transform: translate(8px,-3px) rotate(5deg) scale(1.05) } 50% { transform: translate(-7px,2px) rotate(-4deg) scale(1.06) }
+  60% { transform: translate(6px,-2px) rotate(3deg) scale(1.06) } 70% { transform: translate(-4px,1px) rotate(-2deg) scale(1.05) } 85% { transform: translate(2px,0) rotate(1deg) scale(1.03) } 100% { transform: translate(0,0) rotate(0) scale(1) }
+}
+.flip.shake-hard .back { box-shadow: 0 0 60px rgba(220,196,138,.55), 0 30px 60px rgba(0,0,0,.45); }
 @keyframes breathe { 50% { box-shadow: 0 30px 70px rgba(220,196,138,.28); } }
-@media (prefers-reduced-motion: reduce) { .flip .inner { transition: none; } .flip:not(.open) .back { animation: none; } .bar i { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .flip, .flip.shake-hard { animation: none !important; } .flip .inner { transition: none; } .flip:not(.open) .back { animation: none; } .bar i { transition: none; } }
 
 /* result */
 .result { display: grid; grid-template-columns: minmax(300px, 420px) 1fr; gap: 24px; padding-block: 28px; align-items: start; }
@@ -231,3 +241,18 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block
 .plan-mini { padding-left: 0; list-style: none; display: grid; gap: 6px; margin: 0 0 14px; font-size: 14.5px; }
 .plan-mini b { color: var(--gold); font-family: var(--serif); margin-right: 6px; }
 @media (max-width: 560px) { .plan-head { grid-template-columns: 96px 1fr; gap: 14px; } .plan-portrait { width: 96px; } .plan-day dl { grid-template-columns: 1fr; } .plan-day dt { margin-top: 6px; } }
+
+/* small-group guide */
+.guide { padding-block: 28px; display: grid; gap: 16px; max-width: 880px; }
+.guide-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.guide-steps h2 { font-size: 20px; display: flex; align-items: center; gap: 10px; }
+.step-n { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--ivory); color: var(--bg); font-size: 15px; }
+.guide-items { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.guide-qs { margin: 0; padding-left: 22px; display: grid; gap: 10px; }
+.guide-qs .chip { margin-right: 4px; }
+@media print {
+  :root { --bg: #fff; --ivory: #111; --muted: #444; --card: #fff; --line: #bbb; --gold: #7a5d1d; --sage: #2f5a3b; }
+  body { background: #fff !important; color: #111; }
+  .top, .foot, .no-print, .toast { display: none !important; }
+  .panel { background: #fff !important; border-color: #bbb; break-inside: avoid; }
+}

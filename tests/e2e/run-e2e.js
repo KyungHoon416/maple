@@ -145,10 +145,10 @@ async function download(page, clickSel) {
   await page.goto(URL + '#result'); await page.waitForSelector('#tc');
 
   // 7-day plan
-  await page.goto(URL + '#result'); await page.waitForSelector('.plan-cta a');
-  const planHref = await page.locator('.plan-cta a').getAttribute('href');
+  await page.goto(URL + '#result'); await page.waitForSelector('.plan-cta a[href^="#plan-"]');
+  const planHref = await page.locator('.plan-cta a[href^="#plan-"]').getAttribute('href');
   check('result shows 7-day plan entry with public plan link', /^#plan-[a-z0-9-]+-e\d+$/.test(planHref) && !planHref.includes(ANSWERS), planHref);
-  await page.click('.plan-cta a'); await page.waitForSelector('.plan-days');
+  await page.click('.plan-cta a[href^="#plan-"]'); await page.waitForSelector('.plan-days');
   check('plan page lists 7 days', (await page.locator('.plan-day').count()) === 7);
   check('nothing stored before opting in', await page.evaluate(() => localStorage.getItem('mfs-plan-progress') === null));
   await page.check('#pd-1'); await page.check('#plan-save'); await page.waitForSelector('.plan-days');
@@ -162,6 +162,19 @@ async function download(page, clickSel) {
   await page.screenshot({ path: path.join(SHOTS, 'pc-11-plan.png'), fullPage: true });
   await page.uncheck('#plan-save'); await page.waitForSelector('.plan-days');
   check('turning saving off deletes stored progress', await page.evaluate(() => { const v = JSON.parse(localStorage.getItem('mfs-plan-progress') || '{}'); return Object.keys(v).length === 0; }));
+
+  // small-group guide
+  await page.goto(URL + '#result'); await page.waitForSelector('.plan-cta a[href^="#group-"]');
+  const gHref = await page.locator('.plan-cta a[href^="#group-"]').getAttribute('href');
+  await page.goto(URL + gHref); await page.waitForSelector('.guide-steps');
+  check('group guide has 5 sections and questions', (await page.locator('.guide-steps > li').count()) === 5 && (await page.locator('.guide-qs li').count()) >= 4, gHref);
+  await page.evaluate(() => navigator.clipboard.writeText(''));
+  await page.click('#g-copy'); await page.waitForTimeout(300);
+  const gtxt = await page.evaluate(() => navigator.clipboard.readText()).catch(() => '');
+  check('group guide text copy works and has no answers/scores', gtxt.startsWith('[소그룹 나눔 가이드]') && !gtxt.includes(ANSWERS) && !scores.some(s => gtxt.includes(s)));
+  await page.goto(URL + '#group'); await page.waitForSelector('#gq');
+  await page.fill('#gq', '룻'); await page.waitForTimeout(500);
+  check('group hub search finds 룻', (await page.locator('.dict li a').count()) === 1);
 
   // card news
   await page.goto(URL + '#cards');

@@ -1,7 +1,7 @@
 {
-  "ranAt": "2026-11-25T14:31:09.467Z",
+  "ranAt": "2026-11-25T14:42:51.145Z",
   "browser": "Playwright Chromium (headless)",
-  "passed": 81,
+  "passed": 84,
   "failed": 0,
   "results": [
     {
@@ -155,6 +155,21 @@
       "detail": ""
     },
     {
+      "name": "group guide has 5 sections and questions",
+      "ok": true,
+      "detail": "#group-ot-jehoshaphat-e2"
+    },
+    {
+      "name": "group guide text copy works and has no answers/scores",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "group hub search finds 룻",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "keyboard ArrowRight moves to card 2",
       "ok": true,
       "detail": ""
@@ -207,7 +222,7 @@
     {
       "name": "no requests outside fonts/cdnjs, none carry answers",
       "ok": true,
-      "detail": "201 external requests, bad=0"
+      "detail": "198 external requests, bad=0"
     },
     {
       "name": "no page errors",

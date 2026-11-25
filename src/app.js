@@ -5,6 +5,7 @@
   const D = window.MFS_DATA, RENDER = window.MFS_RENDER;
   const ENG = window.MFS_ENGINE.create(D, window.MFS_RARITY);
   const PLAN = window.MFS_PLAN.create(D);
+  const GROUP = window.MFS_GROUP.create(D);
   const $app = document.getElementById('app');
   const SKEY = 'mfs-session-v6';
   // Public base URL for share links. Leave empty until a real public deployment exists.
@@ -239,7 +240,7 @@
   }
 
   // ── routing
-  const routes = { '': intro, test: quiz, reveal, result: resultPage, cards: cardNews, characters: dictionary, about };
+  const routes = { '': intro, test: quiz, reveal, result: resultPage, cards: cardNews, characters: dictionary, about, group: groupHub };
   let current = '';
   function go(h) { if (location.hash === '#' + h) render(); else location.hash = h; }
   function render() {
@@ -249,6 +250,7 @@
     if (!fn && h.startsWith('character-')) { fn = characterPage; arg = h.slice(10); }
     if (!fn && h.startsWith('share-')) { fn = sharePage; arg = ENG.parseSharePath(h); }
     if (!fn && h.startsWith('plan-')) { fn = planPage; arg = PLAN.parse(h); }
+    if (!fn && h.startsWith('group-')) { fn = groupPage; arg = GROUP.parse(h); }
     if (!fn) fn = intro;
     current = h;
     document.querySelectorAll('.nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + (h.startsWith('character-') ? 'characters' : h) ? 'page' : 'false'));
@@ -424,7 +426,14 @@
       front.alt = `${charName(ch)} 카드, ${p.rarity} 에디션, 대표 특기 ${sk.label}, 카드 번호 ${p.cardNumber}`;
       if (open) document.getElementById('revealmsg').textContent = `${p.rarity} · ${charName(ch)} · ${sk.label}`;
     });
+    let flipping = false;
     const doFlip = () => {
+      if (S.revealed || flipping) return;
+      // Shake hard for a moment, then turn the card over (instant when reduced motion is on).
+      if (!reduceMotion) { flipping = true; const f = document.getElementById('flip'); f.classList.add('shake-hard'); setTimeout(() => { f.classList.remove('shake-hard'); flipping = false; reallyFlip(); }, 650); return; }
+      reallyFlip();
+    };
+    const reallyFlip = () => {
       if (S.revealed) return; S.revealed = true; save();
       document.getElementById('flip').classList.add('open'); document.getElementById('flip').setAttribute('aria-label', '공개된 카드');
       document.getElementById('revealmsg').textContent = `${p.rarity} · ${charName(ch)} · ${sk.label}`;
@@ -503,7 +512,7 @@
           ${p ? (() => { const pl = PLAN.build(p.characterId, p.eventId); return `<div class="panel plan-cta"><div class="sectitle"><h2>7일 묵상 플랜</h2><span class="chip gold">${esc(D.CONTEXTS[pl.context])}</span></div>
             <p style="margin-top:0">${esc(pl.intro)}</p>
             <ol class="plan-mini">${pl.days.slice(0, 3).map(d => `<li><b>${d.day}일차</b> ${esc(d.title)} <span class="muted small">${esc(d.ref)}</span></li>`).join('')}<li class="muted small">… 7일차까지</li></ol>
-            <a class="btn gold sm" href="#plan-${pl.slug}">7일 묵상 플랜 시작하기 ›</a></div>`; })() : ''}
+            <div class="row"><a class="btn gold sm" href="#plan-${pl.slug}">7일 묵상 플랜 시작하기 ›</a><a class="btn sm" href="#group-${pl.slug}">소그룹 나눔 가이드</a></div></div>`; })() : ''}
           <div class="panel"><div class="sectitle"><h2>저장하고 나누기</h2></div>
             <div class="row"><button class="btn sm" id="sh-native">기기 기본 공유</button><button class="btn sm" id="sh-kakao">카카오톡 공유</button><button class="btn sm" id="sh-copy">소개 링크 복사</button><a class="btn sm" href="#cards">카드뉴스 저장 ›</a></div>
             <p class="small muted" style="margin-bottom:0">공유 링크에는 인물·사건 소개만 담기고, 나의 응답·차트·점수는 담기지 않아요. 개인 카드 이미지는 기기에 저장한 뒤 직접 올려 주세요.</p>
@@ -662,7 +671,7 @@
         <h2 style="font-size:20px;margin:18px 0 10px">기록된 사건</h2>
         <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel"><div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
         <p class="small muted">장절과 요약은 서비스의 자체 요약이며 성경 번역 본문을 옮기지 않았어요. 성경을 직접 펼쳐 읽어 보세요.</p>
-        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a>${(() => { const e = c.eventIds.map(id => D.EVENT_BY_ID[id]).find(x => x.eligibility === 'primary' || x.eligibility === 'support'); return e ? `<a class="btn" href="#plan-${PLAN.slug(c.id, e.id)}">이 인물과 7일 묵상</a>` : ''; })()}<a class="btn" href="#characters">‹ 사전으로</a></div>
+        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a>${(() => { const e = c.eventIds.map(id => D.EVENT_BY_ID[id]).find(x => x.eligibility === 'primary' || x.eligibility === 'support'); return e ? `<a class="btn" href="#plan-${PLAN.slug(c.id, e.id)}">이 인물과 7일 묵상</a><a class="btn" href="#group-${GROUP.slug(c.id, e.id)}">소그룹 나눔 가이드</a>` : ''; })()}<a class="btn" href="#characters">‹ 사전으로</a></div>
       </div></section>`;
     $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
   }
@@ -759,6 +768,55 @@
       } catch (e) { toast('이미지를 만들지 못했어요. 다시 시도해 주세요.'); }
     };
     document.getElementById('plan-link').onclick = () => copy(`[7일 묵상] ${pl.title}\n` + (PUBLIC_BASE_URL || ARTIFACT_URL) + '#plan-' + pl.slug);
+  }
+
+  // ── Small-group guide (public content only)
+  const canPrint = !framed && typeof window.print === 'function';
+  function groupPage(arg) {
+    if (!arg) { $app.innerHTML = `<section class="wrap prose"><h1>나눔 가이드를 찾을 수 없어요</h1><a class="btn gold" href="#group">소그룹 나눔 안내로</a></section>`; return; }
+    const g = GROUP.build(arg.characterId, arg.eventId), ch = D.CHAR_BY_ID[g.characterId];
+    const url = (PUBLIC_BASE_URL || ARTIFACT_URL) + '#group-' + g.slug;
+    $app.innerHTML = `<section class="wrap guide">
+      <div class="plan-head">
+        <img class="plan-portrait" alt="${esc(ch.displayName)} ${RENDER.hasPortrait(ch.id) ? '수채화 일러스트' : '임시 일러스트'}" data-portrait="${ch.id}">
+        <div><p class="eyebrow">Small Group Guide</p>
+          <h1 style="font-size:clamp(26px,4vw,38px);margin:6px 0">${esc(g.title)}</h1>
+          <p style="margin:0" class="muted">${esc(g.subtitle)} · 리더용</p>
+          <div class="row no-print" style="margin-top:12px"><button class="btn gold sm" id="g-copy">단톡방용 텍스트 복사</button>${canPrint ? '<button class="btn sm" id="g-print">인쇄하기</button>' : ''}<a class="btn ghost sm" href="#group">다른 인물 고르기</a></div>
+        </div>
+      </div>
+      <ol class="guide-steps">${g.sections.map((sct, i) => `<li class="panel">
+        <div class="sectitle"><h2><span class="step-n">${i + 1}</span>${esc(sct.title)}</h2><span class="chip">${sct.minutes}분</span></div>
+        ${sct.ref ? `<p style="margin:0 0 8px"><span class="chip gold">${esc(sct.ref)}</span></p>` : ''}
+        ${sct.items ? `<ul class="guide-items">${sct.items.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
+        ${sct.questions ? `<ol class="guide-qs">${sct.questions.map(q => `<li><span class="chip">${esc(q.kind)}</span> ${esc(q.q)}</li>`).join('')}</ol>` : ''}
+      </li>`).join('')}</ol>
+      <div class="panel"><div class="sectitle"><h2>리더를 위한 안내</h2></div><ul class="guide-items">${g.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>
+      <p class="small muted">질문과 진행표는 서비스가 만든 초안이에요(검수 전). 모임 상황에 맞게 자유롭게 바꿔 쓰세요. 나의 응답이나 점수는 담기지 않아요.</p>
+    </section>`;
+    $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(ch.id) ? RENDER.portraitSrc(ch.id) : RENDER.portraitCanvas(ch.id, 480, 600).toDataURL('image/jpeg', 0.88);
+    document.getElementById('g-copy').onclick = () => copy(GROUP.toText(g, url));
+    const pr = document.getElementById('g-print'); if (pr) pr.onclick = () => window.print();
+  }
+  let groupFilter = '';
+  function groupHub() {
+    const list = D.CHARACTERS.filter(c => c.eventIds.some(id => ['primary', 'support'].includes(D.EVENT_BY_ID[id].eligibility)));
+    const shown = list.filter(c => !groupFilter || c.displayName.includes(groupFilter.trim()));
+    $app.innerHTML = `<section class="wrap prose" style="max-width:880px">
+      <p class="eyebrow">Small Group</p><h1 style="font-size:clamp(26px,4vw,36px);margin-top:6px">소그룹 나눔 가이드</h1>
+      <p>교회 소그룹이나 셀 모임에서 각자 테스트를 해 보고, 한 인물의 장면을 함께 읽으며 나누는 약 60분 진행표예요. 로그인이나 결과 수집 없이, 각자 원하는 만큼만 자기 카드를 보여 주며 나눠요.</p>
+      <h2>이렇게 진행해요</h2>
+      <ol><li>모임 전에 각자 12문항 테스트를 해요(선택). 링크: 이 사이트 첫 화면</li><li>리더가 이번 모임에서 함께 읽을 인물을 아래에서 골라요. 모임원 중 한 사람의 결과 인물이나, 이번 주 설교 본문과 가까운 인물이면 좋아요.</li><li>가이드의 ‘단톡방용 텍스트 복사’로 미리 나눠 주고, 모임에서는 순서대로 진행해요.</li></ol>
+      <h2>리더를 위한 안내</h2><ul>${GROUP.LEADER_TIPS.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+      <h2>함께 읽을 인물 고르기</h2>
+      <div class="dict-tools"><label class="sr-only" for="gq">인물 이름 검색</label><input id="gq" type="search" placeholder="이름으로 검색 (예: 룻)" value="${esc(groupFilter)}"><span class="small muted">${shown.length}명</span></div>
+      <ul class="dict">${shown.map(c => { const e = c.eventIds.map(id => D.EVENT_BY_ID[id]).find(x => ['primary', 'support'].includes(x.eligibility)); return `<li><a href="#group-${GROUP.slug(c.id, e.id)}"><img alt="" loading="lazy" data-portrait="${c.id}" width="288" height="360"><b>${esc(c.displayName)}</b><span>${esc(e.title)}</span></a></li>`; }).join('')}</ul>
+    </section>`;
+    let k = 0; const imgs = [...$app.querySelectorAll('img[data-portrait]')];
+    const paint = () => { const end = Math.min(imgs.length, k + 6); for (; k < end; k++) imgs[k].src = RENDER.portraitURL(imgs[k].dataset.portrait); if (k < imgs.length) requestAnimationFrame(paint); };
+    paint();
+    const gq = document.getElementById('gq'); let t;
+    gq.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { groupFilter = gq.value; groupHub(); const n = document.getElementById('gq'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); });
   }
 
   function about() {
