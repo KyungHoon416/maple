@@ -10,3 +10,4 @@ nt-james-brother-1 2026-11-25
 nt-nicodemus-1 2026-11-25
 nt-simeon-1 2026-11-25
 nt-samaritan-woman-1 2026-11-25
+nt-luke-1 2026-11-25
