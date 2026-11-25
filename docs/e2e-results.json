@@ -1,5 +1,5 @@
 {
-  "ranAt": "2026-11-25T14:42:51.145Z",
+  "ranAt": "2026-11-25T14:48:01.083Z",
   "browser": "Playwright Chromium (headless)",
   "passed": 84,
   "failed": 0,
@@ -37,12 +37,12 @@
     {
       "name": "reveal shows rarity + character + skill",
       "ok": true,
-      "detail": "R · 여호사밧 · 기도로 여는 하루"
+      "detail": "U · 여호사밧 · 기도로 여는 하루"
     },
     {
       "name": "browser result equals Node engine result",
       "ok": true,
-      "detail": "여호사밧 R"
+      "detail": "여호사밧 U"
     },
     {
       "name": "result shows rarity disclaimer",
@@ -255,7 +255,7 @@
       "detail": ""
     },
     {
-      "name": "N/R/SR/SSR frame fixture rendered",
+      "name": "C/U/R/RR/SR/UR frame fixture rendered",
       "ok": true,
       "detail": ""
     },

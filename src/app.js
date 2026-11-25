@@ -65,7 +65,9 @@
   // ── view model for result + card news
   function cardOf(r) {
     const p = r.primary; if (!p) return null;
-    return { characterId: p.characterId, eventId: p.eventId, skillId: p.skillId, secondaryTraits: p.secondaryTraits, rarity: p.rarity, cardNumber: p.cardNumber };
+    const stats = r.chartData.map(c => { const a = D.AREAS.find(x => x.id === c.area); return { label: c.label, value: c.aShare === 1 ? a.aShort : c.aShare === 0 ? a.bShort : '균형', mix: c.aShare }; });
+    return { characterId: p.characterId, eventId: p.eventId, skillId: p.skillId, secondaryTraits: p.secondaryTraits, rarity: p.rarity, cardNumber: p.cardNumber, stats,
+      sa: (window.MFS_SCENES || []).includes(p.eventId), promo: promoSeason(new Date()) };
   }
   function view(r) {
     const p = r.primary;
@@ -93,6 +95,15 @@
     };
   }
 
+  // P (promo) edition: Christmas (Dec 18 – Jan 6) and Holy Week to a week after Easter. Visual mark only;
+  // rarity and character never change.
+  function easter(y) { const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), mo = Math.floor((h + l - 7 * m + 114) / 31), da = ((h + l - 7 * m + 114) % 31) + 1; return new Date(y, mo - 1, da); }
+  function promoSeason(d) {
+    const m = d.getMonth() + 1, day = d.getDate();
+    if ((m === 12 && day >= 18) || (m === 1 && day <= 6)) return '성탄';
+    const e = easter(d.getFullYear()), diff = Math.round((new Date(d.getFullYear(), m - 1, day) - e) / 86400000);
+    return diff >= -7 && diff <= 7 ? '부활절' : '';
+  }
   // ── images: cache rendered data URLs
   const imgCache = new Map();
   async function cardURL(card, format) {
@@ -268,7 +279,7 @@
 
   // ── pages
   function intro() {
-    const examples = [['nt-martha', 'nt-martha-1', 'sk-11B', 'N'], ['ot-daniel', 'ot-daniel-2', 'sk-steady-knees', 'R'], ['ot-david', 'ot-david-3', 'sk-living-praise', 'SR'], ['nt-peter', 'nt-peter-2', 'sk-mended', 'SSR']];
+    const examples = [['nt-martha', 'nt-martha-1', 'sk-11B', 'U'], ['ot-daniel', 'ot-daniel-2', 'sk-steady-knees', 'RR'], ['ot-david', 'ot-david-3', 'sk-living-praise', 'SR'], ['nt-peter', 'nt-peter-2', 'sk-mended', 'UR']];
     $app.innerHTML = `
       <section class="wrap">
         ${sessionNotice ? `<p class="notice" role="status">${esc(sessionNotice)}</p>` : ''}
@@ -281,7 +292,7 @@
             <div class="pills">
               <div class="pill">${icon('cards')}<div><b>성경 인물 카드</b><span>100명의 인물 사전과 근거 있는 사건 비교</span></div></div>
               <div class="pill">${icon('swap')}<div><b>간단한 테스트</b><span>12문항, 둘 중 하나 선택. 정답은 없어요</span></div></div>
-              <div class="pill">${icon('star')}<div><b>카드 에디션</b><span>N · R · SR · SSR은 특기 조합의 희귀도예요</span></div></div>
+              <div class="pill">${icon('star')}<div><b>카드 에디션</b><span>C부터 UR까지 6단계, 특기 조합의 희귀도예요</span></div></div>
             </div>
             <div class="row"><a class="btn gold" href="#test" id="start">${S.answers.some(Boolean) && !complete() ? '이어서 검사하기' : '12문항 테스트 시작하기'} ›</a>${complete() ? '<a class="btn" href="#result">내 결과 다시 보기</a>' : ''}</div>
             <div class="policy"><ul>
@@ -290,7 +301,7 @@
               <li>12개의 질문으로 지금 나의 믿음을 돌아보세요. (예상 2~3분, 기획값)</li>
             </ul></div>
           </div>
-          <figure class="fan" aria-label="카드 등급 예시: N, R, SR, SSR 프레임">
+          <figure class="fan" aria-label="카드 등급 예시: U, RR, SR, UR 프레임">
             ${examples.map(e => `<img class="tc-mini" data-ex="${e.join('|')}" alt="${esc(D.CHAR_BY_ID[e[0]].displayName)} 예시 카드, ${e[3]} 프레임" width="432" height="540">`).join('')}
             <figcaption>예시 카드 · 실제 결과는 응답과 본문 근거로 정해져요</figcaption>
           </figure>
@@ -484,7 +495,7 @@
           <div class="panel">
             <p class="eyebrow">My Faith Story · 결과</p>
             ${p ? `<h1 style="font-size:clamp(26px,3.6vw,38px);margin:8px 0">지금의 나는 <span style="color:var(--gold)">${esc(charName(ch))}</span>의<br>‘${esc(ev.title)}’ 모습과 닮았어요</h1>
-              <div class="row" style="margin-bottom:8px"><span class="chip gold">${esc(p.rarity)} · ${esc(D.FAMILIES[sk.family])}</span><span class="chip">대표 특기 · ${esc(sk.label)}</span><span class="chip">${esc(ev.scriptureRefs)}</span><span class="chip">${esc(p.cardNumber)}</span></div>
+              <div class="row" style="margin-bottom:8px"><span class="chip gold">${esc(p.rarity)} · ${esc(D.FAMILIES[sk.family])}</span>${cardOf(r).sa ? '<span class="chip gold">SA 스토리 아트</span>' : ''}${cardOf(r).promo ? `<span class="chip gold">P ${esc(cardOf(r).promo)} 프로모</span>` : ''}<span class="chip">대표 특기 · ${esc(sk.label)}</span><span class="chip">${esc(ev.scriptureRefs)}</span><span class="chip">${esc(p.cardNumber)}</span></div>
               <p style="margin:0">${esc(V.headline)}</p>
               ${co ? `<p class="small muted">${esc(josa(charName(co), '과', '와'))}의 모습과도 거의 같은 정도로 가까워요. 한 사람의 모습으로만 단정하지 않아도 좋아요.</p>` : ''}`
             : `<h1 style="font-size:32px">여러 모습이 함께 보여요</h1>`}
@@ -826,9 +837,10 @@
       <p class="eyebrow">About</p><h1 style="font-size:34px;margin-top:6px">서비스 소개 · FAQ</h1>
       <h2>무엇을 하나요?</h2><p>최근 4주 동안의 신앙·말씀·기도·예배·성찰·공동체 행동에 관한 12개의 A/B 질문에 답하면, 등록된 성경 사건 프로필 ${D.EVENTS.length}개(대표·보조 비교 대상 ${D.EVENTS.filter(e => e.eligibility === 'primary' || e.eligibility === 'support').length}개)와 비교해 닮은 장면을 보여 줘요. 신앙 수준, 구원, 영성, 인격, 하나님의 평가, 심리 상태를 판정하지 않아요.</p>
       <h2>어떻게 비교하나요?</h2><p>선택지마다 행동 신호와 내용 가중치가 있고, 각 사건에는 본문에 기록된 행동 신호가 있어요. 응답과 사건 사이의 특성 유사도, 행동 일치도, 서로 다른 문항 근거 수, 행동의 고유성을 합쳐 내부 지표(0~100)를 만들고, 서로 다른 문항에서 2개 이상 근거가 있는 사건만 후보가 돼요. 실시간 AI를 쓰지 않으며 같은 응답은 항상 같은 결과가 나와요.</p>
-      <h2>카드 등급(N·R·SR·SSR)은?</h2><p>대표 특기 + 보조 특성 계열 + 사건 상황 유형 조합이 4,096가지 응답 조합 가운데 몇 번 나오는지로 정한 <b>설계상 희귀도</b>예요. 실제 이용자 비율이나 뽑기 확률이 아니고, 좋은 답에 높은 등급을 주지 않아요.</p>
+      <h2>카드 등급(C·U·R·RR·SR·UR)은?</h2><p>대표 특기 + 보조 특성 계열 + 사건 상황 유형 조합이 4,096가지 응답 조합 가운데 몇 번 나오는지로 정한 <b>설계상 희귀도</b>예요. 실제 이용자 비율이나 뽑기 확률이 아니고, 좋은 답에 높은 등급을 주지 않아요. 카드에 함께 적힌 ‘능력치’는 6개 영역에서 어느 쪽 성향을 골랐는지 보여 줄 뿐, 높고 낮음이 없어요.</p>
       <div class="tablewrap"><table><tr><th>등급</th><th>조합 등장 건수(4,096 기준)</th><th>현재 조합 수</th></tr>
-        <tr><td>N</td><td>${T.N} 이상</td><td>${kc.N || 0}</td></tr><tr><td>R</td><td>${T.R}~${T.N - 1}</td><td>${kc.R || 0}</td></tr><tr><td>SR</td><td>${T.SR}~${T.R - 1}</td><td>${kc.SR || 0}</td></tr><tr><td>SSR</td><td>${T.SSR}~${T.SR - 1}</td><td>${kc.SSR || 0}</td></tr></table></div>
+        ${D.CONFIG.rarityGrades.map(([g, min], i, arr) => `<tr><td>${g}</td><td>${i ? `${min}~${arr[i - 1][1] - 1}` : `${min} 이상`}</td><td>${kc[g] || 0}</td></tr>`).join('')}</table></div>
+      <p class="small">특별판: <b>SA (스토리 아트)</b> — 사건 장면 일러스트가 준비된 카드에 붙어요. <b>P (프로모)</b> — 성탄·부활절 기간에 받은 카드에 기념 표시가 붙어요. 둘 다 등급과는 별개예요.</p>
       <h2>개인정보</h2><p>로그인·회원가입이 없고 이름, 이메일, 전화번호, 교회명을 묻지 않아요. 응답은 이 브라우저 탭의 메모리와 sessionStorage에만 있고, 서버·외부 AI·분석 도구로 보내지 않아요. ‘다시 검사하기’를 누르거나 탭을 닫으면 지워져요. 공유 링크에는 인물·사건 소개만 담겨요.</p>
       <h2>성경 인용과 저작권</h2><p>성경 번역 본문을 옮기지 않고, 장절 표기와 서비스의 자체 요약만 사용해요. 모든 인물·사건 데이터는 <b>콘텐츠 검수 전 초안</b>이며 전문가 검수가 필요해요.</p>
       <h2>일러스트</h2><p>인물 ${(window.MFS_PORTRAITS || []).length}명은 AI 이미지 생성 도구로 만든 창작 수채화 일러스트예요(실제 모습을 재현한 것이 아니며 콘텐츠 검수 전). 나머지 인물과 사건 장면은 코드로 그린 <b>임시 이미지</b>이고, 생성 큐에 남아 있어요.</p>

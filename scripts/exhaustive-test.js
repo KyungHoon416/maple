@@ -15,7 +15,7 @@ const fail = (m) => { if (fails.length < 50) fails.push(m); };
 const all = E.allAnswers();
 const results = new Map();
 
-const charCount = {}, eventCount = {}, skillCount = {}, rarityCount = { N: 0, R: 0, SR: 0, SSR: 0 }, keyCount = {};
+const charCount = {}, eventCount = {}, skillCount = {}, rarityCount = Object.fromEntries(D.CONFIG.rarityGrades.map(([n]) => [n, 0])), keyCount = {};
 const charRarity = {}, top3Count = {};
 let nearTie = 0, exactTie = 0, lowFit = 0, topShort = 0;
 const primaryScores = [];
@@ -55,7 +55,7 @@ for (const a of all) {
   skillCount[p.skillId] = (skillCount[p.skillId] || 0) + 1;
   keyCount[p.signatureKey] = (keyCount[p.signatureKey] || 0) + 1;
   rarityCount[p.rarity]++;
-  charRarity[p.characterId] = charRarity[p.characterId] || { N: 0, R: 0, SR: 0, SSR: 0 };
+  charRarity[p.characterId] = charRarity[p.characterId] || Object.fromEntries(D.CONFIG.rarityGrades.map(([n]) => [n, 0]));
   charRarity[p.characterId][p.rarity]++;
 }
 
@@ -70,7 +70,7 @@ for (let qi = 0; qi < 12; qi++) {
   const row = { question: 'Q' + String(qi + 1).padStart(2, '0') };
   ['A', 'B'].forEach(k => {
     let n = 0, high = 0; const chars = {};
-    results.forEach((r, a) => { if (a[qi] !== k || !r.primary) return; n++; if (['SR', 'SSR'].includes(r.primary.rarity)) high++; chars[r.primary.characterId] = (chars[r.primary.characterId] || 0) + 1; });
+    results.forEach((r, a) => { if (a[qi] !== k || !r.primary) return; n++; if (['SR', 'UR'].includes(r.primary.rarity)) high++; chars[r.primary.characterId] = (chars[r.primary.characterId] || 0) + 1; });
     row[k + '_highRarityShare'] = +(high / n).toFixed(3);
     row[k + '_topCharacter'] = Object.entries(chars).sort((x, y) => y[1] - x[1])[0][0];
   });
@@ -120,19 +120,20 @@ const summary = {
 
 const root = path.join(__dirname, '..');
 const csv = rows => '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n') + '\n';
-const rows = [['type', 'id', 'name', 'primaryCount', 'top3Count', 'N', 'R', 'SR', 'SSR', 'note']];
+const GN = D.CONFIG.rarityGrades.map(([n]) => n);
+const rows = [['type', 'id', 'name', 'primaryCount', 'top3Count', ...GN, 'note']];
 D.CHARACTERS.forEach(c => {
-  const cr = charRarity[c.id] || { N: 0, R: 0, SR: 0, SSR: 0 };
+  const cr = charRarity[c.id] || {};
   const u = unexposed.find(x => x.id === c.id);
-  rows.push(['character', c.id, c.displayName, charCount[c.id] || 0, top3Count[c.id] || 0, cr.N, cr.R, cr.SR, cr.SSR, u ? u.reason : '']);
+  rows.push(['character', c.id, c.displayName, charCount[c.id] || 0, top3Count[c.id] || 0, ...GN.map(g => cr[g] || 0), u ? u.reason : '']);
 });
-D.EVENTS.forEach(ev => rows.push(['event', ev.id, D.CHAR_BY_ID[ev.characterId].displayName + ' · ' + ev.title, eventCount[ev.id] || 0, '', '', '', '', '', ev.eligibility]));
-D.SKILLS.forEach(s => rows.push(['skill', s.id, s.label, skillCount[s.id] || 0, '', '', '', '', '', s.family]));
+D.EVENTS.forEach(ev => rows.push(['event', ev.id, D.CHAR_BY_ID[ev.characterId].displayName + ' · ' + ev.title, eventCount[ev.id] || 0, '', ...GN.map(() => ''), ev.eligibility]));
+D.SKILLS.forEach(s => rows.push(['skill', s.id, s.label, skillCount[s.id] || 0, '', ...GN.map(() => ''), s.family]));
 fs.writeFileSync(path.join(root, 'docs/QA_DISTRIBUTION.csv'), csv(rows));
 fs.writeFileSync(path.join(root, 'docs/qa-exhaustive.json'), JSON.stringify({ summary, optionBias, unexposed }, null, 2));
 
 console.log(JSON.stringify(summary, null, 2));
 if (fails.length) { console.error('FAILED:', fails.length); fails.forEach(f => console.error(' -', f)); process.exit(1); }
-const missingGrades = ['N', 'R', 'SR', 'SSR'].filter(g => !rarityCount[g]);
+const missingGrades = GN.filter(g => !rarityCount[g]);
 if (missingGrades.length) console.warn('WARNING: grades not reached:', missingGrades);
 console.log('test:exhaustive OK');

@@ -23,107 +23,111 @@
     "distinctSkills": 31,
     "signatureKeys": 73,
     "rarityCombos": {
-      "N": 1980,
-      "R": 1791,
-      "SR": 232,
-      "SSR": 93
+      "C": 990,
+      "U": 1726,
+      "R": 947,
+      "RR": 290,
+      "SR": 93,
+      "UR": 50
     },
     "rarityKeys": {
-      "SSR": 26,
-      "R": 25,
-      "N": 10,
-      "SR": 12
+      "SR": 10,
+      "UR": 20,
+      "R": 15,
+      "U": 13,
+      "RR": 11,
+      "C": 4
     },
     "sensitivity": {
       "flips": 49152,
       "primaryCharacterChanged": 0.5392,
-      "rarityChanged": 0.2968
+      "rarityChanged": 0.3774
     },
     "maxCharacterShare": 0.0728
   },
   "optionBias": [
     {
       "question": "Q01",
-      "A_highRarityShare": 0.091,
+      "A_highRarityShare": 0.045,
       "A_topCharacter": "ot-elijah",
-      "B_highRarityShare": 0.067,
+      "B_highRarityShare": 0.025,
       "B_topCharacter": "ot-noah"
     },
     {
       "question": "Q02",
-      "A_highRarityShare": 0.083,
+      "A_highRarityShare": 0.026,
       "A_topCharacter": "ot-elijah",
-      "B_highRarityShare": 0.075,
+      "B_highRarityShare": 0.044,
       "B_topCharacter": "ot-noah"
     },
     {
       "question": "Q03",
-      "A_highRarityShare": 0.044,
+      "A_highRarityShare": 0.032,
       "A_topCharacter": "nt-mary-bethany",
-      "B_highRarityShare": 0.114,
+      "B_highRarityShare": 0.038,
       "B_topCharacter": "ot-noah"
     },
     {
       "question": "Q04",
-      "A_highRarityShare": 0.103,
+      "A_highRarityShare": 0.038,
       "A_topCharacter": "nt-mary-bethany",
-      "B_highRarityShare": 0.056,
+      "B_highRarityShare": 0.032,
       "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q05",
-      "A_highRarityShare": 0.043,
+      "A_highRarityShare": 0.02,
       "A_topCharacter": "ot-elijah",
-      "B_highRarityShare": 0.116,
+      "B_highRarityShare": 0.05,
       "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q06",
-      "A_highRarityShare": 0.116,
+      "A_highRarityShare": 0.052,
       "A_topCharacter": "nt-mary-bethany",
-      "B_highRarityShare": 0.042,
+      "B_highRarityShare": 0.018,
       "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q07",
-      "A_highRarityShare": 0.084,
+      "A_highRarityShare": 0.04,
       "A_topCharacter": "ot-elijah",
-      "B_highRarityShare": 0.074,
+      "B_highRarityShare": 0.03,
       "B_topCharacter": "nt-anna"
     },
     {
       "question": "Q08",
-      "A_highRarityShare": 0.073,
+      "A_highRarityShare": 0.028,
       "A_topCharacter": "nt-mary-bethany",
-      "B_highRarityShare": 0.085,
+      "B_highRarityShare": 0.042,
       "B_topCharacter": "nt-peter"
     },
     {
       "question": "Q09",
-      "A_highRarityShare": 0.077,
+      "A_highRarityShare": 0.037,
       "A_topCharacter": "ot-elijah",
-      "B_highRarityShare": 0.082,
+      "B_highRarityShare": 0.033,
       "B_topCharacter": "nt-mary-bethany"
     },
     {
       "question": "Q10",
-      "A_highRarityShare": 0.104,
+      "A_highRarityShare": 0.045,
       "A_topCharacter": "nt-mary-bethany",
-      "B_highRarityShare": 0.054,
+      "B_highRarityShare": 0.025,
       "B_topCharacter": "ot-elijah"
     },
     {
       "question": "Q11",
-      "A_highRarityShare": 0.099,
+      "A_highRarityShare": 0.045,
       "A_topCharacter": "nt-titus",
-      "B_highRarityShare": 0.06,
+      "B_highRarityShare": 0.025,
       "B_topCharacter": "nt-cornelius"
     },
     {
       "question": "Q12",
-      "A_highRarityShare": 0.042,
+      "A_highRarityShare": 0.016,
       "A_topCharacter": "nt-james-brother",
-      "B_highRarityShare": 0.116,
+      "B_highRarityShare": 0.054,
       "B_topCharacter": "ot-elijah"
     }
   ],

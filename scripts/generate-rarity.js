@@ -9,7 +9,8 @@ const E = require('../src/engine.js');
 
 const eng = E.create(D, null);
 const T = D.CONFIG.rarityThresholds;
-const grade = c => (c >= T.N ? 'N' : c >= T.R ? 'R' : c >= T.SR ? 'SR' : 'SSR');
+const GR = D.CONFIG.rarityGrades;
+const grade = c => GR.find(([, min]) => c >= min)[0];
 
 const counts = {};
 let noCard = 0;
@@ -35,7 +36,7 @@ Object.entries(keys).sort((a, b) => b[1].patternCount - a[1].patternCount).forEa
 });
 fs.writeFileSync(path.join(root, 'docs/RARITY_DISTRIBUTION.csv'), '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n') + '\n');
 
-const g = { N: 0, R: 0, SR: 0, SSR: 0 }, gk = { N: 0, R: 0, SR: 0, SSR: 0 };
+const g = Object.fromEntries(GR.map(([n]) => [n, 0])), gk = Object.fromEntries(GR.map(([n]) => [n, 0]));
 Object.values(keys).forEach(v => { g[v.rarity] += v.patternCount; gk[v.rarity]++; });
 console.log('rarity index written:', Object.keys(keys).length, 'signature keys; no-card combos:', noCard);
 console.log('combos by grade', g, 'keys by grade', gk);

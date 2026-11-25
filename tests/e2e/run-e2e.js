@@ -81,7 +81,7 @@ async function download(page, clickSel) {
   await page.click('#flip');
   await page.waitForTimeout(1200);
   const msg = await page.locator('#revealmsg').textContent();
-  check('reveal shows rarity + character + skill', /^(N|R|SR|SSR) · .+ · .+/.test(msg.trim()), msg.trim());
+  check('reveal shows rarity + character + skill', /^(C|U|R|RR|SR|UR) · .+ · .+/.test(msg.trim()), msg.trim());
   await page.screenshot({ path: path.join(SHOTS, 'pc-04-reveal-front.png') });
 
   // engine expectation from Node for the same answers
@@ -245,11 +245,11 @@ async function download(page, clickSel) {
   await p2.evaluate(async () => {
     await document.fonts.ready;
     const wrap = document.createElement('div'); wrap.id = 'fixtures'; wrap.style.cssText = 'display:flex;gap:12px;padding:16px;background:#141B17';
-    ['N', 'R', 'SR', 'SSR'].forEach(r => { const cv = window.MFS_RENDER.render((c, w, h) => window.MFS_RENDER.drawCard(c, w, h, { characterId: 'nt-barnabas', eventId: 'nt-barnabas-2', skillId: 'sk-bridge', secondaryTraits: ['sk-4B'], rarity: r, cardNumber: 'NT-031-02', example: true }), 432, 540); wrap.appendChild(cv); });
+    ['C', 'U', 'R', 'RR', 'SR', 'UR'].forEach(r => { const cv = window.MFS_RENDER.render((c, w, h) => window.MFS_RENDER.drawCard(c, w, h, { characterId: 'nt-barnabas', eventId: 'nt-barnabas-2', skillId: 'sk-bridge', secondaryTraits: ['sk-4B'], rarity: r, cardNumber: 'NT-031-02', example: true }), 432, 540); wrap.appendChild(cv); });
     document.body.prepend(wrap);
   });
   await p2.locator('#fixtures').screenshot({ path: path.join(SHOTS, 'fixture-rarity-frames.png') });
-  check('N/R/SR/SSR frame fixture rendered', fs.existsSync(path.join(SHOTS, 'fixture-rarity-frames.png')));
+  check('C/U/R/RR/SR/UR frame fixture rendered', fs.existsSync(path.join(SHOTS, 'fixture-rarity-frames.png')));
   await c2.close();
 
   // ── reduced motion: reveal shows immediately

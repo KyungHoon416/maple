@@ -7,12 +7,12 @@
   const DATA_VERSION = '6.1.0-draft.1';
 
   const AREAS = [
-    { id: 'faith', label: '신앙', a: '먼저 기도하고, 이해하며 나아가기', b: '움직이며 길을 찾고, 작은 행동부터 바꾸기' },
-    { id: 'word', label: '말씀', a: '한 구절을 오래 묵상하고 혼자 살피기', b: '삶과 연결하고 함께 나누며 이해하기' },
-    { id: 'prayer', label: '기도', a: '그때그때 솔직하게, 지친 마음도 표현하기', b: '정해 둔 습관으로, 답이 없어도 이어가기' },
-    { id: 'worship', label: '예배', a: '조용히 집중하고 마음에 남은 것을 되새기기', b: '찬양으로 표현하고 행동으로 옮기기' },
-    { id: 'reflect', label: '성찰', a: '작게 다시 시작하고 도움을 구하기', b: '오래 생각하고 혼자 방향을 정리하기' },
-    { id: 'community', label: '공동체', a: '들어 주고 대화로 이해하기', b: '구체적으로 돕고 시간을 두고 돌아보기' },
+    { id: 'faith', label: '신앙', aShort: '기도·이해', bShort: '행동·순종', a: '먼저 기도하고, 이해하며 나아가기', b: '움직이며 길을 찾고, 작은 행동부터 바꾸기' },
+    { id: 'word', label: '말씀', aShort: '묵상', bShort: '실천·나눔', a: '한 구절을 오래 묵상하고 혼자 살피기', b: '삶과 연결하고 함께 나누며 이해하기' },
+    { id: 'prayer', label: '기도', aShort: '솔직함', bShort: '꾸준함', a: '그때그때 솔직하게, 지친 마음도 표현하기', b: '정해 둔 습관으로, 답이 없어도 이어가기' },
+    { id: 'worship', label: '예배', aShort: '경청·기억', bShort: '찬양·실천', a: '조용히 집중하고 마음에 남은 것을 되새기기', b: '찬양으로 표현하고 행동으로 옮기기' },
+    { id: 'reflect', label: '성찰', aShort: '다시 시작', bShort: '깊은 숙고', a: '작게 다시 시작하고 도움을 구하기', b: '오래 생각하고 혼자 방향을 정리하기' },
+    { id: 'community', label: '공동체', aShort: '공감·대화', bShort: '도움·숙려', a: '들어 주고 대화로 이해하기', b: '구체적으로 돕고 시간을 두고 돌아보기' },
   ];
 
   const TRAITS = {
@@ -642,8 +642,11 @@
     minTopScore: 50,             // TOP3 inclusion threshold
     nearTieGap: 0.5,             // gap under which the result mentions co-candidates
     bonusCap: 5,
-    rarityThresholds: { N: 129, R: 33, SR: 9, SSR: 1 }, // patternCount >= value (4,096 space)
-    rarityRuleVersion: 'rarity-1',
+    // Design rarity of a signature key = how many of the 4,096 equal-weight answer combinations produce it.
+    // Ordered from most common to rarest; a key gets the first grade whose minimum it reaches.
+    rarityGrades: [['C', 200], ['U', 90], ['R', 40], ['RR', 16], ['SR', 6], ['UR', 1]],
+    rarityThresholds: { C: 200, U: 90, R: 40, RR: 16, SR: 6, UR: 1 },
+    rarityRuleVersion: 'rarity-2',
   };
 
   // ── Build normalized structures

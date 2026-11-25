@@ -2,7 +2,7 @@
 
 ## 완료 (실행·검증됨)
 - 데이터 v6.1: 인물 100(구약 50/신약 50), 사건 프로필 268 (보강 내역 CONTENT_ENRICHMENT.md), 특기 34, 복합 규칙 6, 템플릿 — `npm run validate:data` OK
-- 엔진/희귀도: 순수 함수, 정적 인덱스(시그니처 키 44개: N 13 · R 7 · SR 12 · SSR 12)
+- 엔진/희귀도: 순수 함수, 정적 인덱스(시그니처 키 73개: C 4 · U 13 · R 15 · RR 11 · SR 10 · UR 20)
 - 테스트: `npm test` 17/17, `npm run test:exhaustive` 실패 0, `npm run test:e2e` 73/73 (Playwright Chromium, headless)
 - 빌드: `dist/index.html`(Artifact), `dist/standalone.html`(정적 호스팅) 약 185 KB
 - UI 전 화면, PNG/ZIP 저장, 공유 fallback, 세션 복원/초기화, reduced-motion, 키보드/스와이프
@@ -11,6 +11,8 @@
 
 - 소그룹 나눔 가이드 (`src/group.js`, `#group`): 단위 테스트 3개, E2E 3개. 질문 문구는 검수 전
 - 카드 공개 흔들림 연출 (reduced-motion 시 꺼짐)
+
+- 카드 등급 6단계(C·U·R·RR·SR·UR) + 특별판(SA·P) + 카드 능력치(6개 영역 성향) — `docs/CARD_RARITY_SPEC.md`
 
 ## 미완료 / 차단
 - 인물 초상 **50/100장 생성·적용** (Figma generate_image, gemini-3.1-flash-lite-image, 928×1152 → 720×900 WebP). 11/24 25장, 11/25 25장. Figma AI 크레딧이 하루 약 25장이라 매일 09:10(KST) 자동 실행으로 이어서 생성 중

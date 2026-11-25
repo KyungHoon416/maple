@@ -192,15 +192,19 @@
   function sceneURL(seed, w, h) { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; scene(cv.getContext('2d'), w, h, seed); return cv.toDataURL('image/jpeg', 0.82); }
 
   // ── Trading card
+  // 6 design-rarity tiers (C → UR). Finish gets richer, never "better faith".
   const FRAMES = {
-    N: { name: 'Normal', a: '#E8DCC2', b: '#A8865A', text: '#2A231A', plate: '#EFE5D0', glow: null },
+    C: { name: 'Common', a: '#E8DCC2', b: '#BFAE8C', text: '#2A231A', plate: '#EFE5D0', glow: null },
+    U: { name: 'Uncommon', a: '#E9CFA4', b: '#9C6B3C', text: '#2A1E12', plate: '#F1DFC2', glow: null },
     R: { name: 'Rare', a: '#DCE6DE', b: '#7E9B87', text: '#1E2A23', plate: '#E4ECE5', glow: 'rgba(200,225,210,.35)' },
+    RR: { name: 'Double Rare', a: '#E4EEDC', b: '#6F9A7C', text: '#1E2A23', plate: '#E8F0E2', glow: 'rgba(220,240,215,.42)', inner: '#DCC48A' },
     SR: { name: 'Super Rare', a: '#F6E3A8', b: '#B8913F', text: '#2A2010', plate: '#F4E6BF', glow: 'rgba(255,225,150,.45)' },
-    SSR: { name: 'Signature Super Rare', a: '#FFF0BF', b: '#C9A24C', text: '#2A2010', plate: '#FFF3D2', glow: 'rgba(255,230,170,.6)' },
+    UR: { name: 'Ultra Rare', a: '#FFF0BF', b: '#C9A24C', text: '#2A2010', plate: '#FFF3D2', glow: 'rgba(255,230,170,.6)' },
   };
+  FRAMES.N = FRAMES.C; FRAMES.SSR = FRAMES.UR; // tolerate old grade names in stale caches
   function frameGrad(ctx, x, y, w, h, rarity) {
-    const f = FRAMES[rarity] || FRAMES.N;
-    if (rarity === 'SSR') {
+    const f = FRAMES[rarity] || FRAMES.C;
+    if (rarity === 'UR' || rarity === 'SSR') {
       const g = ctx.createLinearGradient(x, y, x + w, y + h);
       ['#F7E3A3', '#E9B7C8', '#B9D7F0', '#C8EBC9', '#F7E3A3', '#E0B860'].forEach((c, i, a) => g.addColorStop(i / (a.length - 1), c));
       return g;
@@ -235,10 +239,12 @@
     const story = H / W > 1.5;
     const s = W / 1080; ctx.save(); ctx.scale(s, s);
     const w = 1080, h = H / s;
-    const f = FRAMES[card.rarity] || FRAMES.N;
+    const f = FRAMES[card.rarity] || FRAMES.C;
+    const holo = card.rarity === 'UR', stats = !story && card.stats && card.stats.length ? card.stats : (story ? card.stats : null);
     // outer frame
     ctx.fillStyle = '#0E1411'; ctx.fillRect(0, 0, w, h);
     rr(ctx, 18, 18, w - 36, h - 36, 46); ctx.fillStyle = frameGrad(ctx, 0, 0, w, h, card.rarity); ctx.fill();
+    if (f.inner) { ctx.strokeStyle = f.inner; ctx.lineWidth = 4; rr(ctx, 32, 32, w - 64, h - 64, 38); ctx.stroke(); }
     // inner body
     rr(ctx, 44, 44, w - 88, h - 88, 32);
     const body = ctx.createLinearGradient(0, 0, 0, h); body.addColorStop(0, '#22302A'); body.addColorStop(1, '#16201B');
@@ -249,12 +255,12 @@
     ctx.font = `500 24px ${FONT.sans}`; ctx.fillStyle = C.muted; ctx.textAlign = 'right';
     ctx.fillText((ch.testament === 'OT' ? '구약' : '신약') + ' 성경 인물 카드', w - 84, 106);
     // portrait window
-    const px = 84, py = 136, pw = w - 168, ph = story ? 980 : 640;
+    const px = 84, py = 136, pw = w - 168, ph = story ? (stats ? 900 : 980) : (stats ? 560 : 640);
     ctx.save(); rr(ctx, px, py, pw, ph, 24); ctx.clip();
     ctx.drawImage(portraitCanvas(ch.id, 720, Math.round(720 * ph / pw)), px, py, pw, ph);
-    if (card.rarity === 'SSR') stainedGlass(ctx, px, py, pw, ph * 0.45, ch.id);
+    if (holo) stainedGlass(ctx, px, py, pw, ph * 0.45, ch.id);
     if (f.glow) { const g = ctx.createLinearGradient(px, py, px + pw, py + ph); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.45, f.glow); g.addColorStop(0.55, 'rgba(255,255,255,0)'); ctx.fillStyle = g; ctx.fillRect(px, py, pw, ph); }
-    if (card.rarity === 'SR' || card.rarity === 'SSR') sparkles(ctx, px, py, pw, ph * 0.6, ch.id, card.rarity === 'SSR' ? 22 : 12);
+    if (card.rarity === 'RR' || card.rarity === 'SR' || holo) sparkles(ctx, px, py, pw, ph * 0.6, ch.id, holo ? 22 : card.rarity === 'SR' ? 12 : 6);
     ctx.restore();
     ctx.strokeStyle = frameGrad(ctx, px, py, pw, ph, card.rarity); ctx.lineWidth = 6; rr(ctx, px, py, pw, ph, 24); ctx.stroke();
     if (!REAL.has(ch.id)) { ctx.fillStyle = 'rgba(14,20,17,.6)'; rr(ctx, px + 16, py + 16, 172, 40, 20); ctx.fill();
@@ -271,8 +277,9 @@
     ctx.font = `500 24px ${FONT.sans}`; ctx.fillStyle = '#5C4E36';
     ctx.fillText(ch.distinguishingLabel ? ch.distinguishingLabel + ' · ' + ev.title : ev.title, w / 2, y + 95);
     y += 150;
-    // skill
+    // skill (+ scripture reference on the same line, right-aligned)
     ctx.textAlign = 'left'; ctx.fillStyle = C.sage; ctx.font = `600 24px ${FONT.sans}`; ctx.fillText('대표 특기', 84, y);
+    if (stats) { ctx.textAlign = 'right'; ctx.fillStyle = C.gold; ctx.font = `500 24px ${FONT.serif}`; ctx.fillText('성경 · ' + ev.scriptureRefs, w - 84, y); ctx.textAlign = 'left'; }
     ctx.fillStyle = C.ivory; ctx.font = `700 44px ${FONT.serif}`; ctx.fillText(sk.label, 84, y + 56);
     ctx.fillStyle = C.muted; ctx.font = `400 27px ${FONT.sans}`;
     y = text(ctx, sk.description, 84, y + 102, w - 168, 40, 2);
@@ -283,7 +290,19 @@
       chips.forEach(c => { const cw = ctx.measureText(c).width + 36; if (x + cw > w - 84) return; rr(ctx, x, y, cw, 44, 22); ctx.strokeStyle = 'rgba(145,179,154,.6)'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = C.sage; ctx.fillText(c, x + 18, y + 30); x += cw + 10; });
       y += 64;
     }
-    ctx.fillStyle = C.gold; ctx.font = `500 26px ${FONT.serif}`; ctx.fillText('성경 · ' + ev.scriptureRefs, 84, Math.min(y + 30, h - 170));
+    if (stats) {
+      // 능력치: which tendency was chosen in each of the 6 areas (no high/low)
+      ctx.fillStyle = C.sage; ctx.font = `600 22px ${FONT.sans}`; ctx.fillText('능력치 · 나의 성향', 84, y + 4); y += 18;
+      const cw = (w - 168 - 24) / 3, chh = 48;
+      stats.slice(0, 6).forEach((st, i) => {
+        const cx = 84 + (i % 3) * (cw + 12), cy = y + Math.floor(i / 3) * (chh + 10);
+        rr(ctx, cx, cy, cw, chh, 14); ctx.fillStyle = 'rgba(14,20,17,.55)'; ctx.fill(); ctx.strokeStyle = 'rgba(145,179,154,.35)'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.fillStyle = C.sage; ctx.font = `600 21px ${FONT.sans}`; ctx.fillText(st.label, cx + 16, cy + 31);
+        ctx.fillStyle = C.ivory; ctx.font = `500 21px ${FONT.sans}`; ctx.textAlign = 'right'; ctx.fillText(st.value, cx + cw - 14, cy + 31); ctx.textAlign = 'left';
+      });
+    } else {
+      ctx.fillStyle = C.gold; ctx.font = `500 26px ${FONT.serif}`; ctx.fillText('성경 · ' + ev.scriptureRefs, 84, Math.min(y + 30, h - 170));
+    }
     // footer: disclaimer (left) + rarity & number (bottom-right)
     const fy = h - 96;
     ctx.strokeStyle = 'rgba(220,196,138,.35)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(84, fy - 46); ctx.lineTo(w - 84, fy - 46); ctx.stroke();
@@ -291,8 +310,15 @@
     ctx.fillText(card.example ? '예시 카드 · 실제 결과와 무관합니다' : '등급은 특기 조합의 설계상 희귀도이며', 84, fy - 6);
     ctx.fillText(card.example ? '등급은 신앙 수준이 아닙니다' : '신앙의 높고 낮음을 뜻하지 않아요', 84, fy + 22);
     ctx.textAlign = 'right';
-    ctx.fillStyle = card.rarity === 'SSR' ? frameGrad(ctx, w - 300, fy - 40, 220, 60, 'SSR') : f.a;
+    ctx.fillStyle = holo ? frameGrad(ctx, w - 300, fy - 40, 220, 60, 'UR') : f.a;
     ctx.font = `700 62px ${FONT.display}`; ctx.fillText(card.rarity || '—', w - 84, fy + 18);
+    // special editions (separate from rarity): SA story art, P promo
+    let bx = w - 84 - ctx.measureText(card.rarity || '—').width - 16;
+    [card.sa ? 'SA' : null, card.promo ? 'P' : null].filter(Boolean).forEach(b => {
+      ctx.font = `700 24px ${FONT.display}`; const bw = ctx.measureText(b).width + 26;
+      rr(ctx, bx - bw, fy - 22, bw, 38, 19); ctx.fillStyle = 'rgba(220,196,138,.18)'; ctx.fill(); ctx.strokeStyle = C.gold; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = C.gold; ctx.textAlign = 'center'; ctx.fillText(b, bx - bw / 2, fy + 5); ctx.textAlign = 'right'; bx -= bw + 10;
+    });
     ctx.fillStyle = C.muted; ctx.font = `500 22px ${FONT.sans}`;
     ctx.fillText((card.cardNumber || ch.cardCode) + ' · ' + (FRAMES[card.rarity] ? FRAMES[card.rarity].name : ''), w - 84, fy + 50);
     ctx.restore();
