@@ -4,6 +4,7 @@
   'use strict';
   const D = window.MFS_DATA, RENDER = window.MFS_RENDER;
   const ENG = window.MFS_ENGINE.create(D, window.MFS_RARITY);
+  const PLAN = window.MFS_PLAN.create(D);
   const $app = document.getElementById('app');
   const SKEY = 'mfs-session-v6';
   // Public base URL for share links. Leave empty until a real public deployment exists.
@@ -247,6 +248,7 @@
     let arg = null;
     if (!fn && h.startsWith('character-')) { fn = characterPage; arg = h.slice(10); }
     if (!fn && h.startsWith('share-')) { fn = sharePage; arg = ENG.parseSharePath(h); }
+    if (!fn && h.startsWith('plan-')) { fn = planPage; arg = PLAN.parse(h); }
     if (!fn) fn = intro;
     current = h;
     document.querySelectorAll('.nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + (h.startsWith('character-') ? 'characters' : h) ? 'page' : 'false'));
@@ -498,6 +500,10 @@
             <div class="panel"><div class="sectitle"><h2>오늘의 실천 3가지</h2></div><ol class="acts">${V.actions.map(a => `<li><span>${esc(a)}</span></li>`).join('')}</ol></div>
             <div class="panel"><div class="sectitle"><h2>오늘의 기도</h2></div><p class="prayer" style="margin:0">${esc(V.prayer)}</p></div>
           </div>
+          ${p ? (() => { const pl = PLAN.build(p.characterId, p.eventId); return `<div class="panel plan-cta"><div class="sectitle"><h2>7일 묵상 플랜</h2><span class="chip gold">${esc(D.CONTEXTS[pl.context])}</span></div>
+            <p style="margin-top:0">${esc(pl.intro)}</p>
+            <ol class="plan-mini">${pl.days.slice(0, 3).map(d => `<li><b>${d.day}일차</b> ${esc(d.title)} <span class="muted small">${esc(d.ref)}</span></li>`).join('')}<li class="muted small">… 7일차까지</li></ol>
+            <a class="btn gold sm" href="#plan-${pl.slug}">7일 묵상 플랜 시작하기 ›</a></div>`; })() : ''}
           <div class="panel"><div class="sectitle"><h2>저장하고 나누기</h2></div>
             <div class="row"><button class="btn sm" id="sh-native">기기 기본 공유</button><button class="btn sm" id="sh-kakao">카카오톡 공유</button><button class="btn sm" id="sh-copy">소개 링크 복사</button><a class="btn sm" href="#cards">카드뉴스 저장 ›</a></div>
             <p class="small muted" style="margin-bottom:0">공유 링크에는 인물·사건 소개만 담기고, 나의 응답·차트·점수는 담기지 않아요. 개인 카드 이미지는 기기에 저장한 뒤 직접 올려 주세요.</p>
@@ -656,7 +662,7 @@
         <h2 style="font-size:20px;margin:18px 0 10px">기록된 사건</h2>
         <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel"><div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
         <p class="small muted">장절과 요약은 서비스의 자체 요약이며 성경 번역 본문을 옮기지 않았어요. 성경을 직접 펼쳐 읽어 보세요.</p>
-        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#characters">‹ 사전으로</a></div>
+        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a>${(() => { const e = c.eventIds.map(id => D.EVENT_BY_ID[id]).find(x => x.eligibility === 'primary' || x.eligibility === 'support'); return e ? `<a class="btn" href="#plan-${PLAN.slug(c.id, e.id)}">이 인물과 7일 묵상</a>` : ''; })()}<a class="btn" href="#characters">‹ 사전으로</a></div>
       </div></section>`;
     $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
   }
@@ -672,6 +678,87 @@
         <p class="small muted">이 페이지는 공개 인물·사건 소개예요. 공유한 사람의 응답이나 결과는 담겨 있지 않아요.</p>
         <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#character-${c.id}">인물 더 보기</a></div></div></section>`;
     $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
+  }
+
+  // ── 7-day plan. Progress is kept in memory; it is written to this device (localStorage) only when the
+  // person turns that on, and then holds just the plan slug, the start date and the checked days.
+  const PKEY = 'mfs-plan-progress';
+  const memPlan = {};
+  function planStore() { try { return JSON.parse(localStorage.getItem(PKEY) || '{}'); } catch (e) { return {}; } }
+  function planWrite(all) { try { localStorage.setItem(PKEY, JSON.stringify(all)); return true; } catch (e) { return false; } }
+  function planState(slug) {
+    const saved = planStore()[slug];
+    if (saved) return { saved: true, checked: saved.checked || [], startedAt: saved.startedAt };
+    return { saved: false, checked: memPlan[slug] || [], startedAt: null };
+  }
+  const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+  function planDayIndex(startedAt) {
+    if (!startedAt) return 0;
+    const ms = new Date(todayStr()) - new Date(startedAt);
+    return Math.min(7, Math.max(1, Math.floor(ms / 86400000) + 1));
+  }
+  function planPage(arg) {
+    if (!arg) { $app.innerHTML = `<section class="wrap prose"><h1>묵상 플랜을 찾을 수 없어요</h1><a class="btn gold" href="#test">12문항 테스트 시작하기</a></section>`; return; }
+    const pl = PLAN.build(arg.characterId, arg.eventId), ch = D.CHAR_BY_ID[pl.characterId];
+    const st = planState(pl.slug), today = planDayIndex(st.startedAt);
+    const done = st.checked.length;
+    $app.innerHTML = `<section class="wrap plan">
+      <div class="plan-head">
+        <img class="plan-portrait" alt="${esc(ch.displayName)} ${RENDER.hasPortrait(ch.id) ? '수채화 일러스트' : '임시 일러스트'}" data-portrait="${ch.id}">
+        <div>
+          <p class="eyebrow">7-Day Meditation</p>
+          <h1 style="font-size:clamp(26px,4vw,38px);margin:6px 0">${esc(pl.title)}</h1>
+          <p style="margin:0 0 10px">${esc(pl.intro)}</p>
+          <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="7" aria-valuenow="${done}" aria-label="7일 중 ${done}일 완료"><i style="width:${Math.max(4, done / 7 * 100)}%"></i></div>
+          <p class="small muted" style="margin:0">${done}/7일 완료${today ? ` · 오늘은 ${today}일차예요` : ''}</p>
+        </div>
+      </div>
+      <p class="notice small">성경 본문은 직접 펼쳐 읽어 주세요. 이 플랜은 장절과 서비스의 자체 요약·질문만 담고 있어요. 나의 응답이나 점수는 담기지 않아요.</p>
+      <ol class="plan-days">${pl.days.map(d => `<li class="panel plan-day ${st.checked.includes(d.day) ? 'is-done' : ''} ${today === d.day ? 'is-today' : ''}">
+        <label class="plan-check" for="pd-${d.day}"><input type="checkbox" id="pd-${d.day}" data-day="${d.day}" ${st.checked.includes(d.day) ? 'checked' : ''}><span>${d.day}일차${today === d.day ? ' · 오늘' : ''}</span></label>
+        <h2>${esc(d.title)}</h2>
+        <p class="plan-ref"><span class="chip gold">${esc(d.ref)}</span> <span class="small muted">${esc(d.note)}</span></p>
+        <dl><dt>묵상 질문</dt><dd>${esc(d.question)}</dd><dt>오늘의 실천</dt><dd>${esc(d.action)}</dd><dt>짧은 기도</dt><dd class="prayer">${esc(d.prayer)}</dd></dl>
+      </li>`).join('')}</ol>
+      <div class="panel"><div class="sectitle"><h2>마무리 기도</h2></div><p class="prayer" style="margin:0">${esc(pl.closingPrayer)}</p></div>
+      <div class="panel"><div class="sectitle"><h2>진행 상황 저장</h2></div>
+        <label class="plan-save" for="plan-save"><input type="checkbox" id="plan-save" ${st.saved ? 'checked' : ''}> 이 기기에 진행 상황 저장하기</label>
+        <p class="small muted" style="margin:6px 0 0">켜면 이 브라우저에 플랜 이름, 시작한 날짜, 체크한 날만 저장돼요(서버로 보내지 않아요). 끄면 바로 지워져요. 켜지 않으면 이 페이지를 떠날 때 체크가 사라질 수 있어요.</p>
+        <div class="row" style="margin-top:12px"><button class="btn gold sm" id="plan-img">플랜 이미지 저장 (1080×1920)</button><button class="btn sm" id="plan-link">플랜 링크 복사</button><a class="btn ghost sm" href="#character-${ch.id}">인물 더 보기</a></div>
+      </div>
+    </section>`;
+    const pimg = $app.querySelector('img[data-portrait]');
+    pimg.src = RENDER.hasPortrait(ch.id) ? RENDER.portraitSrc(ch.id) : RENDER.portraitCanvas(ch.id, 480, 600).toDataURL('image/jpeg', 0.88);
+    const persist = (checked) => {
+      const all = planStore();
+      if (all[pl.slug]) { all[pl.slug].checked = checked; planWrite(all); } else memPlan[pl.slug] = checked;
+    };
+    $app.querySelectorAll('input[data-day]').forEach(cb => cb.addEventListener('change', () => {
+      const cur = planState(pl.slug).checked.filter(x => x !== +cb.dataset.day);
+      if (cb.checked) cur.push(+cb.dataset.day);
+      cur.sort((a, b) => a - b); persist(cur);
+      cb.closest('.plan-day').classList.toggle('is-done', cb.checked);
+      const n = cur.length, bar = $app.querySelector('.plan-head .bar');
+      bar.setAttribute('aria-valuenow', n); bar.setAttribute('aria-label', `7일 중 ${n}일 완료`); bar.querySelector('i').style.width = Math.max(4, n / 7 * 100) + '%';
+      bar.nextElementSibling.textContent = `${n}/7일 완료` + (today ? ` · 오늘은 ${today}일차예요` : '');
+      if (n === 7) toast('7일 묵상을 모두 마쳤어요. 수고 많으셨어요!');
+    }));
+    document.getElementById('plan-save').addEventListener('change', e => {
+      const all = planStore();
+      if (e.target.checked) {
+        all[pl.slug] = { startedAt: todayStr(), checked: planState(pl.slug).checked };
+        if (planWrite(all)) toast('이 기기에 진행 상황을 저장했어요.'); else { e.target.checked = false; toast('이 브라우저에서는 저장할 수 없어요.'); }
+      } else { memPlan[pl.slug] = (all[pl.slug] || {}).checked || []; delete all[pl.slug]; planWrite(all); toast('저장된 진행 상황을 지웠어요.'); }
+      planPage(arg);
+    });
+    document.getElementById('plan-img').onclick = async () => {
+      try {
+        await ensureFonts(); await RENDER.preload([ch.id]);
+        const blob = await RENDER.toBlob(RENDER.render((c, w, h) => RENDER.drawPlan(c, w, h, pl), 1080, 1920));
+        await saveBlob(blob, `my-faith-story-${ch.id.replace(/^(ot|nt)-/, '')}-7day-plan.png`);
+      } catch (e) { toast('이미지를 만들지 못했어요. 다시 시도해 주세요.'); }
+    };
+    document.getElementById('plan-link').onclick = () => copy(`[7일 묵상] ${pl.title}\n` + (PUBLIC_BASE_URL || ARTIFACT_URL) + '#plan-' + pl.slug);
   }
 
   function about() {

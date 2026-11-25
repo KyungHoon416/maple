@@ -144,6 +144,25 @@ async function download(page, clickSel) {
   check('copied link opens public character/event page', (await page.locator('h1').textContent()).includes(D.CHAR_BY_ID[expected.primary.characterId].displayName));
   await page.goto(URL + '#result'); await page.waitForSelector('#tc');
 
+  // 7-day plan
+  await page.goto(URL + '#result'); await page.waitForSelector('.plan-cta a');
+  const planHref = await page.locator('.plan-cta a').getAttribute('href');
+  check('result shows 7-day plan entry with public plan link', /^#plan-[a-z0-9-]+-e\d+$/.test(planHref) && !planHref.includes(ANSWERS), planHref);
+  await page.click('.plan-cta a'); await page.waitForSelector('.plan-days');
+  check('plan page lists 7 days', (await page.locator('.plan-day').count()) === 7);
+  check('nothing stored before opting in', await page.evaluate(() => localStorage.getItem('mfs-plan-progress') === null));
+  await page.check('#pd-1'); await page.check('#plan-save'); await page.waitForSelector('.plan-days');
+  const savedPlan = await page.evaluate(() => JSON.parse(localStorage.getItem('mfs-plan-progress') || '{}'));
+  const sk = Object.keys(savedPlan)[0];
+  check('opt-in saves only slug, start date and checked days', sk && JSON.stringify(Object.keys(savedPlan[sk]).sort()) === '["checked","startedAt"]' && savedPlan[sk].checked.includes(1) && !JSON.stringify(savedPlan).includes(ANSWERS), JSON.stringify(savedPlan));
+  await page.reload(); await page.waitForSelector('.plan-days');
+  check('saved progress survives reload, today highlighted', await page.locator('#pd-1').isChecked() && (await page.locator('.plan-day.is-today').count()) === 1);
+  const pimg = await download(page, '#plan-img'); const ps = pngSize(pimg.buf);
+  check('plan image PNG 1080×1920', ps.w === 1080 && ps.h === 1920, pimg.name);
+  await page.screenshot({ path: path.join(SHOTS, 'pc-11-plan.png'), fullPage: true });
+  await page.uncheck('#plan-save'); await page.waitForSelector('.plan-days');
+  check('turning saving off deletes stored progress', await page.evaluate(() => { const v = JSON.parse(localStorage.getItem('mfs-plan-progress') || '{}'); return Object.keys(v).length === 0; }));
+
   // card news
   await page.goto(URL + '#cards');
   await page.waitForSelector('#slide img');

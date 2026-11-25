@@ -57,7 +57,7 @@ button { font: inherit; color: inherit; }
 .btn.sm { min-height: 44px; padding: 0 16px; font-size: 14.5px; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
-h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; line-height: 1.3; margin: 0; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; word-break: keep-all; overflow-wrap: anywhere; line-height: 1.3; margin: 0; }
 .eyebrow { font-family: var(--display); letter-spacing: .3em; font-size: 12.5px; color: var(--gold); text-transform: uppercase; }
 .muted { color: var(--muted); }
 .small { font-size: 13.5px; }
@@ -219,6 +219,27 @@ footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding-block
 .share-panel { width: min(440px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; background: var(--card); box-shadow: 0 24px 60px rgba(0,0,0,.55); }
 .share-panel .sp-card { display: block; width: 160px; aspect-ratio: 4 / 5; border-radius: 12px; margin: 0 auto 14px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
 .share-panel textarea { width: 100%; margin-top: 6px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-2); color: var(--ivory); padding: 10px 12px; font: inherit; font-size: 14px; line-height: 1.55; resize: none; overflow-wrap: anywhere; word-break: break-all; }
+
+/* 7-day plan */
+.plan { padding-block: 28px; display: grid; gap: 18px; max-width: 880px; }
+.plan-head { display: grid; grid-template-columns: 160px 1fr; gap: 22px; align-items: center; }
+.plan-head > * { min-width: 0; }
+.plan-portrait { width: 160px; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; border: 2px solid var(--gold-deep); }
+.plan-days { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.plan-day h2 { font-size: 19px; margin: 8px 0 6px; }
+.plan-day.is-today { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(220,196,138,.35); }
+.plan-day.is-done { opacity: .78; }
+.plan-day.is-done h2 { text-decoration: line-through; text-decoration-color: rgba(220,196,138,.6); }
+.plan-check, .plan-save { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; color: var(--gold); font-family: var(--serif); font-weight: 700; }
+.plan-check input, .plan-save input { width: 22px; height: 22px; accent-color: var(--gold); }
+.plan-save { color: var(--ivory); font-family: var(--sans); font-weight: 500; }
+.plan-ref { margin: 0 0 8px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.plan-day dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; gap: 6px 12px; font-size: 14.5px; }
+.plan-day dt { color: var(--sage); font-weight: 600; }
+.plan-day dd { margin: 0; }
+.plan-mini { padding-left: 0; list-style: none; display: grid; gap: 6px; margin: 0 0 14px; font-size: 14.5px; }
+.plan-mini b { color: var(--gold); font-family: var(--serif); margin-right: 6px; }
+@media (max-width: 560px) { .plan-head { grid-template-columns: 96px 1fr; gap: 14px; } .plan-portrait { width: 96px; } .plan-day dl { grid-template-columns: 1fr; } .plan-day dt { margin-top: 6px; } }
 
 </style>
 <header class="top">
@@ -1119,6 +1140,106 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
 })(typeof window !== 'undefined' ? window : globalThis);
 
 ;
+/* MY FAITH STORY — 7-day meditation plan.
+ * Built only from PUBLIC content (a character + one of its events), never from answers or scores,
+ * so a plan link (#plan-<characterId>-e<n>) carries no personal data. Pure + deterministic.
+ * Scripture is given as references only (read in your own Bible); texts are the service's own wording. */
+(function (root) {
+  'use strict';
+  // Companion passages per situation type (references only; reviewed=false until a human editor approves)
+  const CONTEXT_REFS = {
+    wait: [['시 27:13-14', '여호와를 기다리라'], ['사 40:28-31', '여호와를 앙망하는 자'], ['애 3:22-26', '여호와를 기다리는 자에게 선하시도다']],
+    meditate: [['시 1:1-3', '주야로 묵상하는 자'], ['시 119:97-105', '내 발에 등이요'], ['수 1:8', '주야로 묵상하여']],
+    act: [['약 1:22-25', '말씀을 행하는 자'], ['마 7:24-27', '반석 위에 지은 집'], ['미 6:8', '정의와 인자와 겸손']],
+    restore: [['시 51:10-12', '정한 마음을 창조하시고'], ['애 3:22-23', '아침마다 새로우니'], ['요일 1:9', '우리 죄를 자백하면']],
+    serve: [['마 25:34-40', '지극히 작은 자 하나에게'], ['갈 6:9-10', '선을 행하되 낙심하지 말자'], ['벧전 4:10', '받은 은사대로 서로 봉사하라']],
+    worship: [['시 100', '감사함으로 그 문에 들어가며'], ['시 103:1-5', '그의 모든 은택을 잊지 말지어다'], ['골 3:16-17', '감사하는 마음으로 찬양하고']],
+    courage: [['수 1:9', '강하고 담대하라'], ['시 46:1-3', '피난처시요 힘이시니'], ['사 41:10', '두려워하지 말라']],
+    lament: [['시 13', '어느 때까지니이까'], ['시 42:5', '내 영혼아 네가 어찌하여'], ['마 11:28-30', '수고하고 무거운 짐 진 자들아']],
+    learn: [['잠 2:1-6', '명철을 얻으려고 소리를 높이며'], ['약 1:5', '지혜가 부족하거든'], ['시 25:4-5', '주의 길을 내게 보이시고']],
+    reconcile: [['마 5:23-24', '먼저 가서 형제와 화목하고'], ['롬 12:17-18', '모든 사람과 더불어 화목하라'], ['엡 4:31-32', '서로 친절하게 하며']],
+    pray: [['마 6:6-13', '골방에 들어가 문을 닫고'], ['살전 5:16-18', '쉬지 말고 기도하라'], ['빌 4:6-7', '아무 것도 염려하지 말고']],
+  };
+  const SHORT_PRAYER = {
+    wait: '기다리는 오늘도 주님을 신뢰하게 해 주세요.', meditate: '오늘 읽은 말씀이 제 마음에 머물게 해 주세요.',
+    act: '알게 된 말씀을 작은 행동으로 옮기게 해 주세요.', restore: '다시 시작할 힘을 주세요.',
+    serve: '제 곁의 필요를 보는 눈을 주세요.', worship: '받은 은혜를 기억하며 감사하게 해 주세요.',
+    courage: '두려움 속에서도 한 걸음 내딛게 해 주세요.', lament: '지친 마음을 주님께 그대로 드립니다.',
+    learn: '묻고 배우는 마음을 지켜 주세요.', reconcile: '먼저 듣고 화해의 말을 건네게 해 주세요.',
+    pray: '오늘도 기도의 자리를 지키게 해 주세요.',
+  };
+
+  function create(D) {
+    const josa = (w, a, b) => { const c = w.charCodeAt(w.length - 1); if (c < 0xAC00 || c > 0xD7A3) return w + b; return w + ((c - 0xAC00) % 28 ? a : b); };
+    const usable = e => e.eligibility === 'primary' || e.eligibility === 'support';
+
+    function slug(characterId, eventId) {
+      const ev = D.EVENT_BY_ID[eventId];
+      return ev && ev.characterId === characterId && D.CHAR_BY_ID[characterId] ? characterId + '-e' + ev.index : null;
+    }
+    function parse(hash) {
+      const m = /^#?plan-([a-z0-9-]+)-e(\d+)$/.exec(hash || '');
+      if (!m) return null;
+      const ev = D.EVENT_BY_ID[m[1] + '-' + m[2]];
+      return ev && usable(ev) ? { characterId: m[1], eventId: ev.id } : null;
+    }
+
+    /** Another character whose matchable event shares the situation type: a deterministic "companion story". */
+    function companion(ev) {
+      const pool = D.EVENTS.filter(e => e.eligibility === 'primary' && e.context === ev.context && e.characterId !== ev.characterId);
+      if (!pool.length) return null;
+      let h = 0; for (const ch of ev.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+      return pool[h % pool.length];
+    }
+
+    function build(characterId, eventId) {
+      const ch = D.CHAR_BY_ID[characterId], ev = D.EVENT_BY_ID[eventId];
+      if (!ch || !ev || ev.characterId !== ch.id) return null;
+      const ctx = ev.context, refs = CONTEXT_REFS[ctx], tpl = D.CONTEXT_TEMPLATES[ctx];
+      const others = ch.eventIds.map(id => D.EVENT_BY_ID[id]).filter(e => e.id !== ev.id && usable(e));
+      const comp = companion(ev);
+      const sigs = ev.signals.length ? ev.signals : ['3A', '7A', '11A'];
+      const act = i => D.ACTION_TEXT[sigs[i % sigs.length]];
+      const name = ch.displayName;
+      const day = (n, kind, title, ref, note, question, action) => ({ day: n, kind, title, ref, note, question, action, prayer: SHORT_PRAYER[ctx] });
+      const days = [
+        day(1, 'event', `${name}의 장면: ${ev.title}`, ev.scriptureRefs, ev.factualSummary,
+          `이 장면에서 ${josa(name, '이', '가')} 한 행동 가운데 지금 나에게 가장 가까운 것은 무엇인가요?`, act(0)),
+        others[0]
+          ? day(2, 'character', `${name} 더 알기: ${others[0].title}`, others[0].scriptureRefs, others[0].factualSummary,
+            `어제 읽은 장면과 오늘 장면에서 ${josa(name, '은', '는')} 어떻게 같고 또 어떻게 다른가요?`, act(1))
+          : day(2, 'context', `말씀으로 이어 읽기: ${refs[2][1]}`, refs[2][0], '어제 장면과 같은 주제의 말씀이에요.',
+            '어제 장면과 오늘 말씀을 함께 보면 어떤 마음이 드나요?', act(1)),
+        day(3, 'context', `오늘의 말씀: ${refs[0][1]}`, refs[0][0], `${D.CONTEXTS[ctx]}에 관한 말씀이에요.`,
+          `이 말씀이 오늘 나의 ‘${D.CONTEXTS[ctx]}’에 건네는 한 문장을 적어 보세요.`, act(2)),
+        comp
+          ? day(4, 'companion', `닮은 이야기: ${D.CHAR_BY_ID[comp.characterId].displayName} · ${comp.title}`, comp.scriptureRefs, comp.factualSummary,
+            `${josa(name, '과', '와')} ${D.CHAR_BY_ID[comp.characterId].displayName}의 이야기에서 함께 보이는 모습은 무엇인가요?`, act(3))
+          : day(4, 'context', `오늘의 말씀: ${refs[2][1]}`, refs[2][0], `${D.CONTEXTS[ctx]}에 관한 말씀이에요.`, '이 말씀을 읽고 떠오른 사람이 있나요?', act(3)),
+        day(5, 'context', `오늘의 말씀: ${refs[1][1]}`, refs[1][0], `${D.CONTEXTS[ctx]}에 관한 말씀이에요.`,
+          tpl.q, act(4)),
+        others[1]
+          ? day(6, 'share', `나누는 날: ${others[1].title}`, others[1].scriptureRefs, others[1].factualSummary,
+            '이번 주에 받은 은혜 한 가지를 누구와 나눌 수 있을까요?', D.ACTION_TEXT['4B'])
+          : day(6, 'share', `나누는 날: ${refs[2][1]}`, refs[2][0], '이번 주의 묵상을 한 사람과 나눠 보는 날이에요.',
+            '이번 주에 받은 은혜 한 가지를 누구와 나눌 수 있을까요?', D.ACTION_TEXT['4B']),
+        day(7, 'review', `다시 읽기: ${ev.title}`, ev.scriptureRefs, '첫날의 장면을 다시 읽고 한 주를 돌아보는 날이에요.',
+          '7일 전과 지금, 같은 장면이 다르게 읽히는 부분이 있나요? 나만의 기도문을 한 줄 적어 보세요.', '이번 주 묵상 노트에서 가장 마음에 남은 한 문장을 골라 보세요.'),
+      ];
+      return {
+        slug: slug(ch.id, ev.id), characterId: ch.id, eventId: ev.id, context: ctx,
+        title: `${name}와 함께하는 7일`.replace(name + '와', josa(name, '과', '와')),
+        intro: `${ev.scriptureRefs} ‘${ev.title}’ 장면에서 시작해, ${D.CONTEXTS[ctx]}을 주제로 일주일 동안 말씀을 읽고 묵상해요.`,
+        closingPrayer: tpl.prayer, days,
+      };
+    }
+    return { build, slug, parse, CONTEXT_REFS };
+  }
+  const api = { create, CONTEXT_REFS };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.MFS_PLAN = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+;
 /* MY FAITH STORY — Canvas renderers (trading card, card back, card news, portraits, scenes).
  * The same renderer produces both the on-screen preview and the saved PNG, so they always match.
  * Portraits/scenes here are PROCEDURAL PLACEHOLDERS (marked 임시), not generated illustrations. */
@@ -1598,10 +1719,36 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
     ctx.restore();
   }
 
+  // ── 7-day plan image (1080×1920 story)
+  function drawPlan(ctx, W, H, plan) {
+    const s = W / 1080; ctx.save(); ctx.scale(s, s); const w = 1080, h = H / s;
+    const g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#1C2822'); g.addColorStop(1, '#121915'); ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(220,196,138,.4)'; ctx.lineWidth = 2; rr(ctx, 36, 36, w - 72, h - 72, 30); ctx.stroke();
+    const ch = D.CHAR_BY_ID[plan.characterId];
+    ctx.save(); rr(ctx, 84, 96, 220, 275, 20); ctx.clip(); ctx.drawImage(portraitCanvas(ch.id, 440, 550), 84, 96, 220, 275); ctx.restore();
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 4; rr(ctx, 84, 96, 220, 275, 20); ctx.stroke();
+    ctx.textAlign = 'left'; ctx.fillStyle = C.gold; ctx.font = `600 26px ${FONT.display}`; ctx.fillText('MY FAITH STORY · 7 DAYS', 340, 136);
+    ctx.fillStyle = C.ivory; ctx.font = `700 52px ${FONT.serif}`; let y = text(ctx, plan.title, 340, 210, 660, 64, 2);
+    ctx.fillStyle = C.muted; ctx.font = `400 26px ${FONT.sans}`; text(ctx, plan.intro, 340, y + 6, 660, 38, 3);
+    y = 430;
+    plan.days.forEach(d => {
+      const bh = 186; rr(ctx, 84, y, w - 168, bh, 22); ctx.fillStyle = 'rgba(37,51,44,.85)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(59,77,67,1)'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = C.gold; ctx.font = `700 30px ${FONT.serif}`; ctx.fillText(d.day + '일차', 116, y + 52);
+      ctx.fillStyle = C.ivory; ctx.font = `700 30px ${FONT.serif}`; text(ctx, d.title, 236, y + 52, w - 168 - 180, 38, 1);
+      ctx.fillStyle = C.sage; ctx.font = `500 25px ${FONT.sans}`; ctx.fillText(d.ref, 236, y + 94);
+      ctx.fillStyle = C.muted; ctx.font = `400 24px ${FONT.sans}`; text(ctx, d.question, 236, y + 136, w - 168 - 180, 34, 2);
+      y += bh + 16;
+    });
+    ctx.fillStyle = '#8E978C'; ctx.font = `400 22px ${FONT.sans}`; ctx.textAlign = 'center';
+    ctx.fillText('성경 본문은 직접 펼쳐 읽어 주세요 · 응답 기반 콘텐츠이며 신앙 평가가 아닙니다', w / 2, h - 70);
+    ctx.restore();
+  }
+
   function toBlob(canvas) { return new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png')); }
   function render(fn, W, H) { const cv = document.createElement('canvas'); cv.width = W; cv.height = H; fn(cv.getContext('2d'), W, H); return cv; }
 
-  root.MFS_RENDER = { drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
+  root.MFS_RENDER = { drawPlan, drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
 })(window);
 
 ;
@@ -1611,6 +1758,7 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
   'use strict';
   const D = window.MFS_DATA, RENDER = window.MFS_RENDER;
   const ENG = window.MFS_ENGINE.create(D, window.MFS_RARITY);
+  const PLAN = window.MFS_PLAN.create(D);
   const $app = document.getElementById('app');
   const SKEY = 'mfs-session-v6';
   // Public base URL for share links. Leave empty until a real public deployment exists.
@@ -1854,6 +2002,7 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
     let arg = null;
     if (!fn && h.startsWith('character-')) { fn = characterPage; arg = h.slice(10); }
     if (!fn && h.startsWith('share-')) { fn = sharePage; arg = ENG.parseSharePath(h); }
+    if (!fn && h.startsWith('plan-')) { fn = planPage; arg = PLAN.parse(h); }
     if (!fn) fn = intro;
     current = h;
     document.querySelectorAll('.nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + (h.startsWith('character-') ? 'characters' : h) ? 'page' : 'false'));
@@ -2105,6 +2254,10 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
             <div class="panel"><div class="sectitle"><h2>오늘의 실천 3가지</h2></div><ol class="acts">${V.actions.map(a => `<li><span>${esc(a)}</span></li>`).join('')}</ol></div>
             <div class="panel"><div class="sectitle"><h2>오늘의 기도</h2></div><p class="prayer" style="margin:0">${esc(V.prayer)}</p></div>
           </div>
+          ${p ? (() => { const pl = PLAN.build(p.characterId, p.eventId); return `<div class="panel plan-cta"><div class="sectitle"><h2>7일 묵상 플랜</h2><span class="chip gold">${esc(D.CONTEXTS[pl.context])}</span></div>
+            <p style="margin-top:0">${esc(pl.intro)}</p>
+            <ol class="plan-mini">${pl.days.slice(0, 3).map(d => `<li><b>${d.day}일차</b> ${esc(d.title)} <span class="muted small">${esc(d.ref)}</span></li>`).join('')}<li class="muted small">… 7일차까지</li></ol>
+            <a class="btn gold sm" href="#plan-${pl.slug}">7일 묵상 플랜 시작하기 ›</a></div>`; })() : ''}
           <div class="panel"><div class="sectitle"><h2>저장하고 나누기</h2></div>
             <div class="row"><button class="btn sm" id="sh-native">기기 기본 공유</button><button class="btn sm" id="sh-kakao">카카오톡 공유</button><button class="btn sm" id="sh-copy">소개 링크 복사</button><a class="btn sm" href="#cards">카드뉴스 저장 ›</a></div>
             <p class="small muted" style="margin-bottom:0">공유 링크에는 인물·사건 소개만 담기고, 나의 응답·차트·점수는 담기지 않아요. 개인 카드 이미지는 기기에 저장한 뒤 직접 올려 주세요.</p>
@@ -2263,7 +2416,7 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
         <h2 style="font-size:20px;margin:18px 0 10px">기록된 사건</h2>
         <ul class="evlist">${c.eventIds.map(eid => { const e = D.EVENT_BY_ID[eid]; return `<li class="panel"><div class="sectitle"><h3 style="font-size:18px">${esc(e.title)}</h3><span class="chip gold">${esc(e.scriptureRefs)}</span></div><p style="margin:0 0 8px">${esc(e.factualSummary)}</p><p class="small muted" style="margin:0">${ELIG[e.eligibility]} · ${esc(D.CONTEXTS[e.context])}${e.signals.length ? ' · 비교 신호: ' + e.signals.map(s => esc(D.SIGNAL_TEXT[s])).join(', ') : ''}</p></li>`; }).join('')}</ul>
         <p class="small muted">장절과 요약은 서비스의 자체 요약이며 성경 번역 본문을 옮기지 않았어요. 성경을 직접 펼쳐 읽어 보세요.</p>
-        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#characters">‹ 사전으로</a></div>
+        <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a>${(() => { const e = c.eventIds.map(id => D.EVENT_BY_ID[id]).find(x => x.eligibility === 'primary' || x.eligibility === 'support'); return e ? `<a class="btn" href="#plan-${PLAN.slug(c.id, e.id)}">이 인물과 7일 묵상</a>` : ''; })()}<a class="btn" href="#characters">‹ 사전으로</a></div>
       </div></section>`;
     $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
   }
@@ -2279,6 +2432,87 @@ window.MFS_PORTRAITS=["nt-andrew","nt-james-zebedee","nt-john","nt-nicodemus","n
         <p class="small muted">이 페이지는 공개 인물·사건 소개예요. 공유한 사람의 응답이나 결과는 담겨 있지 않아요.</p>
         <div class="row"><a class="btn gold" href="#test">나도 테스트하기 ›</a><a class="btn" href="#character-${c.id}">인물 더 보기</a></div></div></section>`;
     $app.querySelector('img[data-portrait]').src = RENDER.hasPortrait(c.id) ? RENDER.portraitSrc(c.id) : RENDER.portraitCanvas(c.id, 640, 800).toDataURL('image/jpeg', 0.88);
+  }
+
+  // ── 7-day plan. Progress is kept in memory; it is written to this device (localStorage) only when the
+  // person turns that on, and then holds just the plan slug, the start date and the checked days.
+  const PKEY = 'mfs-plan-progress';
+  const memPlan = {};
+  function planStore() { try { return JSON.parse(localStorage.getItem(PKEY) || '{}'); } catch (e) { return {}; } }
+  function planWrite(all) { try { localStorage.setItem(PKEY, JSON.stringify(all)); return true; } catch (e) { return false; } }
+  function planState(slug) {
+    const saved = planStore()[slug];
+    if (saved) return { saved: true, checked: saved.checked || [], startedAt: saved.startedAt };
+    return { saved: false, checked: memPlan[slug] || [], startedAt: null };
+  }
+  const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+  function planDayIndex(startedAt) {
+    if (!startedAt) return 0;
+    const ms = new Date(todayStr()) - new Date(startedAt);
+    return Math.min(7, Math.max(1, Math.floor(ms / 86400000) + 1));
+  }
+  function planPage(arg) {
+    if (!arg) { $app.innerHTML = `<section class="wrap prose"><h1>묵상 플랜을 찾을 수 없어요</h1><a class="btn gold" href="#test">12문항 테스트 시작하기</a></section>`; return; }
+    const pl = PLAN.build(arg.characterId, arg.eventId), ch = D.CHAR_BY_ID[pl.characterId];
+    const st = planState(pl.slug), today = planDayIndex(st.startedAt);
+    const done = st.checked.length;
+    $app.innerHTML = `<section class="wrap plan">
+      <div class="plan-head">
+        <img class="plan-portrait" alt="${esc(ch.displayName)} ${RENDER.hasPortrait(ch.id) ? '수채화 일러스트' : '임시 일러스트'}" data-portrait="${ch.id}">
+        <div>
+          <p class="eyebrow">7-Day Meditation</p>
+          <h1 style="font-size:clamp(26px,4vw,38px);margin:6px 0">${esc(pl.title)}</h1>
+          <p style="margin:0 0 10px">${esc(pl.intro)}</p>
+          <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="7" aria-valuenow="${done}" aria-label="7일 중 ${done}일 완료"><i style="width:${Math.max(4, done / 7 * 100)}%"></i></div>
+          <p class="small muted" style="margin:0">${done}/7일 완료${today ? ` · 오늘은 ${today}일차예요` : ''}</p>
+        </div>
+      </div>
+      <p class="notice small">성경 본문은 직접 펼쳐 읽어 주세요. 이 플랜은 장절과 서비스의 자체 요약·질문만 담고 있어요. 나의 응답이나 점수는 담기지 않아요.</p>
+      <ol class="plan-days">${pl.days.map(d => `<li class="panel plan-day ${st.checked.includes(d.day) ? 'is-done' : ''} ${today === d.day ? 'is-today' : ''}">
+        <label class="plan-check" for="pd-${d.day}"><input type="checkbox" id="pd-${d.day}" data-day="${d.day}" ${st.checked.includes(d.day) ? 'checked' : ''}><span>${d.day}일차${today === d.day ? ' · 오늘' : ''}</span></label>
+        <h2>${esc(d.title)}</h2>
+        <p class="plan-ref"><span class="chip gold">${esc(d.ref)}</span> <span class="small muted">${esc(d.note)}</span></p>
+        <dl><dt>묵상 질문</dt><dd>${esc(d.question)}</dd><dt>오늘의 실천</dt><dd>${esc(d.action)}</dd><dt>짧은 기도</dt><dd class="prayer">${esc(d.prayer)}</dd></dl>
+      </li>`).join('')}</ol>
+      <div class="panel"><div class="sectitle"><h2>마무리 기도</h2></div><p class="prayer" style="margin:0">${esc(pl.closingPrayer)}</p></div>
+      <div class="panel"><div class="sectitle"><h2>진행 상황 저장</h2></div>
+        <label class="plan-save" for="plan-save"><input type="checkbox" id="plan-save" ${st.saved ? 'checked' : ''}> 이 기기에 진행 상황 저장하기</label>
+        <p class="small muted" style="margin:6px 0 0">켜면 이 브라우저에 플랜 이름, 시작한 날짜, 체크한 날만 저장돼요(서버로 보내지 않아요). 끄면 바로 지워져요. 켜지 않으면 이 페이지를 떠날 때 체크가 사라질 수 있어요.</p>
+        <div class="row" style="margin-top:12px"><button class="btn gold sm" id="plan-img">플랜 이미지 저장 (1080×1920)</button><button class="btn sm" id="plan-link">플랜 링크 복사</button><a class="btn ghost sm" href="#character-${ch.id}">인물 더 보기</a></div>
+      </div>
+    </section>`;
+    const pimg = $app.querySelector('img[data-portrait]');
+    pimg.src = RENDER.hasPortrait(ch.id) ? RENDER.portraitSrc(ch.id) : RENDER.portraitCanvas(ch.id, 480, 600).toDataURL('image/jpeg', 0.88);
+    const persist = (checked) => {
+      const all = planStore();
+      if (all[pl.slug]) { all[pl.slug].checked = checked; planWrite(all); } else memPlan[pl.slug] = checked;
+    };
+    $app.querySelectorAll('input[data-day]').forEach(cb => cb.addEventListener('change', () => {
+      const cur = planState(pl.slug).checked.filter(x => x !== +cb.dataset.day);
+      if (cb.checked) cur.push(+cb.dataset.day);
+      cur.sort((a, b) => a - b); persist(cur);
+      cb.closest('.plan-day').classList.toggle('is-done', cb.checked);
+      const n = cur.length, bar = $app.querySelector('.plan-head .bar');
+      bar.setAttribute('aria-valuenow', n); bar.setAttribute('aria-label', `7일 중 ${n}일 완료`); bar.querySelector('i').style.width = Math.max(4, n / 7 * 100) + '%';
+      bar.nextElementSibling.textContent = `${n}/7일 완료` + (today ? ` · 오늘은 ${today}일차예요` : '');
+      if (n === 7) toast('7일 묵상을 모두 마쳤어요. 수고 많으셨어요!');
+    }));
+    document.getElementById('plan-save').addEventListener('change', e => {
+      const all = planStore();
+      if (e.target.checked) {
+        all[pl.slug] = { startedAt: todayStr(), checked: planState(pl.slug).checked };
+        if (planWrite(all)) toast('이 기기에 진행 상황을 저장했어요.'); else { e.target.checked = false; toast('이 브라우저에서는 저장할 수 없어요.'); }
+      } else { memPlan[pl.slug] = (all[pl.slug] || {}).checked || []; delete all[pl.slug]; planWrite(all); toast('저장된 진행 상황을 지웠어요.'); }
+      planPage(arg);
+    });
+    document.getElementById('plan-img').onclick = async () => {
+      try {
+        await ensureFonts(); await RENDER.preload([ch.id]);
+        const blob = await RENDER.toBlob(RENDER.render((c, w, h) => RENDER.drawPlan(c, w, h, pl), 1080, 1920));
+        await saveBlob(blob, `my-faith-story-${ch.id.replace(/^(ot|nt)-/, '')}-7day-plan.png`);
+      } catch (e) { toast('이미지를 만들지 못했어요. 다시 시도해 주세요.'); }
+    };
+    document.getElementById('plan-link').onclick = () => copy(`[7일 묵상] ${pl.title}\n` + (PUBLIC_BASE_URL || ARTIFACT_URL) + '#plan-' + pl.slug);
   }
 
   function about() {

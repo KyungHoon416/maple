@@ -2,7 +2,7 @@
 
 - Korean self-reflection web app 「나의 믿음은 누구를 닮았을까?」. Static, no backend.
 - **Never** add login/sign-up/social login/Firebase Auth/member DB/my page, or ask for name/email/phone/church.
-- Answers stay in memory + sessionStorage only. No server, analytics, external AI, logs or URLs carry answers, charts or scores. Share links = public character/event pages only.
+- Answers stay in memory + sessionStorage only. Exception, opt-in only: the 7-day plan (src/plan.js, #plan-<id>-e<n>) may save its slug, start date and checked days in localStorage when the person turns "이 기기에 진행 상황 저장" on; turning it off deletes it. Plans are built from public character/event data, never from answers. No server, analytics, external AI, logs or URLs carry answers, charts or scores. Share links = public character/event pages only.
 - 12 questions, exactly A/B, no right answer. 6 areas × 2 questions, 24 trait tags (6 unmeasured → excluded, not zero).
 - 100 characters (OT 50 / NT 50). Jesus/God are never candidates. Negative-event characters (Cain, Judas, Saul, Ananias & Sapphira) are reflection/library only.
 - Matching engine is a pure, deterministic function (src/engine.js). No per-option character mapping, no randomness, no LLM.

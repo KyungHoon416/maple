@@ -477,8 +477,34 @@
     ctx.restore();
   }
 
+  // ── 7-day plan image (1080×1920 story)
+  function drawPlan(ctx, W, H, plan) {
+    const s = W / 1080; ctx.save(); ctx.scale(s, s); const w = 1080, h = H / s;
+    const g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#1C2822'); g.addColorStop(1, '#121915'); ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(220,196,138,.4)'; ctx.lineWidth = 2; rr(ctx, 36, 36, w - 72, h - 72, 30); ctx.stroke();
+    const ch = D.CHAR_BY_ID[plan.characterId];
+    ctx.save(); rr(ctx, 84, 96, 220, 275, 20); ctx.clip(); ctx.drawImage(portraitCanvas(ch.id, 440, 550), 84, 96, 220, 275); ctx.restore();
+    ctx.strokeStyle = C.gold; ctx.lineWidth = 4; rr(ctx, 84, 96, 220, 275, 20); ctx.stroke();
+    ctx.textAlign = 'left'; ctx.fillStyle = C.gold; ctx.font = `600 26px ${FONT.display}`; ctx.fillText('MY FAITH STORY · 7 DAYS', 340, 136);
+    ctx.fillStyle = C.ivory; ctx.font = `700 52px ${FONT.serif}`; let y = text(ctx, plan.title, 340, 210, 660, 64, 2);
+    ctx.fillStyle = C.muted; ctx.font = `400 26px ${FONT.sans}`; text(ctx, plan.intro, 340, y + 6, 660, 38, 3);
+    y = 430;
+    plan.days.forEach(d => {
+      const bh = 186; rr(ctx, 84, y, w - 168, bh, 22); ctx.fillStyle = 'rgba(37,51,44,.85)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(59,77,67,1)'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = C.gold; ctx.font = `700 30px ${FONT.serif}`; ctx.fillText(d.day + '일차', 116, y + 52);
+      ctx.fillStyle = C.ivory; ctx.font = `700 30px ${FONT.serif}`; text(ctx, d.title, 236, y + 52, w - 168 - 180, 38, 1);
+      ctx.fillStyle = C.sage; ctx.font = `500 25px ${FONT.sans}`; ctx.fillText(d.ref, 236, y + 94);
+      ctx.fillStyle = C.muted; ctx.font = `400 24px ${FONT.sans}`; text(ctx, d.question, 236, y + 136, w - 168 - 180, 34, 2);
+      y += bh + 16;
+    });
+    ctx.fillStyle = '#8E978C'; ctx.font = `400 22px ${FONT.sans}`; ctx.textAlign = 'center';
+    ctx.fillText('성경 본문은 직접 펼쳐 읽어 주세요 · 응답 기반 콘텐츠이며 신앙 평가가 아닙니다', w / 2, h - 70);
+    ctx.restore();
+  }
+
   function toBlob(canvas) { return new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('toBlob failed'))), 'image/png')); }
   function render(fn, W, H) { const cv = document.createElement('canvas'); cv.width = W; cv.height = H; fn(cv.getContext('2d'), W, H); return cv; }
 
-  root.MFS_RENDER = { drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
+  root.MFS_RENDER = { drawPlan, drawOG, hasPortrait, portraitSrc, loadPortrait, preload, drawCard, drawCardBack, drawSlide, drawRadar, portraitURL, portraitCanvas, sceneURL, render, toBlob, FRAMES, rng };
 })(window);

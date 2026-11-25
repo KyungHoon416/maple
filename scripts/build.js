@@ -11,7 +11,7 @@ const portraits = fs.existsSync(portraitDir) ? fs.readdirSync(portraitDir).filte
 const optionDir = path.join(root, 'public/assets/options');
 const optionArt = fs.existsSync(optionDir) ? fs.readdirSync(optionDir).filter(f => f.endsWith('.webp')).map(f => f.slice(0, -5)).sort() : [];
 const manifestJs = 'window.MFS_PORTRAITS=' + JSON.stringify(portraits) + ';window.MFS_OPTION_IMAGES=' + JSON.stringify(optionArt) + ';';
-const js = [manifestJs].concat(['src/data.js', 'src/rarity-index.js', 'src/engine.js', 'src/render.js', 'src/app.js'].map(read)).join('\n;\n');
+const js = [manifestJs].concat(['src/data.js', 'src/rarity-index.js', 'src/engine.js', 'src/plan.js', 'src/render.js', 'src/app.js'].map(read)).join('\n;\n');
 if (/<\/script/i.test(js)) { console.error('script contains </script>'); process.exit(1); }
 const page = read('src/index.template.html').replace('/*__CSS__*/', () => read('src/style.css')).replace('/*__JS__*/', () => js);
 fs.mkdirSync(path.join(root, 'dist'), { recursive: true });

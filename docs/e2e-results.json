@@ -1,7 +1,7 @@
 {
-  "ranAt": "2026-11-25T00:17:00.543Z",
+  "ranAt": "2026-11-25T14:31:09.467Z",
   "browser": "Playwright Chromium (headless)",
-  "passed": 74,
+  "passed": 81,
   "failed": 0,
   "results": [
     {
@@ -120,6 +120,41 @@
       "detail": ""
     },
     {
+      "name": "result shows 7-day plan entry with public plan link",
+      "ok": true,
+      "detail": "#plan-ot-jehoshaphat-e2"
+    },
+    {
+      "name": "plan page lists 7 days",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "nothing stored before opting in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opt-in saves only slug, start date and checked days",
+      "ok": true,
+      "detail": "{\"ot-jehoshaphat-e2\":{\"startedAt\":\"2026-11-25\",\"checked\":[1]}}"
+    },
+    {
+      "name": "saved progress survives reload, today highlighted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "plan image PNG 1080×1920",
+      "ok": true,
+      "detail": "my-faith-story-jehoshaphat-7day-plan.png"
+    },
+    {
+      "name": "turning saving off deletes stored progress",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "keyboard ArrowRight moves to card 2",
       "ok": true,
       "detail": ""
@@ -172,7 +207,7 @@
     {
       "name": "no requests outside fonts/cdnjs, none carry answers",
       "ok": true,
-      "detail": "164 external requests, bad=0"
+      "detail": "201 external requests, bad=0"
     },
     {
       "name": "no page errors",
