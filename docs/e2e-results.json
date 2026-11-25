@@ -1,5 +1,5 @@
 {
-  "ranAt": "2026-11-25T18:42:59.068Z",
+  "ranAt": "2026-11-25T19:33:30.041Z",
   "browser": "Playwright Chromium (headless)",
   "passed": 85,
   "failed": 0,
@@ -227,7 +227,7 @@
     {
       "name": "no requests outside fonts/cdnjs, none carry answers",
       "ok": true,
-      "detail": "200 external requests, bad=0"
+      "detail": "203 external requests, bad=0"
     },
     {
       "name": "no page errors",
