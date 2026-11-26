@@ -48,3 +48,4 @@ nt-zacchaeus https://www.figma.com/api/mcp/asset/8b58edf2-784f-4e34-a19b-8fe8b56
 nt-samaritan-woman https://www.figma.com/api/mcp/asset/a000d8bb-3f6e-4e15-8e05-7ad7ea1c5a1a.jpg 2026-11-25T00:15:45Z
 nt-paul https://www.figma.com/api/mcp/asset/7ae7f795-f856-4fcb-938b-0c1f256add33.jpg 2026-11-25T00:15:45Z
 nt-timothy https://www.figma.com/api/mcp/asset/e119f3bf-bb6c-4027-aada-f71737168f65.jpg 2026-11-25T00:15:46Z
+nt-apollos https://www.figma.com/api/mcp/asset/34fae0c9-7481-45fb-8c43-1e4a2bf341b7.jpg 2026-11-26T00:11:27Z

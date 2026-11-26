@@ -133,7 +133,7 @@ module.exports = {
     'nt-mark': 'John Mark, a young man with a travel bag and scroll on a road',
     'nt-matthew': 'Matthew, a tax collector rising from his tax booth with coins on the table',
     'nt-anna': 'Anna, a very elderly prophetess praying in the temple courts',
-    'nt-simeon': 'Simeon, an elderly man joyfully holding a swaddled baby in the temple',
+    'nt-simeon': 'Simeon, an elderly man with an uplifted joyful face and open hands of praise in the temple courts',
     'nt-zechariah': 'Zechariah, an elderly priest writing on a small wax tablet',
     'nt-elizabeth': 'Elizabeth, an older pregnant woman warmly embracing a young visitor',
     'nt-cornelius': 'Cornelius, a Roman centurion praying humbly in his home',

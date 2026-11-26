@@ -1,5 +1,5 @@
 {
-  "ranAt": "2026-11-25T21:59:07.777Z",
+  "ranAt": "2026-11-26T00:13:03.758Z",
   "browser": "Playwright Chromium (headless)",
   "passed": 85,
   "failed": 0,
@@ -137,7 +137,7 @@
     {
       "name": "opt-in saves only slug, start date and checked days",
       "ok": true,
-      "detail": "{\"ot-jehoshaphat-e2\":{\"startedAt\":\"2026-11-25\",\"checked\":[1]}}"
+      "detail": "{\"ot-jehoshaphat-e2\":{\"startedAt\":\"2026-11-26\",\"checked\":[1]}}"
     },
     {
       "name": "saved progress survives reload, today highlighted",
@@ -227,7 +227,7 @@
     {
       "name": "no requests outside fonts/cdnjs, none carry answers",
       "ok": true,
-      "detail": "203 external requests, bad=0"
+      "detail": "204 external requests, bad=0"
     },
     {
       "name": "no page errors",
